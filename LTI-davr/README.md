@@ -165,6 +165,52 @@ Key Relationships:
 * ScreeningResults lead to Interviews conducted by Recruiters.
 * Recruiters provide Feedback after Interviews.
 
-## System architecture
+## System architecture @ AWS
 
 ![System diagram](ats_architecture_on_aws.png)
+
+## System architecture per the C4 model
+
+### Context Diagram
+
+Here’s a concise, clear top-level Context (C1) diagram of the ATS system, following the C4 model approach:
+
+![System diagram](C4_Context_ATS.svg)
+
+Explanation:
+
+This Context (C1) diagram shows a high-level overview of the ATS system’s interactions with key user roles (Candidate, Recruiter, Hiring Manager) and external systems (Job Boards, Email/Calendar services, Third-party HR systems). It clearly illustrates the system’s role within the broader environment, outlining how users and external services interact with the ATS.
+
+### Container Diagram
+
+Here’s a clear, detailed C4 Container Diagram for the ATS system:
+
+![Container diagram](C4_Container_ATS.svg)
+
+Explanation:
+
+This Container (C2) diagram clearly details the ATS system components, including:
+* Frontend Application: Provides interaction points for candidates and recruiters.
+* API Gateway: Centralized API routing, security, and authentication.
+* Core ATS Service: Centralized logic, candidate management, and workflow orchestration.
+* AI Microservices: Handle computationally intensive AI tasks.
+* Databases and Storage: Structured data storage, search capabilities, and file storage.
+
+External integrations like Email/Calendar and Job Boards are also shown explicitly.
+
+### Component Diagram – AI Microservices
+
+Here’s a detailed C4 Component Diagram specifically for the “AI Microservices” component of your ATS system, rendered clearly using PlantUML’s built-in C4 library:
+
+![Component diagram](C4_AI_Microservices_Component.svg)
+
+Explanation:
+
+This Component (C3) diagram dives deep into the AI Microservices container, illustrating individual AI-powered services:
+* Resume Parser: Parses resumes using NLP.
+* Conversational Chatbot: Conducts initial candidate screenings.
+* Candidate Ranking: Scores candidates based on their suitability.
+* Video Interview Analyzer: Analyzes candidate interviews for soft skills.
+* Predictive Analytics Engine: Provides insights on candidate success likelihood.
+
+Interactions between these components and the Core ATS Service are clearly outlined, as well as their direct integration with data storage and search services.

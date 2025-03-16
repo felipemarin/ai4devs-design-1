@@ -8,7 +8,7 @@ from diagrams.aws.analytics import ElasticsearchService
 from diagrams.aws.network import APIGateway, CloudFront
 from diagrams.aws.security import Cognito
 
-with Diagram("ATS Architecture on AWS", show=True, direction="LR"):
+with Diagram("ATS Architecture on AWS", show=False, direction="LR"):
 
     candidate = CloudFront("Candidate & Recruiter UI")
     frontend_storage = S3("Frontend Hosting")

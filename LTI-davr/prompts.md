@@ -139,3 +139,9 @@ Please expand on each of the features.
 * Please make a Use Case diagram for the use case "AI-driven Candidate Screening & Ranking".  Render it as PlantUML and add a few lines of textual explanation.
 * Please make a Use Case diagram for the use case "Conversational Chatbot Screening".  Render it as PlantUML and add a few lines of textual explanation.
 
+---
+
+* Generate a top-level C4 diagram (the "first C") for the system. Use PlantUML with the built-in C4 library.
+* Generate a C4 "container" diagram for the system. Use PlantUML with the built-in C4 library.
+* Generate a C4 "component" diagram for the "AI Microservices" component. Use PlantUML with the built-in C4 library.
+

@@ -180,5 +180,10 @@ The resulting architecture diagram must clearly illustrate:
 Generate a clear, detailed, and visually understandable high-level architecture diagram that fulfills all these technical requirements and adheres to the defined best practices. This will serve as the foundational architecture for the ATS system.
 
 
+# Prompts para el último ejercicio del Diagrama C4
+
+- Actua como un arquitecto de software con muchos conocimientos de definicion de diseños con el standard C4. Para finalizar el trabajo, y una vez hemos analizado la aplicacion desde diferentes ángulos queremos hacer un Diagrama C4 que llegue en profundidad a uno de los componentes del sistema. Por ejemplo yo lo centraria en el api gateway y el sistema lambda. Quiero que hagamos los 3 primeros niveles porque el último no es útil en el estado actual del proyecto. Tómate el tiempo que creas necesario (Hemos añadido como referencia el diagrama hecho en el punto anterior)
+
+
 
 

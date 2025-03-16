@@ -1,0 +1,187 @@
+# 📌 Descripción detallada del Modelo de Datos para el ATS (LTI)
+
+Este modelo cubre completamente los siguientes casos de uso:
+
+- **Creación y publicación de vacantes**
+- **Automatización del screening (IA)**
+- **Coordinación automática de entrevistas**
+
+---
+
+## 🔍 Entidades del modelo
+
+### 🟢 **Usuario**
+| Atributo          | Tipo                 | Comentario                 |
+|-------------------|----------------------|----------------------------|
+| id                | UUID (PK)            | Identificador único usuario|
+| nombre            | varchar              | Nombre completo del usuario|
+| email             | varchar              | Email único del usuario    |
+| password          | varchar              | Hash de la contraseña      |
+| rol               | enum (ADMIN, RECRUITER, HIRING_MANAGER) | Rol usuario |
+| creado_en         | timestamp            | Fecha creación usuario     |
+
+---
+
+### 🟢 **Vacante**
+| Atributo          | Tipo                 | Comentario                    |
+|-------------------|----------------------|-------------------------------|
+| id                | UUID (PK)            | Identificador único vacante   |
+| titulo            | varchar              | Título de la vacante          |
+| descripcion       | text                 | Descripción completa vacante  |
+| requisitos        | text                 | Requisitos específicos        |
+| habilidades       | text                 | Skills buscadas               |
+| salario           | varchar              | Rango salarial                |
+| ubicacion         | varchar              | Ubicación física/remota       |
+| estado            | enum (ABIERTA, CERRADA, PAUSADA)| Estado actual      |
+| creada_en         | timestamp            | Fecha creación                |
+| publicada_en      | timestamp            | Fecha publicación efectiva    |
+| publicada_por     | UUID (FK a Usuario.id)| Usuario que publicó la vacante|
+
+---
+
+### 🟢 **Candidato**
+| Atributo          | Tipo                 | Comentario                       |
+|-------------------|----------------------|----------------------------------|
+| id                | UUID (PK)            | Identificador único candidato    |
+| nombre            | varchar              | Nombre completo                  |
+| email             | varchar              | Email único candidato            |
+| telefono          | varchar              | Teléfono candidato               |
+| linkedIn_url      | varchar              | Perfil LinkedIn (opcional)       |
+| educacion         | text                 | Detalles académicos              |
+| experiencia       | text                 | Información profesional          |
+| habilidades       | text                 | Skills específicas               |
+| notas_destacadas  | text                 | Notas adicionales destacadas     |
+| creado_en         | timestamp            | Fecha creación perfil            |
+
+---
+
+### 🟢 **Candidatura**
+*(Relación Candidato ↔️ Vacante)*
+
+| Atributo          | Tipo                 | Comentario                            |
+|-------------------|----------------------|---------------------------------------|
+| id                | UUID (PK)            | ID único candidatura                  |
+| candidato_id      | UUID (FK a Candidato.id)| ID candidato                      |
+| vacante_id        | UUID (FK a Vacante.id)| ID vacante                           |
+| fecha_aplicacion  | timestamp            | Fecha aplicación                      |
+| estado            | enum (RECIBIDA, SCREENING, ENTREVISTA, RECHAZADO, CONTRATADO)| Estado candidatura |
+| scoring_ia        | float                | Puntuación generada por IA (0 a 1)    |
+
+---
+
+### 🟢 **Entrevista**
+| Atributo          | Tipo                 | Comentario                                |
+|-------------------|----------------------|-------------------------------------------|
+| id                | UUID (PK)            | ID único entrevista                       |
+| candidatura_id    | UUID (FK a Candidatura.id)| ID candidatura relacionada          |
+| fecha_inicio      | timestamp            | Fecha/hora inicio                         |
+| fecha_fin         | timestamp            | Fecha/hora final                          |
+| entrevistador_id  | UUID (FK a Usuario.id)| Usuario entrevistador                    |
+| modalidad         | enum (PRESENCIAL, ONLINE)| Tipo de entrevista                    |
+| ubicacion         | varchar              | Lugar físico o URL (si online)            |
+| notas             | text                 | Notas adicionales entrevista              |
+| creado_en         | timestamp            | Fecha creación entrevista                 |
+
+---
+
+### 🟢 **Feedback**
+| Atributo          | Tipo                 | Comentario                                  |
+|-------------------|----------------------|---------------------------------------------|
+| id                | UUID (PK)            | ID único feedback                           |
+| entrevista_id     | UUID (FK a Entrevista.id)| Entrevista asociada                    |
+| usuario_id        | UUID (FK a Usuario.id)| Usuario que proporciona feedback           |
+| puntuacion        | int (0-10)           | Puntuación numérica                         |
+| comentarios       | text                 | Comentarios detallados                      |
+| creado_en         | timestamp            | Fecha creación feedback                     |
+
+---
+
+## 📌 Relaciones entre entidades:
+
+- **Usuario (1)** ↔️ **(N) Vacante**
+- **Vacante (1)** ↔️ **(N) Candidatura**
+- **Candidato (1)** ↔️ **(N) Candidatura**
+- **Candidatura (1)** ↔️ **(N) Entrevista**
+- **Entrevista (1)** ↔️ **(N) Feedback**
+- **Usuario (entrevistador) (1)** ↔️ **(N) Entrevista**
+
+---
+
+## ⚙️ Código para generar modelo visual (dbdiagram.io):
+
+```dbml
+// Definición de tablas
+Table Usuario {
+  id uuid [pk]
+  nombre varchar
+  email varchar [unique]
+  password varchar
+  rol varchar
+  creado_en timestamp
+}
+
+Table Vacante {
+  id uuid [pk]
+  titulo varchar
+  descripcion text
+  requisitos text
+  habilidades text
+  salario varchar
+  ubicacion varchar
+  estado varchar
+  creada_en timestamp
+  publicada_en timestamp
+  publicada_por uuid
+}
+
+Table Candidato {
+  id uuid [pk]
+  nombre varchar
+  email varchar [unique]
+  telefono varchar
+  linkedIn_url varchar
+  educacion text
+  experiencia text
+  habilidades text
+  notas_destacadas text
+  creado_en timestamp
+}
+
+Table Candidatura {
+  id uuid [pk]
+  candidato_id uuid
+  vacante_id uuid
+  fecha_aplicacion timestamp
+  estado varchar
+  scoring_ia float
+}
+
+Table Entrevista {
+  id uuid [pk]
+  candidatura_id uuid
+  fecha_inicio timestamp
+  fecha_fin timestamp
+  entrevistador_id uuid
+  modalidad varchar
+  ubicacion varchar
+  notas text
+  creado_en timestamp
+}
+
+Table Feedback {
+  id uuid [pk]
+  entrevista_id uuid
+  usuario_id uuid
+  puntuacion int
+  comentarios text
+  creado_en timestamp
+}
+
+// Relaciones
+Ref: Vacante.publicada_por > Usuario.id
+Ref: Candidatura.candidato_id > Candidato.id
+Ref: Candidatura.vacante_id > Vacante.id
+Ref: Entrevista.candidatura_id > Candidatura.id
+Ref: Entrevista.entrevistador_id > Usuario.id
+Ref: Feedback.entrevista_id > Entrevista.id
+Ref: Feedback.usuario_id > Usuario.id

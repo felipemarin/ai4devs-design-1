@@ -10,37 +10,22 @@ ATS/LTI is an innovative Applicant Tracking System developed specifically for sm
 
 ## Core Functionalities
 
-1. AI-driven resume parsing & candidate profiling: Automated extraction and structuring of candidate information from resumes using AI, ensuring quick and accurate candidate evaluations.
-
-2. Candidate pipeline management: Intuitive visualization and tracking of candidates through the recruitment stages, improving workflow efficiency.
-
-3. Candidate search & advanced filtering: Powerful, semantic-based search and filtering capabilities to quickly identify top candidates.
-
-4. Integrated candidate communication: Centralized platform for seamless communication with candidates, including email and messaging integration.
-
-5. Interview scheduling and management: Automated interview scheduling integrated with popular calendars (Google, Outlook), reducing coordination efforts.
-
-6. Collaboration & role-based access control: Controlled collaborative workspace enabling recruitment teams to securely share, review, and manage candidate data.
-
-7. Job posting and distribution: Single-click job posting across multiple job boards and social media platforms, maximizing job visibility.
-
-8. Career page builder: Easy-to-use tool for creating branded, responsive career pages without technical expertise, enhancing employer branding.
-
-9. Customizable workflows & automation: Configurable recruitment workflows with automated notifications, reminders, and task handling to streamline processes.
-
-10. Real-time analytics & reporting: Insightful analytics dashboards tracking hiring metrics and providing actionable recruitment insights for data-driven decisions.
-
-11. Mobile optimization & accessibility: Fully mobile-friendly ATS interfaces allowing candidates and recruiters access on any device, improving user experience.
-
-12. Integration with HR & third-party systems: Seamless connectivity with existing HRIS, payroll, and other enterprise tools to streamline processes and data flow.
-
-13. Compliance and GDPR management: Built-in compliance tools ensuring candidate data is managed securely according to privacy regulations, protecting both candidates and employers.
-
-14. Talent pool & candidate sourcing: Efficient management and nurturing of passive candidate talent pools for future opportunities, enhancing recruitment strategies.
-
-15. Predictive hiring analytics: AI-driven insights predicting candidate performance, tenure, and hiring outcomes, aiding in more informed hiring decisions.
-
-16. Offer letter generation & e-signatures: Automated creation and secure digital signing of employment offer letters for enhanced candidate experiences and quicker onboarding.
+1. **AI-driven resume parsing & candidate profiling**: Automated extraction and structuring of candidate information from resumes using AI, ensuring quick and accurate candidate evaluations.
+2. **Candidate pipeline management**: Intuitive visualization and tracking of candidates through the recruitment stages, improving workflow efficiency.
+3. **Candidate search & advanced filtering**: Powerful, semantic-based search and filtering capabilities to quickly identify top candidates.
+4. **Integrated candidate communication**: Centralized platform for seamless communication with candidates, including email and messaging integration.
+5. **Interview scheduling and management**: Automated interview scheduling integrated with popular calendars (Google, Outlook), reducing coordination efforts.
+6. **Collaboration & role-based access control**: Controlled collaborative workspace enabling recruitment teams to securely share, review, and manage candidate data.
+7. **Job posting and distribution**: Single-click job posting across multiple job boards and social media platforms, maximizing job visibility.
+8. **Career page builder**: Easy-to-use tool for creating branded, responsive career pages without technical expertise, enhancing employer branding.
+9. **Customizable workflows & automation**: Configurable recruitment workflows with automated notifications, reminders, and task handling to streamline processes.
+10. **Real-time analytics & reporting**: Insightful analytics dashboards tracking hiring metrics and providing actionable recruitment insights for data-driven decisions.
+11. **Mobile optimization & accessibility**: Fully mobile-friendly ATS interfaces allowing candidates and recruiters access on any device, improving user experience.
+12. **Integration with HR & third-party systems**: Seamless connectivity with existing HRIS, payroll, and other enterprise tools to streamline processes and data flow.
+13. **Compliance and GDPR management**: Built-in compliance tools ensuring candidate data is managed securely according to privacy regulations, protecting both candidates and employers.
+14. **Talent pool & candidate sourcing**: Efficient management and nurturing of passive candidate talent pools for future opportunities, enhancing recruitment strategies.
+15. **Predictive hiring analytics**: AI-driven insights predicting candidate performance, tenure, and hiring outcomes, aiding in more informed hiring decisions.
+16. **Offer letter generation & e-signatures**: Automated creation and secure digital signing of employment offer letters for enhanced candidate experiences and quicker onboarding.
 
 ## Lean Canvas
 
@@ -48,12 +33,41 @@ ATS/LTI is an innovative Applicant Tracking System developed specifically for sm
 
 ## Principal use cases
 
-![Use Cases](ATS_UseCases.svg)
+### Use Case 1: Candidate Resume Submission & Parsing
 
-Explanation of this visual:
-* Candidate uploads resume → ATS parses it → ATS screens and ranks candidate (AI-driven).
-* Recruiter reviews AI-ranked candidates, selects candidates, and automates interview scheduling.
-* Candidates are notified automatically of scheduled interviews.
+![Use Case 1](Candidate_Resume_Submission.svg)
+
+Explanation:
+* The Candidate uploads their resume into the ATS system.
+* The system automatically parses the resume using AI/NLP to extract structured data such as candidate name, contact info, skills, and experience.
+* The extracted data is then validated for accuracy and completeness.
+* Once validated, a candidate profile is automatically created and made available for the Recruiter to review and act upon.
+
+This process significantly reduces manual effort, minimizes errors, and accelerates initial candidate evaluation.
+
+### Use Case 2: AI-driven Candidate Screening & Ranking
+
+![Use Case 2](AI_Candidate_Screening_Ranking.svg)
+
+Explanation:
+* The Recruiter initiates AI-driven screening within the ATS.
+* The system analyzes candidate profiles and resumes, applying AI and machine learning algorithms to assess qualifications and match job requirements.
+* Candidates are automatically scored and ranked based on AI analysis.
+* A clearly organized and prioritized list of candidates is generated, allowing the Recruiter to quickly review and focus on the most promising applicants.
+
+This AI-driven process significantly streamlines candidate evaluation and prioritization, ensuring recruiters spend their time efficiently on high-quality candidates.
+
+### Use Case 3: Conversational Chatbot Screening
+
+![Use Case 3](Conversational_Chatbot_Screening.svg)
+
+Explanation:
+* The Candidate initiates interaction with the ATS via an AI-powered conversational chatbot.
+* The chatbot conducts an initial screening, asking tailored questions to gather candidate details, clarify skills, and evaluate basic qualifications.
+* The chatbot also answers candidate queries, providing immediate support and information, enhancing candidate experience.
+* After the interaction, the system automatically generates a structured screening report, which is provided to the Recruiter for efficient review and further action.
+
+This conversational screening method greatly enhances candidate engagement and significantly reduces manual recruiter workload at the earliest stage of recruitment.
 
 ## Entity-relationship diagram
 

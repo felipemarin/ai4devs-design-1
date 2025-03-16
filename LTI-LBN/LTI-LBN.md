@@ -785,36 +785,107 @@ C4Component
 ### Nivel 4: Código del Componente CV Parser
 
 ```mermaid
-C4Code
-    title Estructura de Código del Componente CV Parser
-    
-    Component_Boundary(cvParser, "CV Parser") {
-        Class(cvParserService, "CVParserService", "Clase principal que coordina el proceso de parsing")
-        Class(documentExtractor, "DocumentExtractor", "Extrae texto de diferentes formatos de documento")
-        Class(entityRecognizer, "EntityRecognizer", "Identifica entidades nombradas en el texto")
-        Class(sectionClassifier, "SectionClassifier", "Clasifica secciones del CV")
-        Class(skillExtractor, "SkillExtractor", "Extrae habilidades técnicas y profesionales")
-        Class(experienceAnalyzer, "ExperienceAnalyzer", "Analiza experiencia laboral")
-        Class(educationAnalyzer, "EducationAnalyzer", "Analiza formación académica")
-        Class(languageDetector, "LanguageDetector", "Detecta idiomas mencionados y del documento")
-        Class(cvDataModel, "CVDataModel", "Modelo de datos estructurado del CV")
+classDiagram
+    class CVParserService {
+        +parse(document)
+        -extractText()
+        -identifyEntities()
+        -classifySections()
+        -extractSkills()
+        -analyzeExperience()
+        -analyzeEducation()
+        -detectLanguages()
     }
     
-    Rel(cvParserService, documentExtractor, "Utiliza")
-    Rel(cvParserService, entityRecognizer, "Utiliza")
-    Rel(cvParserService, sectionClassifier, "Utiliza")
-    Rel(cvParserService, skillExtractor, "Utiliza")
-    Rel(cvParserService, experienceAnalyzer, "Utiliza")
-    Rel(cvParserService, educationAnalyzer, "Utiliza")
-    Rel(cvParserService, languageDetector, "Utiliza")
-    Rel(cvParserService, cvDataModel, "Crea y popula")
+    class DocumentExtractor {
+        +extractFromPDF(file)
+        +extractFromDOCX(file)
+        +extractFromTXT(file)
+        -cleanText(text)
+    }
     
-    Rel(documentExtractor, "Bibliotecas externas\n(PyPDF2, docx, etc.)", "Utiliza")
-    Rel(entityRecognizer, "Modelos NLP\n(SpaCy, NLTK)", "Utiliza")
-    Rel(sectionClassifier, "Modelos ML\n(Scikit-learn)", "Utiliza")
-    Rel(skillExtractor, "Base de datos\nde habilidades", "Consulta")
-    Rel(experienceAnalyzer, "Algoritmos de\nextracción temporal", "Implementa")
-    Rel(educationAnalyzer, "Base de datos\nde instituciones", "Consulta")
+    class EntityRecognizer {
+        +recognizeEntities(text)
+        +extractContactInfo(text)
+        -trainModel()
+    }
+    
+    class SectionClassifier {
+        +classifySections(text)
+        +identifyHeadings(text)
+        -preprocessText(text)
+    }
+    
+    class SkillExtractor {
+        +extractSkills(text)
+        +matchWithDatabase(skills)
+        -updateSkillConfidence()
+    }
+    
+    class ExperienceAnalyzer {
+        +analyzeExperience(sections)
+        +extractJobTitles(text)
+        +extractCompanies(text)
+        +extractDates(text)
+    }
+    
+    class EducationAnalyzer {
+        +analyzeEducation(sections)
+        +extractDegrees(text)
+        +extractInstitutions(text)
+        +extractGrades(text)
+    }
+    
+    class LanguageDetector {
+        +detectDocumentLanguage(text)
+        +extractSpokenLanguages(text)
+        +determineLanguageProficiency(text)
+    }
+    
+    class CVDataModel {
+        +personalInfo
+        +contactInfo
+        +skills
+        +experience
+        +education
+        +languages
+        +toJSON()
+        +toDict()
+    }
+    
+    class BibliotecasExternas {
+    }
+    
+    class ModelosNLP {
+    }
+    
+    class ModelosML {
+    }
+    
+    class BaseDatosHabilidades {
+    }
+    
+    class AlgoritmosExtraccionTemporal {
+    }
+    
+    class BaseDatosInstituciones {
+    }
+    
+    CVParserService --> DocumentExtractor : utiliza
+    CVParserService --> EntityRecognizer : utiliza
+    CVParserService --> SectionClassifier : utiliza
+    CVParserService --> SkillExtractor : utiliza
+    CVParserService --> ExperienceAnalyzer : utiliza
+    CVParserService --> EducationAnalyzer : utiliza
+    CVParserService --> LanguageDetector : utiliza
+    CVParserService --> CVDataModel : crea y popula
+    
+    DocumentExtractor --> BibliotecasExternas : utiliza
+    EntityRecognizer --> ModelosNLP : utiliza
+    SectionClassifier --> ModelosML : utiliza
+    SkillExtractor --> BaseDatosHabilidades : consulta
+    ExperienceAnalyzer --> AlgoritmosExtraccionTemporal : implementa
+    EducationAnalyzer --> BaseDatosInstituciones : consulta
 ```
 
 ## Características Clave del Servicio de Evaluación

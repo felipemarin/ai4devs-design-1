@@ -530,3 +530,201 @@ Servicio externo para obtener la información pública o playlists del candidato
 #### Seguridad y Protección de Datos
 - Cifrado en tránsito (HTTPS/TLS) y, si es necesario, cifrado en reposo.  
 - Políticas de retención de datos conforme a regulaciones de privacidad.
+
+## 7. Diagrama C4 de LTI
+
+A continuación se muestra una propuesta de modelo **C4** para el sistema LTI. Recuerda que el C4 se compone de cuatro niveles:
+
+1. **Context** (Sistema en su entorno)  
+2. **Container** (Contenedores lógicos/del sistema)  
+3. **Component** (Módulos internos de cada contenedor)  
+4. **Code** (Nivel de detalle en implementación, opcional en esta etapa)
+
+En este documento nos enfocaremos en **los tres primeros niveles**, profundizando en el tercer nivel sobre el **“ATS Core”** como componente principal.
+
+---
+
+### 1. System Context (Nivel 1)
+
+En este primer diagrama se ilustra el sistema **LTI** como una “caja negra”, resaltando sus principales actores y sistemas externos.
+
+> **Nota**: Mermaid no ofrece una notación oficial de C4, pero usaremos `flowchart` para capturar la esencia. 
+
+```mermaid
+flowchart LR
+    A((Recruiter/Manager)):::actor
+    B((Candidate)):::actor
+    S((Spotify)):::extern
+    E((IA Service LLM)):::extern
+    
+    subgraph "LTI - ATS"
+    LTI[LTI System ATS]
+    end
+
+    A -- Interactúa con --> LTI
+    B -- Aplica / Proporciona Info --> LTI
+    LTI -- Consulta / Usa --> S
+    LTI -- Envía Datos / Recibe Respuesta --> E
+
+    classDef actor fill:#f3f3f3,stroke:#999,stroke-width:1px
+    classDef extern fill:#ffffff,stroke:#999,stroke-dasharray: 5 5
+```
+
+#### Descripción
+
+- Recruiter/Manager: Usuario interno que publica vacantes, revisa candidatos y obtiene insights del LLM.
+- Candidate: Persona que aplica a la vacante, provee CV y (opcionalmente) su información musical.
+- Spotify: Servicio externo para obtener la información musical de los candidatos (previo consentimiento).
+- IA Service (LLM): Motor de recomendación y análisis multimodal (texto + música).
+- Objetivo: Mostrar cómo LTI se relaciona con actores humanos y externos, sin detallar la composición interna.
+
+### 2. Container Diagram (Nivel 2)
+
+Ahora vemos los contenedores internos del sistema LTI y cómo se comunican.
+
+Cada contenedor representa un área funcional o proceso independiente (aunque en el MVP puedan convivir en un mismo servidor).
+
+```mermaid
+flowchart LR
+    subgraph LTI System
+    direction TB
+    
+    A["Frontend Web (Recruiters/Managers)"]
+    B["Portal de Candidatos"]
+    C["ATS Core (App Server)"]
+    D[(Database)]
+    E["Integración con IA (Cliente LLM)"]
+    F["Spotify Connector"]
+    end
+
+    A -- REST/HTTPS --> C
+    B -- REST/HTTPS --> C
+    C -- SQL/Queries --> D
+    C -- REST/HTTPS --> E
+    C -- REST/HTTPS --> F
+
+    subgraph External Services
+    direction TB
+    G[(Spotify API)]
+    H["IA Service (LLM)"]
+    end
+
+    F -- Web Requests --> G
+    E -- Web Requests --> H
+
+```
+
+#### Descripción de los Contenedores
+
+##### Objetivo
+
+Visualizar los “bloques” internos de LTI y las dependencias externas (Spotify API y IA Service).
+
+##### Frontend Web (Recruiters/Managers)
+
+- Interfaz principal para creación de vacantes, gestión de candidatos, visualización de insights.
+
+##### Portal de Candidatos
+
+- Interfaz para candidatos: registro, aplicación a vacantes y configuración musical (permiso Spotify o top 5 canciones).
+
+##### ATS Core (App Server)
+
+- Lógica principal del negocio.
+- Procesa solicitudes de Frontend y Portal.
+- Administra las entidades (Vacantes, Candidatos, Aplicaciones, MusicProfile).
+- Se comunica con la base de datos y los conectores externos (IA, Spotify).
+
+##### Database
+
+- Almacena la información relacional (Users, Candidates, MusicProfile, JobVacancy, Application, etc.).
+
+##### Integración con IA (Cliente LLM)
+
+- Módulo especializado para llamar a la API del LLM.
+- Se encarga de formatear y enviar la data (CV, datos musicales, requisitos).
+- Recibe y procesa las respuestas del modelo IA.
+
+##### Spotify Connector
+
+- Módulo para interactuar con la API de Spotify (obtener playlists, top tracks, etc.).
+- Solo se activa si el candidato otorga consentimiento.
+
+### 3. Component Diagram (Nivel 3) - Profundizando en ATS Core
+
+En este nivel, nos sumergimos en el contenedor “ATS Core (App Server)” para exponer sus componentes clave. Cada componente implementa una parte concreta de la lógica de negocio.
+
+```mermaid
+flowchart TB
+    subgraph ATS Core
+    direction TB
+    
+    A[Auth Module]
+    B[Vacancy Management]
+    C[Candidate Management]
+    D[Application Processing]
+    E[Music Profile Service]
+    F[LLM Integration Service]
+    G[Spotify Integration Service]
+    DB[(Database Layer)]
+    end
+
+    A -- Validación de Credenciales --> DB
+    B -- CRUD de Vacantes --> DB
+    C -- CRUD de Candidatos --> DB
+    D -- Manejo de Aplicaciones --> DB
+    E -- Manejo de Perfiles Musicales --> DB
+    E -- Consulta Spotify --> G
+    F -- Envío/Recolección de Datos --> G
+
+    A -- "Control de Acceso" --> B
+    A -- "Control de Acceso" --> C
+    A -- "Control de Acceso" --> D
+    A -- "Control de Acceso" --> E
+    A -- "Control de Acceso" --> F
+    A -- "Control de Acceso" --> G
+
+```
+
+#### Descripción de los Componentes
+
+##### Objetivo
+Mostrar cómo está estructurado internamente el ATS Core, evidenciando los componentes principales y su comunicación interna.
+
+##### Auth Module
+
+- Responsable de la autenticación (login) y autorización (roles: Recruiter, Manager, etc.).
+- Valida la sesión y controla el acceso a otros componentes.
+
+##### Vacancy Management
+
+- Maneja toda la lógica CRUD de las vacantes (crear, leer, actualizar, cerrar).
+- Asocia las vacantes con el reclutador que las crea.
+
+##### Candidate Management
+
+- Maneja el registro de candidatos y la actualización de su información (datos personales, CV, etc.).
+
+##### Application Processing
+
+- Encargado de las postulaciones y su pipeline (screening, entrevista, oferta, etc.).
+- Actualiza el estado de cada aplicación.
+
+##### Music Profile Service
+
+- Lógica para crear/actualizar el perfil musical de un candidato (Top 5 canciones, cluster musical, etc.).
+- Interactúa con Spotify Integration Service si el candidato otorga consentimiento.
+
+##### LLM Integration Service
+
+- Gestiona la comunicación con el IA Service.
+- Envía los datos relevantes (perfil del candidato, información musical, requisitos) y obtiene los insights de fit cultural.
+
+##### Spotify Integration Service
+
+- En caso de que el candidato conecte su cuenta de Spotify, se encarga de llamar a la Spotify API y retornar los datos relevantes.
+
+##### Database Layer
+
+- Abstracción para consultas y operaciones en la base de datos.
+- Cada componente realiza sus operaciones a través de este layer (usando repositorios, DAOs, etc.).

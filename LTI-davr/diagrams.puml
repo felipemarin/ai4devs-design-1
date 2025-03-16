@@ -1,0 +1,30 @@
+@startuml ATS_UseCases
+
+left to right direction
+skinparam packageStyle rectangle
+actor Candidate
+actor Recruiter
+
+rectangle "Applicant Tracking System (ATS)" {
+
+  package "Candidate Interaction" {
+    usecase (Submit Resume) as UC1
+    usecase "Resume Parsing (AI/NLP)" as Parsing
+    usecase "Conversational Chatbot Screening" as Chatbot
+  }
+
+rectangle "Candidate Management" {
+  usecase "AI-driven Candidate Screening & Ranking" as Screening
+}
+
+rectangle "Interview Management" {
+  usecase "Interview Scheduling Automation" as Scheduling
+}
+
+Candidate --> (Candidate Resume Submission & Parsing)
+(Candidate Resume Submission & Parsing) --> Screening
+Screening --> Recruiter
+Recruiter --> Scheduling
+Scheduling --> Candidate
+
+@enduml

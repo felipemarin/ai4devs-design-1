@@ -1,100 +1,46 @@
-# ATS from LTI
+# Introduction to ATS by LTI
 
+ATS/LTI is an innovative Applicant Tracking System developed specifically for small to medium-sized enterprises (SMEs) facing high volumes of applicants and significant recruitment workloads. Leveraging cutting-edge artificial intelligence, ATS/LTI streamlines candidate processing, significantly reduces manual screening efforts, and enhances hiring decisions. By automating complex recruitment tasks, ATS/LTI empowers SMEs to efficiently manage their talent acquisition process, enabling recruiters to focus more strategically on quality hires and less on administrative overhead.
 
+## Competitive Advantages & Value Added:
+- Proprietary AI models and unique datasets that enhance candidate matching accuracy.
+- Significant reduction in recruiter workload through intelligent automation.
+- Superior candidate experience via conversational AI and intuitive interfaces.
+- Real-time predictive analytics improving quality-of-hire.
 
+## Core Functionalities
 
-## Mermaid!
+1. AI-driven resume parsing & candidate profiling: Automated extraction and structuring of candidate information from resumes using AI, ensuring quick and accurate candidate evaluations.
 
-```mermaid
-graph TD
-    subgraph Users & Front-end
-        Candidate
-        Recruiter
-        HiringMgr[Hiring Manager]
-        RecruiterDashboard[Recruiter Dashboard]
-        CareerPage[Career Page]
-        MobileApp[Mobile App]
-    end
+2. Candidate pipeline management: Intuitive visualization and tracking of candidates through the recruitment stages, improving workflow efficiency.
 
-    subgraph ATS Core Application
-        JobPosting[Job Posting & Distribution]
-        CandidateMgmt[Candidate Pipeline Management]
-        CommEngine[Integrated Communication]
-        Scheduling[Interview Scheduling]
-        TalentPool[Candidate Sourcing & Talent Pool]
-        WorkflowAutomation[Workflow Automation]
-        CareerPage[Career Page Builder]
-    end
+3. Candidate search & advanced filtering: Powerful, semantic-based search and filtering capabilities to quickly identify top candidates.
 
-    subgraph AIEngine[AI & Analytics Engine]
-        ResumeParser[Advanced Resume Parsing & Skill Extraction]
-        Chatbot[Conversational AI Screening Chatbot]
-        CandidateMatching[AI Candidate Matching & Scoring]
-        VideoAnalysis[Video Interview Analysis]
-        PredictiveAnalytics[Predictive Analytics]
-        AnalyticsReporting[Analytics & Reporting]
-    end
+4. Integrated candidate communication: Centralized platform for seamless communication with candidates, including email and messaging integration.
 
-    subgraph Data Storage
-        StructuredDB[(Structured Data DB)]
-        UnstructuredDB[(Unstructured Data Storage)]
-        SearchEngine[(Real-time Search Engine)]
-    end
+5. Interview scheduling and management: Automated interview scheduling integrated with popular calendars (Google, Outlook), reducing coordination efforts.
 
-    subgraph Infrastructure
-        API[REST API Layer]
-        Containers[Containers & Kubernetes]
-        CloudProvider["Cloud Infrastructure (AWS/Azure/GCP)"]
-        CandidatePipeline[Candidate Pipeline]
-        Compliance[GDPR & Compliance Management]
-    end
+6. Collaboration & role-based access control: Controlled collaborative workspace enabling recruitment teams to securely share, review, and manage candidate data.
 
-    Candidate --> CareerPage
-    Candidate --> Chatbot
-    Recruiter --> RecruiterDashboard
-    HiringMgr --> RecruiterDashboard
+7. Job posting and distribution: Single-click job posting across multiple job boards and social media platforms, maximizing job visibility.
 
-    CareerPage --> TalentPool
-    CareerPage --> CandidateMgmt
+8. Career page builder: Easy-to-use tool for creating branded, responsive career pages without technical expertise, enhancing employer branding.
 
-    API --> CareerPage
-    API --> RecruiterDashboard
-    API --> MobileApp
+9. Customizable workflows & automation: Configurable recruitment workflows with automated notifications, reminders, and task handling to streamline processes.
 
-    CandidateMgmt --> ResumeParser
-    CandidateMgmt --> CandidatePipeline
+10. Real-time analytics & reporting: Insightful analytics dashboards tracking hiring metrics and providing actionable recruitment insights for data-driven decisions.
 
-    CandidatePipeline --> WorkflowAutomation
-    CandidatePipeline --> CommEngine
-    CandidatePipeline --> Scheduling
+11. Mobile optimization & accessibility: Fully mobile-friendly ATS interfaces allowing candidates and recruiters access on any device, improving user experience.
 
-    JobPosting[Job Posting & Distribution] --> CandidateMgmt
+12. Integration with HR & third-party systems: Seamless connectivity with existing HRIS, payroll, and other enterprise tools to streamline processes and data flow.
 
-    ResumeParser --> StructuredDB
-    ResumeParser --> UnstructuredDB
+13. Compliance and GDPR management: Built-in compliance tools ensuring candidate data is managed securely according to privacy regulations, protecting both candidates and employers.
 
-    ResumeParser --> SearchEngine
-    TalentPool --> SearchEngine
+14. Talent pool & candidate sourcing: Efficient management and nurturing of passive candidate talent pools for future opportunities, enhancing recruitment strategies.
 
-    CommEngine --> Candidate
-    Scheduling --> Candidate
+15. Predictive hiring analytics: AI-driven insights predicting candidate performance, tenure, and hiring outcomes, aiding in more informed hiring decisions.
 
-    AIEngine --> CandidateMgmt
-    CandidateMgmt --> StructuredDB
-    CandidateMgmt --> UnstructuredDB
-
-    Infrastructure --> API
-    Infrastructure --> AIEngine
-
-    Compliance[Compliance & GDPR] --> StructuredDB
-    Compliance --> UnstructuredDB
-
-    Containers --> CloudProvider
-
-    RecruiterDashboard --> API
-
-    MobileApp --> API
-```
+16. Offer letter generation & e-signatures: Automated creation and secure digital signing of employment offer letters for enhanced candidate experiences and quicker onboarding.
 
 ## Lean Canvas
 

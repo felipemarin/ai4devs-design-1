@@ -181,7 +181,7 @@ flowchart TD
     G --> H{¿Todos confirmados?}
     
     H -->|No| I[Reprogramar si necesario]
-    I --> F
+    I --> C
     
     H -->|Sí| J[Generación de guías de entrevista]
     J --> K[Realización de entrevistas]

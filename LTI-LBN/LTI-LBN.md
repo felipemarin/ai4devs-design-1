@@ -28,15 +28,27 @@
 graph TD
     subgraph "Lean Canvas - TalentSphere"
     
-    A[Problema<br/>- Procesos de contratación lentos<br/>- Dificultad para encontrar talento adecuado<br/>- Falta de colaboración entre equipos] --- B[Solución<br/>- IA predictiva para selección<br/>- Automatización contextual<br/>- Colaboración en tiempo real]
+    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#bfb,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#fbb,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#ccc,stroke:#333,stroke-width:2px,color:#000
+    style F fill:#ddd,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#bbf,stroke:#333,stroke-width:2px,color:#000
+    style H fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+    style I fill:#f9f,stroke:#333,stroke-width:2px,color:#000
     
-    C[Propuesta de Valor<br/>Reducción del 60% en tiempo de contratación<br/>Mejora del 40% en calidad de contrataciones<br/>Experiencia candidato superior] --- D[Ventaja Injusta<br/>Algoritmos de IA propietarios<br/>Integración omnicanal<br/>Análisis predictivo de mercado]
+    A[<b>Problema</b><br/>- Procesos de contratación lentos<br/>- Dificultad para encontrar talento adecuado<br/>- Falta de colaboración entre equipos] --- B[<b>Solución</b><br/>- IA predictiva para selección<br/>- Automatización contextual<br/>- Colaboración en tiempo real]
     
-    E[Segmentos de Cliente<br/>- Empresas medianas y grandes<br/>- Departamentos de RRHH<br/>- Agencias de reclutamiento] --- F[Métricas Clave<br/>- Tiempo de contratación<br/>- Calidad de contrataciones<br/>- Satisfacción candidatos<br/>- ROI de contratación]
+    C[<b>Propuesta de Valor</b><br/>Reducción del 60% en tiempo de contratación<br/>Mejora del 40% en calidad de contrataciones<br/>Experiencia candidato superior] --- D[<b>Ventajas</b><br/>Algoritmos de IA propietarios<br/>Integración omnicanal<br/>Análisis predictivo de mercado]
     
-    G[Canales<br/>- Venta directa B2B<br/>- Partnerships con consultoras RRHH<br/>- Marketplace de integraciones] --- H[Estructura de Costes<br/>- Desarrollo y mantenimiento<br/>- Infraestructura cloud<br/>- Marketing y ventas<br/>- Soporte al cliente]
+    E[<b>Segmentos de Cliente</b><br/>- Empresas medianas y grandes<br/>- Departamentos de RRHH<br/>- Agencias de reclutamiento] --- F[<b>Métricas Clave</b><br/>- Tiempo de contratación<br/>- Calidad de contrataciones<br/>- Satisfacción candidatos<br/>- ROI de contratación]
     
-    I[Fuentes de Ingresos<br/>- Suscripción base + módulos<br/>- Servicios de consultoría<br/>- API para integraciones<br/>- Análisis de datos premium]
+    G[<b>Canales</b><br/>- Venta directa B2B<br/>- Partnerships con consultoras RRHH<br/>- Marketplace de integraciones] 
+    
+    H[<b>Estructura de Costes</b><br/>- Desarrollo y mantenimiento<br/>- Infraestructura cloud<br/>- Marketing y ventas<br/>- Soporte al cliente]
+    
+    I[<b>Fuentes de Ingresos</b><br/>- Suscripción base + módulos<br/>- Servicios de consultoría<br/>- API para integraciones<br/>- Análisis de datos premium]
     
     end
 ```

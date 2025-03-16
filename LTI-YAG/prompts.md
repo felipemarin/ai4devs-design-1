@@ -529,3 +529,139 @@ erDiagram
     User ||--|{ JobVacancy : "creates (1:N)"
 
 ```
+
+## 6. Prompt
+
+```md
+Queda aprobado, procedamos al Diseño de sistema a alto nivel
+```
+## 6. Output
+
+```md
+# Diseño de Sistema a Alto Nivel
+
+En esta sección describiremos la **arquitectura general** de LTI y los principales componentes que la conforman. El objetivo es ofrecer una **vista panorámica** de cómo las distintas piezas interactúan entre sí, sin aún entrar en los niveles de detalle que veremos posteriormente en el **Diagrama C4**.
+
+---
+
+## 1. Explicación General
+
+### 1.1. Objetivos de la Arquitectura
+- **Escalabilidad y Modularidad**: Permitir que la aplicación crezca de forma orgánica, agregando nuevas integraciones (p. ej., otros servicios de música) o expandiendo la lógica de IA sin afectar al núcleo.
+- **Mantenimiento Sencillo**: Favorecer la separación de responsabilidades (frontend, lógica de negocio, integración con IA, persistencia de datos, etc.).
+- **Rapidez de Implementación (MVP)**: Emplear un enfoque que sea ágil de desarrollar y desplegar, evitando una sobreingeniería innecesaria.
+
+### 1.2. Principales Componentes
+
+1. **Frontend Web (Recruiters/Managers)**  
+   - Aplicación web dirigida a los reclutadores y managers para gestionar vacantes, evaluar candidatos y ver insights de la IA.  
+   - Acceso seguro mediante roles de usuario.
+
+2. **Portal de Candidatos**  
+   - Interfaz donde los postulantes pueden registrarse, aplicar a vacantes y, de manera opcional, conectar su cuenta de Spotify (o proveer su “Top 5 Songs”).
+
+3. **ATS Core (LTI Backend)**  
+   - Contiene la **lógica de negocio** principal, incluyendo la gestión de vacantes, candidatos, aplicaciones y pipeline de reclutamiento.  
+   - Integra módulos para comunicarse con el modelo de IA (LLM) y con servicios externos (Spotify).  
+   - Responsable de la **autenticación** y **autorización** de usuarios.
+
+4. **Servicio de IA (LLM)**  
+   - Puede ser un servicio externo (API de un tercero) o un módulo interno con un modelo open-source.  
+   - Recibe datos textuales (CV, descripción de vacante, cultura empresarial) y datos musicales (géneros, playlists) para generar insights de “fit cultural”.
+
+5. **Integración con Spotify**  
+   - Se encarga de la interacción con la **API de Spotify**, previa autorización del candidato.  
+   - Obtiene información pública del perfil musical y/o playlists.
+
+6. **Base de Datos (persistencia)**  
+   - Almacena la información de Usuarios, Candidatos, Vacantes, Aplicaciones, Perfiles Musicales, etc.  
+   - Puede ser una base de datos relacional (p. ej., PostgreSQL, MySQL) o NoSQL, según el caso de uso.  
+   - Es clave mantener la trazabilidad de los datos y el consentimiento del candidato en cuanto a su información musical.
+
+7. **Servicios de Notificaciones (Opcional en MVP)**  
+   - Pueden emplearse para mandar correos o mensajes automáticos a reclutadores y candidatos (al cambiar de etapa en el proceso, etc.).  
+   - No es crítico para el MVP, pero se suele considerar en un ATS robusto.
+
+---
+
+## 2. Diagrama de Alto Nivel (Mermaid)
+
+Este diagrama muestra los componentes lógicos y el flujo de información principal:
+
+    ```mermaid
+    flowchart LR
+        A[Frontend Web <br/>(Recruiter/Manager)] -- HTTP/HTTPS --> C((ATS Core<br/>Backend))
+        B[Portal de Candidatos] -- HTTP/HTTPS --> C
+        C -- DB Connection --> D[(Database)]
+        C -- LLM API --> E((Servicio de IA <br/>(LLM)))
+        C -- REST/GraphQL --> F[(Spotify API)]
+        
+        A -- Visualiza y Gestiona Vacantes --> C
+        B -- Aplica a Vacante / <br/> Suministra Datos Musicales --> C
+        
+        style A fill:#f3f3f3,stroke:#999,stroke-width:2px
+        style B fill:#f3f3f3,stroke:#999,stroke-width:2px
+        style C fill:#e7f7ff,stroke:#0275d8,stroke-width:2px
+        style D fill:#fffceb,stroke:#f0ad4e,stroke-width:2px
+        style E fill:#ffffff,stroke:#999,stroke-dasharray: 5 5
+        style F fill:#ffffff,stroke:#999,stroke-dasharray: 5 5
+    ```
+## Descripción del Diagrama
+
+**Frontend Web (Recruiter/Manager) [A]**  
+Se conecta al ATS Core vía HTTPS para crear vacantes, mover candidatos en el pipeline y ver recomendaciones.
+
+**Portal de Candidatos [B]**  
+Permite a los postulantes registrarse, aplicar a vacantes y, opcionalmente, conectar con Spotify o introducir manualmente sus canciones favoritas.
+
+**ATS Core [C]**  
+- Lógica de negocio del sistema.  
+- Gestiona solicitudes de reclutadores y candidatos.  
+- Administra la Base de Datos [D] para guardar entidades principales (Users, Candidates, MusicProfile, JobVacancy, Application).  
+- Cuando un reclutador solicita “insights culturales” o “match”:  
+  1. Envía datos (CV, música, cultura empresarial) al Servicio de IA [E].  
+  2. El Servicio de IA procesa y responde con sugerencias de *fit*.  
+- Cuando un candidato da consentimiento, obtiene la info musical de la Spotify API [F].
+
+**Database [D]**  
+Almacena de forma persistente los datos de la aplicación.
+
+**Servicio de IA (LLM) [E]**  
+- Proveedor de capacidades de Inteligencia Artificial, puede ser interno o externo (API).  
+- Maneja el análisis multimodal (texto + música).
+
+**Spotify API [F]**  
+Servicio externo para obtener la información pública o playlists del candidato, previo consentimiento.
+
+---
+
+### 3. Consideraciones Clave
+
+#### Autenticación y Roles
+- Es fundamental garantizar que solo Reclutadores/Managers tengan acceso a la administración de vacantes.  
+- Los Candidatos tienen acceso limitado (ver vacantes, aplicar, gestionar su perfil).
+
+#### Permisos y Consentimiento para Datos Musicales
+- El sistema debe registrar el consentimiento del candidato antes de integrar Spotify.  
+- En caso de no obtener consentimiento, se crea un perfil sin datos musicales.
+
+#### Comunicación con el LLM
+- Puede hacerse vía API REST, gRPC u otra interfaz.  
+- Se debería considerar la latencia y los costes asociados al consumo de la IA en cada evaluación.
+
+#### Escalabilidad del Backend
+- Usar contenedores (Docker/Kubernetes) o un PaaS (Heroku, AWS, GCP) para escalar sin complejidad extra.  
+- Mantener la flexibilidad: si el volumen de datos musicales crece, podría agregarse un servicio especializado.
+
+#### Seguridad y Protección de Datos
+- Cifrado en tránsito (HTTPS/TLS) y, si es necesario, cifrado en reposo.  
+- Políticas de retención de datos conforme a regulaciones de privacidad.
+
+---
+
+### Siguientes Pasos
+Una vez confirmes que este **Diseño de Sistema a Alto Nivel** cumple con tus expectativas, avanzaremos con el **Diagrama C4**, profundizando en uno de los componentes (por ejemplo, en la integración del LLM o la capa de Spotify).
+
+¡Quedo atento a tu retroalimentación, Yoberty!
+
+```

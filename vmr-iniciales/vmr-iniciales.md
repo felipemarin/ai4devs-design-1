@@ -503,3 +503,621 @@ stateDiagram-v2
 3. Formulario de Inscripción
 4. Confirmación de Inscripción
 5. Área de Seguimiento de Candidatura
+
+
+
+# Caso de Uso 2: Pipeline de Reclutamiento
+
+## Visión General
+
+El módulo de Pipeline de Reclutamiento es el centro operacional del sistema LTI, permitiendo que los reclutadores gestionen todo el flujo de candidaturas de forma visual y eficiente. Este componente integra funcionalidades de gestión de etapas del proceso selectivo y comunicación con candidatos, automatizando tareas repetitivas y proporcionando visibilidad completa del progreso de los candidatos.
+
+## Objetivos
+
+- Proporcionar una visualización clara y personalizable del embudo de reclutamiento
+- Permitir gestión eficiente de candidatos en diferentes etapas del proceso
+- Automatizar comunicaciones con candidatos sobre actualizaciones de estado
+- Facilitar la programación y feedback de entrevistas
+- Proporcionar insights sobre el progreso y cuellos de botella del proceso selectivo
+
+## Actores Principales
+
+- **Reclutador**: Usuario responsable de gestionar candidaturas y conducir el proceso selectivo
+- **Gerente de RRHH**: Usuario que supervisa el proceso de reclutamiento como un todo
+- **Sistema**: Procesos automatizados de notificaciones y actualizaciones
+- **Candidato**: Usuario que recibe comunicaciones e interacciones (interfaz con Caso de Uso 1)
+
+## Diagrama de Clases UML
+
+```mermaid
+classDiagram
+    class Pipeline {
+        +id: Integer
+        +nombre: String
+        +descripcion: String
+        +vacanteId: Integer
+        +etapas: List~Etapa~
+        +crearEtapa()
+        +reordenarEtapas()
+        +consultarMetricas()
+        +visualizarCandidaturas()
+    }
+    
+    class Etapa {
+        +id: Integer
+        +nombre: String
+        +descripcion: String
+        +posicion: Integer
+        +pipelineId: Integer
+        +requiereEntrevista: Boolean
+        +requiereFeedback: Boolean
+        +modeloEmailAutomatico: Integer
+        +candidaturas: List~Candidatura~
+        +moverCandidatura()
+        +configurarPropiedades()
+    }
+    
+    class Candidatura {
+        +id: Integer
+        +candidatoId: Integer
+        +vacanteId: Integer
+        +etapaActual: Integer
+        +fechaInscripcion: Date
+        +fechaUltimaActualizacion: Date
+        +estadoActual: String
+        +historicoEtapas: List~HistoricoEtapa~
+        +historicoInteracciones: List~Interaccion~
+        +actualizarEstado()
+        +moverAEtapa()
+        +registrarFeedback()
+        +programarEntrevista()
+        +enviarComunicacion()
+    }
+    
+    class Reclutador {
+        +id: Integer
+        +nombre: String
+        +email: String
+        +cargo: String
+        +departamento: String
+        +visualizarPipeline()
+        +analizarCandidatura()
+        +registrarFeedback()
+        +programarEntrevista()
+        +enviarComunicacion()
+        +generarInformes()
+    }
+    
+    class Interaccion {
+        +id: Integer
+        +candidaturaId: Integer
+        +reclutadorId: Integer
+        +tipo: String
+        +fecha: DateTime
+        +contenido: String
+        +registrarEntrevista()
+        +registrarEmail()
+        +registrarTelefono()
+        +registrarFeedback()
+    }
+    
+    class HistoricoEtapa {
+        +id: Integer
+        +candidaturaId: Integer
+        +etapaId: Integer
+        +reclutadorId: Integer
+        +fechaMovimiento: DateTime
+        +observacion: String
+        +registrarMovimiento()
+        +consultarHistorico()
+    }
+    
+    class Entrevista {
+        +id: Integer
+        +candidaturaId: Integer
+        +reclutadorId: Integer
+        +fecha: DateTime
+        +duracion: Integer
+        +formato: String
+        +estado: String
+        +linkAcceso: String
+        +feedback: String
+        +programar()
+        +reprogramar()
+        +cancelar()
+        +registrarPresencia()
+        +registrarFeedback()
+    }
+    
+    class ModeloEmail {
+        +id: Integer
+        +nombre: String
+        +asunto: String
+        +cuerpo: String
+        +etapaId: Integer
+        +tipo: String
+        +crearModelo()
+        +editarModelo()
+        +probarModelo()
+        +aplicarVariables()
+    }
+    
+    Pipeline "1" *-- "n" Etapa : contiene
+    Etapa "1" *-- "n" Candidatura : contiene
+    Candidatura "1" *-- "n" HistoricoEtapa : registra
+    Candidatura "1" *-- "n" Interaccion : posee
+    Candidatura "1" *-- "n" Entrevista : programa
+    Reclutador "1" -- "n" Interaccion : realiza
+    Reclutador "1" -- "n" HistoricoEtapa : mueve
+    Reclutador "1" -- "n" Entrevista : conduce
+    Etapa "1" -- "0..n" ModeloEmail : utiliza
+```
+
+## Pre-Condiciones
+
+- Candidaturas registradas en el sistema
+- Etapas del proceso selectivo configuradas
+- Modelos de comunicación predefinidos
+
+## Flujo Principal
+
+1. Reclutador accede al panel del Pipeline de Reclutamiento
+2. Sistema muestra visión Kanban de las candidaturas por etapa del proceso
+3. Reclutador visualiza información resumida de los candidatos en cada etapa
+4. Reclutador selecciona una candidatura para análisis detallado
+5. Sistema presenta perfil completo, histórico de interacciones y evaluaciones
+6. Reclutador analiza información y decide próximos pasos
+7. Reclutador mueve candidatura a la siguiente etapa (o rechaza)
+8. Sistema envía comunicación automática al candidato sobre el cambio de estado
+9. Sistema solicita programación de entrevista si aplica a la etapa
+10. Reclutador registra feedback tras interacciones
+11. Sistema actualiza estado y métricas del proceso selectivo
+
+## Diagrama de Flujo del Proceso
+
+```mermaid
+flowchart TD
+    A[Acceso al Panel de Pipeline] --> B[Visualización Kanban de Candidaturas]
+    B --> C[Filtros por Vacante/Etapa/Estado]
+    C --> D[Selección de Candidatura]
+    
+    D --> E[Visualización de Perfil Detallado]
+    E --> F[Análisis de Información]
+    
+    F --> G{Decisión sobre\nCandidatura}
+    
+    G -->|Aprobación| H[Mover a Siguiente Etapa]
+    G -->|Rechazo| I[Proceso de Rechazo]
+    G -->|Contacto| J[Comunicación Ad-hoc]
+    
+    H --> K{¿Siguiente Etapa\nRequiere Entrevista?}
+    K -->|Sí| L[Proceso de Programación]
+    K -->|No| M[Notificación de Cambio de Estado]
+    
+    L --> L1[Envío de Opciones de Horarios]
+    L1 --> L2[Candidato Selecciona Horario]
+    L2 --> L3[Confirmación de Programación]
+    L3 --> L4[Envío de Recordatorios]
+    L4 --> L5[Realización de la Entrevista]
+    L5 --> N[Registro de Feedback]
+    
+    M --> N
+    
+    I --> I1[Selección de Motivo]
+    I1 --> I2[Preparación de Mensaje]
+    I2 --> I3[Personalización]
+    I3 --> I4[Envío de Comunicación]
+    I4 --> I5[Archivo en la Base de Talentos]
+    
+    J --> J1[Selección de Modelo]
+    J1 --> J2[Personalización de Mensaje]
+    J2 --> J3[Envío de Comunicación]
+    J3 --> J4[Registro en el Histórico]
+    
+    N --> O[Actualización de Métricas]
+    I5 --> O
+    J4 --> O
+    
+    O --> P[Retorno a la Visualización del Pipeline]
+```
+
+## Flujos Alternativos
+
+### A1: Programación de entrevista
+1. Sistema envía sugerencias de horarios disponibles al candidato
+2. Candidato selecciona horario preferido
+3. Sistema confirma programación para candidato y reclutador
+4. Sistema envía recordatorios automáticos próximos a la fecha
+
+### A2: Rechazo de candidatura
+1. Reclutador selecciona motivo del rechazo en lista predefinida
+2. Sistema prepara email de feedback conforme al modelo asociado al motivo
+3. Reclutador personaliza mensaje si necesario
+4. Sistema envía comunicación al candidato
+5. Sistema mueve candidatura a base de talentos con etiquetas apropiadas
+
+### A3: Comunicación ad-hoc con candidato
+1. Reclutador inicia nueva comunicación
+2. Sistema ofrece modelos de mensaje conforme al contexto
+3. Reclutador personaliza y envía mensaje
+4. Sistema registra comunicación en el histórico del candidato
+
+## Diagrama de Secuencia
+
+```mermaid
+sequenceDiagram
+    actor Reclutador
+    participant PanelPipeline
+    participant Sistema
+    participant BaseDatos
+    participant ServicioEmail
+    actor Candidato
+    
+    Reclutador->>PanelPipeline: Accede al panel del pipeline
+    PanelPipeline->>Sistema: Solicita datos del pipeline
+    Sistema->>BaseDatos: Consulta candidaturas activas
+    BaseDatos-->>Sistema: Retorna datos de las candidaturas
+    Sistema-->>PanelPipeline: Entrega estructura del pipeline
+    PanelPipeline-->>Reclutador: Muestra visualización Kanban
+    
+    Reclutador->>PanelPipeline: Selecciona candidatura
+    PanelPipeline->>Sistema: Solicita datos detallados
+    Sistema->>BaseDatos: Consulta perfil e histórico
+    BaseDatos-->>Sistema: Retorna información completa
+    Sistema-->>PanelPipeline: Entrega perfil detallado
+    PanelPipeline-->>Reclutador: Muestra información del candidato
+    
+    Reclutador->>PanelPipeline: Mueve candidatura a siguiente etapa
+    PanelPipeline->>Sistema: Actualiza estado de la candidatura
+    Sistema->>BaseDatos: Registra cambio de estado
+    Sistema->>BaseDatos: Consulta modelo de comunicación
+    BaseDatos-->>Sistema: Retorna plantilla de email
+    
+    alt Siguiente etapa requiere entrevista
+        Sistema->>ServicioEmail: Solicita envío de opciones de programación
+        ServicioEmail-->>Candidato: Envía email con link para programación
+        Candidato->>Sistema: Selecciona horario disponible
+        Sistema->>BaseDatos: Registra programación
+        Sistema->>ServicioEmail: Solicita envío de confirmación
+        ServicioEmail-->>Candidato: Envía confirmación
+        ServicioEmail-->>Reclutador: Envía notificación de programación
+    else Actualización de estado simple
+        Sistema->>ServicioEmail: Solicita envío de notificación
+        ServicioEmail-->>Candidato: Envía actualización de estado
+    end
+    
+    BaseDatos-->>Sistema: Confirma registro
+    Sistema-->>PanelPipeline: Confirma actualización
+    PanelPipeline-->>Reclutador: Muestra confirmación
+    
+    Reclutador->>PanelPipeline: Registra feedback tras interacción
+    PanelPipeline->>Sistema: Envía datos del feedback
+    Sistema->>BaseDatos: Almacena feedback
+    BaseDatos-->>Sistema: Confirma almacenamiento
+    Sistema-->>PanelPipeline: Confirma registro
+    PanelPipeline-->>Reclutador: Muestra confirmación
+```
+
+## Diagrama de Estados de la Candidatura
+
+```mermaid
+stateDiagram-v2
+    [*] --> NuevaCandidatura: Candidato se inscribe
+    
+    NuevaCandidatura --> EnTriaje: Reclutador inicia análisis
+    NuevaCandidatura --> Rechazada: Reprobada en triaje inicial
+    
+    EnTriaje --> EntrevistaProgramada: Aprobada para entrevista
+    EnTriaje --> Rechazada: Reprobada en triaje
+    
+    EntrevistaProgramada --> EsperandoFeedback: Entrevista realizada
+    EntrevistaProgramada --> Ausente: Candidato no asiste
+    
+    EsperandoFeedback --> SegundaEntrevista: Aprobado para siguiente fase
+    EsperandoFeedback --> Rechazada: Reprobado en entrevista
+    
+    SegundaEntrevista --> EsperandoDecisionFinal: Entrevista técnica realizada
+    SegundaEntrevista --> Rechazada: Reprobado en segunda entrevista
+    
+    EsperandoDecisionFinal --> PropuestaEnviada: Decisión de contratar
+    EsperandoDecisionFinal --> Rechazada: Decisión de no contratar
+    
+    PropuestaEnviada --> EsperandoRespuestaPropuesta: Propuesta en análisis por el candidato
+    
+    EsperandoRespuestaPropuesta --> PropuestaAceptada: Candidato acepta propuesta
+    EsperandoRespuestaPropuesta --> PropuestaRechazada: Candidato rechaza propuesta
+    EsperandoRespuestaPropuesta --> Negociacion: Candidato hace contrapropuesta
+    
+    Negociacion --> PropuestaEnviada: Nueva propuesta enviada
+    Negociacion --> ProcesoCerrado: Negociación cerrada sin acuerdo
+    
+    PropuestaAceptada --> Contratacion: Documentación iniciada
+    Contratacion --> Finalizada: Contratación concluida
+    
+    Ausente --> ReprogramacionSolicitada: Candidato justifica ausencia
+    ReprogramacionSolicitada --> EntrevistaProgramada: Entrevista reprogramada
+    ReprogramacionSolicitada --> ProcesoCerrado: Reprogramación negada
+    
+    Rechazada --> BancoTalentos: Perfil almacenado
+    PropuestaRechazada --> BancoTalentos: Perfil almacenado
+    ProcesoCerrado --> BancoTalentos: Perfil almacenado
+    
+    Finalizada --> [*]
+    BancoTalentos --> OportunidadFutura: Nueva vacante compatible
+    OportunidadFutura --> NuevaCandidatura: Reinvitación aceptada
+```
+
+## Post-Condiciones
+
+- Estado de la candidatura actualizado
+- Comunicación enviada al candidato
+- Histórico de interacciones registrado
+- Métricas del proceso selectivo actualizadas
+
+## Requisitos Especiales
+
+- Interfaz responsiva con actualización en tiempo real
+- Capacidad de personalización del pipeline por vacante o departamento
+- Tiempo de respuesta inferior a 2 segundos para movimiento de candidatos
+- Conformidad con LGPD/GDPR para todas las comunicaciones
+
+## Frecuencia de Uso
+
+- Alta, utilización diaria por reclutadores y gestores de RRHH
+- Intensidad varía conforme al volumen de procesos selectivos activos
+
+## Métricas de Éxito
+
+- Reducción del 60% en el tiempo de respuesta a candidatos
+- Aumento del 40% en la tasa de conversión entre etapas del proceso
+- Reducción del 50% en el tiempo medio de cobertura de vacantes
+- Satisfacción de los reclutadores con el sistema > 4.5/5
+
+
+
+# Caso de Uso 3: Filtrado Básico
+
+## Visión General
+
+El módulo de Filtrado Básico proporciona las capacidades iniciales de Clasificación Cognitiva para el sistema LTI, permitiendo filtrar automáticamente candidaturas según su relevancia para cada vacante. Este componente optimiza el proceso de selección mediante la identificación de los candidatos más adecuados, ahorrando tiempo valioso a los reclutadores y mejorando la calidad de las contrataciones.
+
+## Objetivos
+
+- Automatizar la clasificación inicial de candidaturas según su relevancia para cada vacante
+- Proporcionar filtros configurables por palabras clave y requisitos
+- Establecer un sistema de puntuación y ordenación de candidatos
+- Permitir el descubrimiento eficiente de talentos adecuados en grandes volúmenes de candidaturas
+- Reducir el tiempo dedicado a la revisión manual de currículums
+
+## Actores Principales
+
+- **Sistema**: Procesos automatizados de filtrado y clasificación
+- **Recrutador**: Usuario que configura criterios y utiliza los resultados del filtrado
+- **Gerente de RRHH**: Usuario que supervisa la eficacia de los criterios de filtrado
+- **Candidato**: Usuario cuyo perfil es analizado (interfaz con Caso de Uso 1)
+
+## Diagrama de Clases UML
+
+```mermaid
+classDiagram
+    class FiltroCandidatos {
+        +id: Integer
+        +nombre: String
+        +descripcion: String
+        +vacanteId: Integer
+        +criterios: List~CriterioFiltro~
+        +esPublico: Boolean
+        +creadoPor: Integer
+        +fechaCreacion: DateTime
+        +aplicarFiltro()
+        +guardarConfiguracion()
+        +cargarConfiguracion()
+        +duplicarFiltro()
+    }
+    
+    class CriterioFiltro {
+        +id: Integer
+        +filtroId: Integer
+        +campo: String
+        +operador: String
+        +valor: String
+        +peso: Float
+        +esObligatorio: Boolean
+        +validarCriterio()
+        +calcularPuntuacion()
+    }
+    
+    class ResultadoFiltrado {
+        +filtroId: Integer
+        +fechaEjecucion: DateTime
+        +candidaturasFiltradas: Integer
+        +candidaturasSeleccionadas: Integer
+        +candidatos: List~CandidatoPuntuado~
+        +exportarResultados()
+        +guardarSeleccion()
+    }
+    
+    class CandidatoPuntuado {
+        +candidaturaId: Integer
+        +puntuacionTotal: Float
+        +puntuacionesPorCriterio: Map
+        +coincidenciasPorcentaje: Float
+        +esSobrecalificado: Boolean
+        +notaReclutador: String
+        +marcadoInteres: Boolean
+        +obtenerDetallesPuntuacion()
+        +marcarInteres()
+        +agregarNota()
+    }
+    
+    class PalabraClave {
+        +id: Integer
+        +texto: String
+        +sinonimos: List~String~
+        +peso: Float
+        +categoria: String
+        +agregarSinonimo()
+        +calcularRelevancia()
+    }
+    
+    class ConfiguracionFiltro {
+        +id: Integer
+        +filtroId: Integer
+        +nombre: String
+        +esDefecto: Boolean
+        +criteriosPersonalizados: List~CriterioFiltro~
+        +guardarConfiguracion()
+        +cargarConfiguracion()
+        +establecerDefecto()
+    }
+    
+    class PerfilCandidato {
+        +id: Integer
+        +nombre: String
+        +habilidades: List~String~
+        +experiencia: List~Experiencia~
+        +formacion: List~Formacion~
+        +camposExtras: Map
+        +calcularCompatibilidad()
+        +extraerPalabrasClaves()
+    }
+    
+    class Vacante {
+        +id: Integer
+        +titulo: String
+        +descripcion: String
+        +requisitosObligatorios: List~String~
+        +requisitosDeseables: List~String~
+        +palabrasClaveAsociadas: List~PalabraClave~
+        +obtenerCriteriosFiltro()
+        +generarFiltroAutomatico()
+    }
+    
+    FiltroCandidatos "1" *-- "n" CriterioFiltro : contiene
+    FiltroCandidatos "1" -- "n" ConfiguracionFiltro : tiene
+    FiltroCandidatos "1" -- "1" ResultadoFiltrado : genera
+    ResultadoFiltrado "1" *-- "n" CandidatoPuntuado : contiene
+    Vacante "1" -- "n" FiltroCandidatos : utiliza
+    Vacante "1" -- "n" PalabraClave : incluye
+    FiltroCandidatos -- PerfilCandidato : evalúa
+```
+
+## Pré-Condiciones
+
+- Candidaturas registradas en el sistema con datos estructurados
+- Vacantes con requisitos claramente definidos
+- Criterios de filtrado predefinidos o configurables
+
+## Flujo Principal
+
+1. Reclutador accede al módulo de Filtrado Básico para una vacante específica
+2. Sistema presenta opciones de configuración de filtros
+3. Reclutador selecciona/configura criterios de filtrado (experiencia, habilidades, formación, etc.)
+4. Reclutador establece pesos para cada criterio según su importancia
+5. Sistema procesa todas las candidaturas aplicando los criterios configurados
+6. Sistema calcula puntuación para cada candidato basado en la correspondencia con los requisitos
+7. Sistema presenta candidaturas ordenadas por relevancia
+8. Reclutador visualiza resultados y puede aplicar filtros adicionales
+9. Reclutador marca candidatos de interés para revisión detallada
+10. Sistema guarda la configuración de filtros para uso futuro
+
+## Diagrama de Flujo del Proceso
+
+```mermaid
+flowchart TD
+    A[Acceso al Módulo de Filtrado] --> B[Selección de Vacante]
+    B --> C{¿Usar filtros\npredefinidos?}
+    
+    C -->|Sí| D[Selección de Filtros Guardados]
+    C -->|No| E[Configuración Manual de Filtros]
+    
+    D --> F[Ajuste de Filtros Predefinidos]
+    E --> G[Selección de Criterios de Filtrado]
+    
+    F --> H[Configuración de Pesos por Criterio]
+    G --> H
+    
+    H --> I[Aplicación de Filtros]
+    I --> J[Procesamiento de Candidaturas]
+    
+    J --> K[Cálculo de Puntuación por Candidato]
+    K --> L[Ordenación por Relevancia]
+    
+    L --> M[Visualización de Resultados]
+    M --> N{¿Resultados\nsatisfactorios?}
+    
+    N -->|No| O[Refinamiento de Filtros]
+    O --> I
+    
+    N -->|Sí| P[Revisión de Candidatos]
+    P --> Q[Marcado de Candidatos de Interés]
+    
+    Q --> R{¿Guardar\nconfiguración?}
+    R -->|Sí| S[Guardado de Configuración]
+    R -->|No| T[Finalización del Proceso]
+    
+    S --> T
+    T --> U[Exportación a Pipeline de Reclutamiento]
+    
+    M --> V[Búsqueda por Palabra Clave]
+    V --> W[Filtrado Adicional]
+    W --> M
+    
+    L --> X[Detección de Sobrecalificados]
+    X --> Y[Marcado Especial]
+    Y --> M
+```
+
+## Flujos Alternativos
+
+### A1: Filtros predefinidos
+1. Reclutador selecciona un conjunto de filtros guardados previamente
+2. Sistema aplica configuración automáticamente
+3. Reclutador realiza ajustes si es necesario
+
+### A2: Búsqueda específica por palabra clave
+1. Reclutador ingresa términos de búsqueda específicos
+2. Sistema filtra candidaturas que contienen los términos en cualquier campo relevante
+3. Sistema presenta resultados resaltando donde aparecen los términos
+
+### A3: Detección de candidatos sobrecalificados
+1. Sistema identifica candidatos con cualificaciones sustancialmente superiores a los requisitos
+2. Sistema marca estos perfiles con indicador especial
+3. Reclutador decide si considera estos perfiles o los reserva para otras vacantes
+
+## Diagrama de Secuencia
+
+```mermaid
+sequenceDiagram
+    actor Reclutador
+    participant InterfazFiltrado
+    participant SistemaFiltrado
+    participant MotorBusqueda
+    participant BaseDatos
+    
+    Reclutador->>InterfazFiltrado: Accede a módulo de filtrado
+    InterfazFiltrado->>SistemaFiltrado: Solicita configuraciones disponibles
+    SistemaFiltrado->>BaseDatos: Consulta filtros guardados
+    BaseDatos-->>SistemaFiltrado: Retorna filtros disponibles
+    SistemaFiltrado-->>InterfazFiltrado: Muestra opciones de filtrado
+    
+    Reclutador->>InterfazFiltrado: Selecciona vacante
+    InterfazFiltrado->>SistemaFiltrado: Solicita requisitos de vacante
+    SistemaFiltrado->>BaseDatos: Consulta datos de vacante
+    BaseDatos-->>SistemaFiltrado: Retorna requisitos y criterios
+    SistemaFiltrado-->>InterfazFiltrado: Propone criterios de filtrado
+    
+    alt Configuración manual
+        Reclutador->>InterfazFiltrado: Configura criterios de filtrado
+        Reclutador->>InterfazFiltrado: Asigna pesos a criterios
+    else Usa filtro guardado
+        Reclutador->>InterfazFiltrado: Selecciona filtro predefinido
+        InterfazFiltrado->>SistemaFiltrado: Solicita configuración guardada
+        SistemaFiltrado->>BaseDatos: Consulta configuración
+        BaseDatos-->>SistemaFiltrado: Retorna configuración completa
+        SistemaFiltrado-->>InterfazFiltrado: Carga configuración
+        Reclutador->>InterfazFiltrado: Realiza ajustes menores
+    end
+    
+    Reclutador->>InterfazFiltrado: Solicita aplicar filtros
+    InterfazFiltrado->>SistemaFilt

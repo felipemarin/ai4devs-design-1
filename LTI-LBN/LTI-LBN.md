@@ -537,18 +537,18 @@ TalentSphere está diseñado como una arquitectura de microservicios orientada a
 
 ```mermaid
 flowchart TB
-    subgraph "Frontend Layer"
+    subgraph "A" ["Frontend Layer"]
         A1[Portal Reclutadores]
         A2[Portal Candidatos]
         A3[App Móvil]
         A4[Widgets Embebibles]
     end
-    
-    subgraph "API Layer"
-        B[API Gateway]
+
+    subgraph "B" ["API Layer"]
+        B1[API Gateway]
     end
     
-    subgraph "Microservicios Core"
+    subgraph "C" ["Microservicios Core"]
         C1[Servicio Ofertas]
         C2[Servicio Candidatos]
         C3[Servicio Evaluación]
@@ -558,7 +558,7 @@ flowchart TB
         C7[Servicio Integraciones]
     end
     
-    subgraph "Servicios IA"
+    subgraph "D" ["Servicios IA"]
         D1[Análisis CV]
         D2[Asistente Redacción]
         D3[Evaluador Entrevistas]
@@ -566,82 +566,81 @@ flowchart TB
         D5[Predictor Éxito]
     end
     
-    subgraph "Event Bus"
-        E[Kafka]
+    subgraph "E" ["Event Bus"]
+        E1[Kafka]
     end
     
-    subgraph "Data Layer"
+    subgraph "F" ["Data Layer"]
         F1[(PostgreSQL)]
         F2[(MongoDB)]
         F3[(Redis)]
         F4[(Data Warehouse)]
     end
     
-    subgraph "Infrastructure Services"
+    subgraph "G" ["Infrastructure Services"]
         G1[Auth Service]
         G2[Logging]
         G3[Monitoring]
         G4[Configuration]
     end
     
-    subgraph "External Systems"
+    subgraph "H" ["External Systems"]
         H1[Job Boards]
         H2[Social Networks]
         H3[HR Systems]
         H4[Calendar Systems]
     end
     
-    A1 & A2 & A3 & A4 --> B
-    B --> C1 & C2 & C3 & C4 & C5 & C6 & C7
+    A --> B
+    B --> C
     
-    C1 & C2 & C3 & C4 & C5 & C6 & C7 <--> E
+    C <--> E
     
-    C1 & C2 & C3 & C4 & C5 <--> D1 & D2 & D3 & D4 & D5
+    C <--> D
     
-    C1 & C2 & C3 & C4 & C5 & C6 & C7 --> F1 & F2 & F3
-    C5 --> F4
+    C --> F
     
-    C1 & C2 & C3 & C4 & C5 & C6 & C7 --> G1 & G2 & G3 & G4
+    C --> G
     
-    C7 <--> H1 & H2 & H3 & H4
+    C <--> H
     
-    style A1 fill:#f9f,stroke:#333,stroke-width:2px
-    style A2 fill:#f9f,stroke:#333,stroke-width:2px
-    style A3 fill:#f9f,stroke:#333,stroke-width:2px
-    style A4 fill:#f9f,stroke:#333,stroke-width:2px
+    style A1 fill:#f9f,stroke:#000,stroke-width:2px,color:#000
+    style A2 fill:#f9f,stroke:#000,stroke-width:2px,color:#000
+    style A3 fill:#f9f,stroke:#000,stroke-width:2px,color:#000
+    style A4 fill:#f9f,stroke:#000,stroke-width:2px,color:#000
     
-    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style B1 fill:#bbf,stroke:#000,stroke-width:2px,color:#000
     
-    style C1 fill:#bfb,stroke:#333,stroke-width:2px
-    style C2 fill:#bfb,stroke:#333,stroke-width:2px
-    style C3 fill:#bfb,stroke:#333,stroke-width:2px
-    style C4 fill:#bfb,stroke:#333,stroke-width:2px
-    style C5 fill:#bfb,stroke:#333,stroke-width:2px
-    style C6 fill:#bfb,stroke:#333,stroke-width:2px
-    style C7 fill:#bfb,stroke:#333,stroke-width:2px
+    style C1 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C2 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C3 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C4 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C5 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C6 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
+    style C7 fill:#bfb,stroke:#000,stroke-width:2px,color:#000
     
-    style D1 fill:#fbb,stroke:#333,stroke-width:2px
-    style D2 fill:#fbb,stroke:#333,stroke-width:2px
-    style D3 fill:#fbb,stroke:#333,stroke-width:2px
-    style D4 fill:#fbb,stroke:#333,stroke-width:2px
-    style D5 fill:#fbb,stroke:#333,stroke-width:2px
+    style D1 fill:#fbb,stroke:#000,stroke-width:2px,color:#000
+    style D2 fill:#fbb,stroke:#000,stroke-width:2px,color:#000
+    style D3 fill:#fbb,stroke:#000,stroke-width:2px,color:#000
+    style D4 fill:#fbb,stroke:#000,stroke-width:2px,color:#000
+    style D5 fill:#fbb,stroke:#000,stroke-width:2px,color:#000
     
-    style E fill:#ff9,stroke:#333,stroke-width:2px
+    style E1 fill:#ff9,stroke:#000,stroke-width:2px,color:#000
     
-    style F1 fill:#9cf,stroke:#333,stroke-width:2px
-    style F2 fill:#9cf,stroke:#333,stroke-width:2px
-    style F3 fill:#9cf,stroke:#333,stroke-width:2px
-    style F4 fill:#9cf,stroke:#333,stroke-width:2px
+    style F1 fill:#9cf,stroke:#000,stroke-width:2px,color:#000
+    style F2 fill:#9cf,stroke:#000,stroke-width:2px,color:#000
+    style F3 fill:#9cf,stroke:#000,stroke-width:2px,color:#000
+    style F4 fill:#9cf,stroke:#000,stroke-width:2px,color:#000
     
-    style G1 fill:#ccc,stroke:#333,stroke-width:2px
-    style G2 fill:#ccc,stroke:#333,stroke-width:2px
-    style G3 fill:#ccc,stroke:#333,stroke-width:2px
-    style G4 fill:#ccc,stroke:#333,stroke-width:2px
+    style G1 fill:#ccc,stroke:#000,stroke-width:2px,color:#000
+    style G2 fill:#ccc,stroke:#000,stroke-width:2px,color:#000
+    style G3 fill:#ccc,stroke:#000,stroke-width:2px,color:#000
+    style G4 fill:#ccc,stroke:#000,stroke-width:2px,color:#000
     
-    style H1 fill:#ddd,stroke:#333,stroke-width:2px
-    style H2 fill:#ddd,stroke:#333,stroke-width:2px
-    style H3 fill:#ddd,stroke:#333,stroke-width:2px
-    style H4 fill:#ddd,stroke:#333,stroke-width:2px
+    style H1 fill:#ddd,stroke:#000,stroke-width:2px,color:#000
+    style H2 fill:#ddd,stroke:#000,stroke-width:2px,color:#000
+    style H3 fill:#ddd,stroke:#000,stroke-width:2px,color:#000
+    style H4 fill:#ddd,stroke:#000,stroke-width:2px,color:#000
 ```
 
 ### Principios de Diseño

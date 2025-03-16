@@ -3,7 +3,7 @@
 ## Descripción del software
 LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la gestión de procesos de selección mediante tecnología avanzada. Su enfoque innovador se basa en la inteligencia artificial para filtrar y recomendar candidatos, la automatización de procesos repetitivos y una interfaz altamente intuitiva que reduce la curva de aprendizaje.
 
-![Características principales del sistema LTI](./images/lti%20caracteristicas.png)
+![Características principales del sistema LTI](/LTI/images/lti%20caracteristicas.png)
 
 ###Valor añadido y ventajas competitivas
 - **IA y Machine Learning**: Filtrado inteligente de candidatos según patrones de éxito anteriores.
@@ -12,7 +12,7 @@ LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la
 - **Colaboración en tiempo real**: Panel de control compartido para reclutadores y managers.
 - **Métricas y analíticas**: Reportes detallados para optimizar decisiones de selección.
 
-![Ventajas del sistema LTI](./images/lti%20ventajas.png)
+![Ventajas del sistema LTI](/LTI/images/lti%20ventajas.png)
 
 ## Funciones principales
 1. **Gestor de candidaturas**: Panel de control con pipeline visual para seguimiento de candidatos.
@@ -23,13 +23,13 @@ LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la
 6. **Análisis y reportes**: KPIs de contratación, tasa de conversión y eficiencia de selección.
 7. **Integración con herramientas de RRHH**: Conexión con ERP y CRM.
 
-![Apuesta por el sistema LTI](./images/lti%20apuesta.png)
+![Apuesta por el sistema LTI](/LTI/images/lti%20apuesta.png)
 
 ### Lean Canvas
 
 Este diseño provee una visión clara del modelo de negocio y funcionalidad de LTI, permitiendo su desarrollo ágil y enfocado en el MVP.
 
-![LTI lean](./images/lti%20lean.png)
+![LTI lean](/LTI/images/lti%20lean.png)
 
 ---
 

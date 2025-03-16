@@ -5,7 +5,7 @@ LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la
 
 ![Características principales del sistema LTI](./images/lti%20caracteristicas.png)
 
-## Valor añadido y ventajas competitivas
+###Valor añadido y ventajas competitivas
 - **IA y Machine Learning**: Filtrado inteligente de candidatos según patrones de éxito anteriores.
 - **Automatización avanzada**: Reducción del tiempo de contratación con flujos de trabajo personalizables.
 - **Integraciones flexibles**: Conexión con LinkedIn, Indeed y APIs de RRHH.
@@ -25,48 +25,17 @@ LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la
 
 ![Apuesta por el sistema LTI](./images/lti%20apuesta.png)
 
-## Lean Canvas
+### Lean Canvas
 
 Este diseño provee una visión clara del modelo de negocio y funcionalidad de LTI, permitiendo su desarrollo ágil y enfocado en el MVP.
 
 ![LTI lean](./images/lti%20lean.png)
 
-## Principales casos de uso del sistema LTI
-
-# LTI: Applicant Tracking System (ATS)
-
-## Descripción del software
-LTI es un sistema ATS (Applicant Tracking System) diseñado para revolucionar la gestión de procesos de selección mediante tecnología avanzada. Su enfoque innovador se basa en la inteligencia artificial para filtrar y recomendar candidatos, la automatización de procesos repetitivos y una interfaz altamente intuitiva que reduce la curva de aprendizaje.
-
-### Valor añadido y ventajas competitivas
-- **IA y Machine Learning**: Filtrado inteligente de candidatos según patrones de éxito anteriores.
-- **Automatización avanzada**: Reducción del tiempo de contratación con flujos de trabajo personalizables.
-- **Integraciones flexibles**: Conexión con LinkedIn, Indeed y APIs de RRHH.
-- **Colaboración en tiempo real**: Panel de control compartido para reclutadores y managers.
-- **Métricas y analíticas**: Reportes detallados para optimizar decisiones de selección.
-
-## Funciones principales
-1. **Gestor de candidaturas**: Panel de control con pipeline visual para seguimiento de candidatos.
-2. **Parser de CVs con IA**: Extracción automática de información relevante.
-3. **Entrevistas automatizadas**: Videoentrevistas con evaluación automática por IA.
-4. **Publicación de ofertas multi-plataforma**: Sincronización con portales de empleo.
-5. **Automatización de flujos de trabajo**: Reglas personalizables para notificaciones y seguimientos.
-6. **Análisis y reportes**: KPIs de contratación, tasa de conversión y eficiencia de selección.
-7. **Integración con herramientas de RRHH**: Conexión con ERP y CRM.
-
-## Lean Canvas
-
-Este diseño provee una visión clara del modelo de negocio y funcionalidad de LTI, permitiendo su desarrollo ágil y enfocado en el MVP:
-
-![lean canvas LTI](./images/lti%20lean.png)
-
 ---
 
-## Casos de Uso para el MVP
+## Principales casos de uso para el MVP
 
 Para un proyecto ATS innovador como LTI, los tres casos de uso más importantes, de mayor a menor prioridad, serían:
-
-Entendido. A continuación, te presento versiones más detalladas de los diagramas UML para los tres casos de uso, donde se incluyen más actores, interacciones y pasos involucrados. 
 
 ### 1. **Registrar Candidatos**
    **Descripción Detallada**: 
@@ -165,19 +134,11 @@ Entendido. A continuación, te presento versiones más detalladas de los diagram
 
    ![caso uso 3](https://plantuml.online/png/PP0nRiCm34NtdeBmxgbRXmAoNNVAOZS786Gc4A3QWIHdANgg7Y4NAqabZW0RiOVyzp_vYJOj0Qg1h5yJJake02CCBm20MHfTJFIDC17qpgV0a39ZNq0DHXAYmxH4bRkca5kS9pUnfb8hIY2RS3vxUaumNsC5FoBAiqQoabhbgG6sa3pWsBxkK7FnpZAgbYTdTk1XYPevK5ozz8vRkStLx5mVL_HhkSa3rKQ_yf5tWFfT_eKtCDOIdmN1yuzhwXdjLaHe0JDlnA0Du9GB21t9axNkzZVVQGCrysFFTDwv28GBdzi6boYu7CzSdUCRDXnMakBW6IrSfqVtSlrMredkF2EG5jSbe1XtNwZL2PtaV_9v9crRMFu1)
 
-### Explicación de los Diagramas:
 
-1. **Registrar Candidatos**: Aquí hemos detallado el proceso de validación de datos y el almacenamiento en la base de datos, que es un paso clave en la gestión de la información del candidato.
-2. **Gestionar Ofertas de Empleo**: Se incluyen las interacciones entre el reclutador, el sistema y la base de datos, mostrando tanto la creación de ofertas como la gestión de aplicaciones.
-3. **Evaluar y Filtrar Candidatos**: Este caso de uso destaca cómo el reclutador puede aplicar filtros y realizar evaluaciones, con la información guardada en la base de datos.
-
-Estos diagramas proporcionan un flujo más detallado de cada uno de los procesos y cómo interactúan los actores y el sistema para llevar a cabo las tareas de un ATS efectivo.
 
 ## Modelo Entidad-Relación
 
-Aquí tienes el modelo de datos actualizado utilizando **"Oferta"** en lugar de **"Aplicación"**. He modificado el diagrama en consecuencia.
-
-### Diagrama PlantUML actualizado:
+El siguiente diagrama representa las entidades más importantes del sistema LTI así como sus relaciones entre ellas y atributos más importantes:
 
 ```plantuml
 @startuml
@@ -234,4 +195,254 @@ R -- OE : "Crea"
 ```
 
 ![diagrama Entidad-Relacion](https://plantuml.online/png/ZP9DQiCm48NtFiNWRSa5iZEEMxg9mOHioqIUK84i6KaEBQK7wgAh7i4Ngop_oOuBpSgyfynyysP8McxV8KvHbhn4gs900obyHE1-3y-7byc1FN1flNvKrKMJ4swesIjgBoOr2S5BjP9JfJMjnHE9zkkgv5f_9FTvHCOhJjAtT9sfhtCEtdv64Gta-PMqHIW9igeMr0-GPy44muiP_zH-sqQiUn_8CCrhnjiVwInBRtPcIZNXw4n8lSD9-omc-OmCfIKJT7GK1J7HM2oL7lHWXgGMdFNrFNuIq0VUik3MOhQczPJBAXDgPZgYxM1dOCzK14nti_nv5F_UVj0ukw5eWZJ2NGRUSkpjcFhvbd-wkxUbxRDnD2diTcuH-t4xW77apceKNGJyGgDKTD8J6SkLTE-IJiiwBJD0ldo9KBiaewApSkzrDnN_0W00)
+
+
+## Arquitectura general del sistema LTI 
+
+### **Arquitectura del MVP de LTI - Enfoque Pragmático**  
+
+Para desarrollar un **MVP (Minimum Viable Product)** de LTI, la arquitectura debe ser **simple pero escalable**, evitando la sobre-ingeniería. **Mi elección es una arquitectura basada en "Clean Architecture" pero simplificada**, con una estructura modular y clara, usando **DDD de manera pragmática**.  
+
+### **Elección de Arquitectura: Clean Architecture Simplificada**  
+✅ **Razones por las que elegimos esta arquitectura:**  
+- **Simplicidad:** No introduce capas innecesarias.  
+- **Escalabilidad:** Se puede mejorar sin reescribir todo el código.  
+- **Separación de responsabilidades:** Permite mantenimiento y crecimiento a futuro.  
+- **Facilidad de desarrollo:** Cualquier desarrollador puede entenderlo rápidamente.  
+
+---
+
+### **1. Estructura General del Sistema**  
+El MVP de LTI se divide en **cuatro capas principales**:  
+
+1. **Capa de Presentación (Frontend - Angular)**  
+   - Aplicación web con Angular.  
+   - Comunicación con el backend vía API REST.  
+
+2. **Capa de Aplicación (Backend - Node.js + Express)**  
+   - Exposición de endpoints REST.  
+   - Orquestación de lógica de negocio.  
+
+3. **Capa de Dominio (Reglas de Negocio - DDD Light)**  
+   - Entidades y lógica de negocio.  
+   - Casos de uso sin dependencias externas.  
+
+4. **Capa de Infraestructura (Persistencia y Servicios Externos)**  
+   - Base de datos (PostgreSQL con Sequelize).  
+   - Almacenamiento de CVs en AWS S3.  
+   - Autenticación con JWT.  
+
+---
+
+### **2. Diagrama de Arquitectura Simplificada**  
+```plantuml
+@startuml
+title Arquitectura MVP de LTI
+
+actor "Candidato" as C
+actor "Reclutador" as R
+actor "Servicios Externos (LinkedIn, S3)" as SE
+
+node "Frontend (Angular)" as FE {
+    [UI Web]
+    [Servicios HTTP]
+}
+
+node "Backend (Node.js + Express)" as BE {
+    [API REST]
+    [Casos de Uso]
+    [Autenticación JWT]
+}
+
+node "Dominio (DDD Light)" as Domain {
+    [Entidades]
+    [Casos de Uso]
+}
+
+node "Infraestructura" as Infra {
+    [PostgreSQL]
+    [AWS S3]
+}
+
+C -> FE : Interactúa con UI
+R -> FE : Administra ofertas
+FE -> BE : Llamadas API REST
+BE -> Domain : Aplica lógica de negocio
+Domain -> Infra : Accede a BD y servicios externos
+BE -> Infra : Almacena CVs en AWS S3
+SE -> BE : Integración con LinkedIn
+
+@enduml
+```
+
+---
+
+### **3. Diseño de Componentes**  
+
+### **📌 3.1 Frontend (Angular)**
+- **Tecnología:** Angular + Angular Material.  
+- **Manejo de Estado:** Simple con servicios RxJS.  
+- **Comunicación con Backend:** HTTP (REST API).  
+
+### **📌 3.2 Backend (Node.js + Express)**
+- **Framework:** Express.js para endpoints REST.  
+- **Middleware:** Autenticación con JWT.  
+- **Validación de Datos:** Joi o Zod.  
+- **Casos de Uso:** Servicios que manejan la lógica de negocio.  
+
+Ejemplo de **controlador** en Express:
+```typescript
+import { Request, Response } from "express";
+import { CrearOfertaUseCase } from "../application/CrearOfertaUseCase";
+
+export class OfertaController {
+  constructor(private crearOferta: CrearOfertaUseCase) {}
+
+  async crear(req: Request, res: Response) {
+    const oferta = await this.crearOferta.execute(req.body);
+    return res.status(201).json(oferta);
+  }
+}
+```
+
+---
+
+### **📌 3.3 Capa de Dominio (DDD Light)**
+- **Entidades:** Modelan los datos principales (`Oferta`, `Candidato`, `Evaluación`).  
+- **Casos de Uso:** Encapsulan la lógica específica del negocio.  
+- **Repositorios (Interfaces):** Definen cómo acceder a los datos, sin depender de la BD.  
+
+Ejemplo de **entidad Oferta**:
+```typescript
+export class Oferta {
+  constructor(
+    public id: string,
+    public titulo: string,
+    public descripcion: string,
+    public vacantes: number,
+    public fechaCierre: Date
+  ) {}
+
+  esValida(): boolean {
+    return this.vacantes > 0 && this.fechaCierre > new Date();
+  }
+}
+```
+
+Ejemplo de **caso de uso**:
+```typescript
+export class CrearOfertaUseCase {
+  constructor(private ofertaRepo: OfertaRepository) {}
+
+  async execute(data: CrearOfertaDTO) {
+    const oferta = new Oferta(
+      crypto.randomUUID(),
+      data.titulo,
+      data.descripcion,
+      data.vacantes,
+      data.fechaCierre
+    );
+    return await this.ofertaRepo.guardar(oferta);
+  }
+}
+```
+
+---
+
+### **📌 3.4 Capa de Infraestructura (Persistencia y Servicios Externos)**
+- **Base de Datos:** PostgreSQL con Sequelize.  
+- **Almacenamiento de Archivos:** AWS S3 para CVs.  
+- **Autenticación:** JWT para sesiones seguras.  
+
+Ejemplo de **repositorio con Sequelize**:
+```typescript
+import { Oferta } from "../../domain/Oferta";
+import { OfertaModel } from "../db/models/OfertaModel";
+
+export class SequelizeOfertaRepository {
+  async guardar(oferta: Oferta): Promise<Oferta> {
+    return await OfertaModel.create(oferta);
+  }
+}
+```
+
+---
+
+### **4. Integración con Sistemas Externos**
+| **Servicio**       | **Tecnología**      | **Propósito** |
+|--------------------|--------------------|--------------|
+| **Autenticación**  | JWT + bcrypt       | Manejo de sesiones |
+| **Base de Datos**  | PostgreSQL + Sequelize | Persistencia |
+| **Almacenamiento** | AWS S3             | Guardar CVs |
+| **LinkedIn API**   | OAuth2             | Importar perfiles |
+
+Ejemplo de **autenticación con JWT**:
+```typescript
+import jwt from "jsonwebtoken";
+export function generarToken(usuarioId: string) {
+  return jwt.sign({ id: usuarioId }, "secreto", { expiresIn: "1h" });
+}
+```
+
+---
+
+### **5. Patrón de Comunicación**
+- **Frontend → Backend:** REST API con JSON.  
+- **Backend → Base de Datos:** Sequelize ORM.  
+- **Backend → AWS S3:** SDK oficial de AWS.  
+- **Backend → LinkedIn API:** OAuth2 + REST.  
+
+---
+
+## Diagrama C4 de la arquitectura
+
+Aquí figura un diagrama C4 para el sistema ATS (Applicant Tracking System) llamado **LTI**. Lo describiré en los cuatro niveles:
+
+---
+
+### **Nivel 1: Diagrama de Contexto**  
+Este nivel muestra la relación del sistema **LTI** con los usuarios y sistemas externos.
+
+- **Usuarios:**  
+  - **Reclutador:** Publica ofertas de empleo, gestiona candidatos.  
+  - **Candidato:** Aplica a ofertas de empleo y revisa su estado.  
+  - **Administrador:** Gestiona configuraciones del sistema.  
+- **Sistemas externos:**  
+  - **API de LinkedIn y Indeed:** Para importar candidatos.  
+  - **Servicio de Correos Electrónicos:** Para notificaciones.  
+
+---
+
+### **Nivel 2: Diagrama de Contenedores**  
+Define los principales contenedores del sistema **LTI**.
+
+- **Frontend (Angular/React)** → Interfaz de usuario.  
+- **Backend (Node.js + Express + DDD)** → Expone APIs REST.  
+- **Base de Datos (PostgreSQL o MongoDB)** → Almacena candidatos, ofertas, evaluaciones.  
+- **Servicio de Scraping** → Extrae datos de LinkedIn e Indeed.  
+- **Servicio de Notificaciones** → Envía emails a los candidatos.  
+
+---
+
+### **Nivel 3: Diagrama de Componentes**  
+Describe los componentes internos del backend.
+
+- **Módulo de Gestión de Ofertas**  
+- **Módulo de Gestión de Candidatos**  
+- **Módulo de Evaluaciones**  
+- **Módulo de Notificaciones**  
+- **Módulo de Integraciones**  
+
+---
+
+### **Nivel 4: Diagrama de Código**  
+(Se omite en esta etapa, ya que se detallaría a nivel de clases y funciones).  
+
+---
+
+![diagrama C4](https://plantuml.online/png/jLLDSzCm4BtdLwYvaCwKvCA9Mve6w13QqgJ3SCgivKsgLfRCIkuNmm_YmAa_8N-CbMm7cGGEp939mR5st-w-zrOvK4RgAiUAjBZsldIlHoE2--5Q-UiggnoIjCQZyKDfYz6baa2vFLDOeXvDNhsyq63yrOVPg03daVZLSXBY7_omh0hTE_WlyA0CKbsWzqASA5WJ521o5B8kRdkpyUVpgyLoF5_EtqyNatU3mzu5ahDcG2YfKens9FgNoDrvo2tr-TULgu2K5Lyg56jqNba3GeCJTo2v3tJYKMZh1F_8LGxUkluMjNs7Z3DfpmFekDGybTW18WIjda0uN5UgK4o1vI1NYPAiH6V3D0urIgaspuOBpH-PWc8mNimZQeGrNYm8vAqoQr6VXv9p5Pv0b42m7OG4QY6LrBRbYS135tmvVV03hSmjviemq2m-dfe0ob9uM5cgUIRCGwChT05RYyghC4tU55L5QSbppH9ffJIwRWbkJkcaKGQSM29aRgSyiITkIaccDyGWtId9gaHWOxrQyU3ymZ2DN4L4i2x-ZSsMcMKhXRv38zn1A895gT5sft62_O9a-25MAAiiC4jRhHYwTuawzKsjmTlM8erYRX-n8JFnHgjUuud43zSWCJL3aniJ4adECy_7AABzOi7KZDkCbk6fkTlys4kRZ8IdEHtMQXOw9EpPD8EyEkXwswLS7jlAv42F0_3khpuz55zxWZ_RrC4zPXpEIMyeOkVY4sPnXSowqX1Nz9GFQ0LFjLQqNTz8OOUABZQKYhEFkOM0Exuu3M1dDiVXJNJPzA5aPfZ_scoD5pH_Dy_hG0HRXulmzG1w1vnBGWOEOmM7WPsJs4Mqd_Dhmld7MPn45ompMsQFV4Uf6rfBxTHgbGpEgrS3qoLXnBEErd65IWh47rlh-wbl-KB0u8_cHeWBo0M_xVXzgynOIkHO4EpnkyttE06Jf5fLE73Ny_-GtQRKiZKcTfQjf3p_cpW1JM0CIFYV8J9xw2IfZFVTf65_eAv6XOIAxhQa4CaYiYIkqfpNNd7fVTZD-jjY_UfnRtk_xN4Zai3EBNdu4m00)
+
+
+
+
 

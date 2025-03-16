@@ -657,14 +657,28 @@ flowchart TB
 
 El Servicio de Evaluación de Candidatos es uno de los componentes más críticos y diferenciadores de TalentSphere, ya que implementa la inteligencia artificial para analizar y evaluar candidatos de manera objetiva y eficiente.
 
+### Explicación del Diagrama C4
+
+El Diagrama C4 es un enfoque para visualizar la arquitectura de software que consta de cuatro niveles de detalle, cada uno proporcionando una perspectiva diferente del sistema. Vamos a explicar cada nivel y cómo se aplica en nuestro diseño de TalentSphere:
+
 ### Nivel 1: Contexto del Sistema
+
+Este nivel muestra el sistema completo (TalentSphere) y cómo interactúa con usuarios y sistemas externos.
+
+**Lo que muestra:**
+
+- **Personas**: Reclutadores y candidatos que interactúan con el sistema.
+- **Sistema principal**: TalentSphere como una caja negra.
+- **Sistemas externos**: Job boards, redes sociales, sistemas HR y calendarios.
+- **Relaciones**: Cómo estos elementos se conectan entre sí.
+
+**Propósito**: Dar una visión general de alto nivel para entender el ecosistema completo donde opera TalentSphere.
 
 ```mermaid
 C4Context
     title Diagrama de Contexto del Sistema TalentSphere
     
     Person(reclutador, "Reclutador", "Profesional de RRHH que gestiona el proceso de contratación")
-    Person(manager, "Hiring Manager", "Responsable del departamento que solicita la contratación")
     Person(candidato, "Candidato", "Persona que aplica a una oferta de trabajo")
     
     System(talentSphere, "TalentSphere ATS", "Sistema de seguimiento de candidatos con IA integrada")
@@ -674,17 +688,27 @@ C4Context
     System_Ext(hrSystems, "Sistemas HR", "Sistemas internos de recursos humanos")
     System_Ext(calendarSystems, "Sistemas de Calendario", "Google Calendar, Outlook, etc.")
     
-    Rel(reclutador, talentSphere, "Gestiona procesos de selección")
-    Rel(manager, talentSphere, "Revisa candidatos y participa en decisiones")
-    Rel(candidato, talentSphere, "Aplica a ofertas y realiza pruebas")
+    Rel(reclutador, talentSphere, "")
+    Rel(candidato, talentSphere, "")
     
-    Rel(talentSphere, jobBoards, "Publica ofertas y recibe candidaturas")
-    Rel(talentSphere, socialNetworks, "Publica ofertas y analiza perfiles")
-    Rel(talentSphere, hrSystems, "Integra datos de empleados y solicita recursos")
-    Rel(talentSphere, calendarSystems, "Programa y gestiona entrevistas")
+    Rel(talentSphere, jobBoards, "")
+    Rel(talentSphere, socialNetworks, "")
+    Rel(talentSphere, hrSystems, "")
+    Rel(talentSphere, calendarSystems, "")
 ```
 
 ### Nivel 2: Contenedores
+
+Este nivel "abre" la caja negra del sistema TalentSphere y muestra sus principales componentes o "contenedores".
+
+**Lo que muestra:**
+
+- **Aplicaciones frontend**: Portal web, portal de candidatos, app móvil.
+- **API Gateway**: Punto de entrada para todas las comunicaciones.
+- **Microservicios**: Ofertas, candidatos, evaluación, entrevistas, notificaciones.
+- **Infraestructura de datos**: Bases de datos, caché, bus de eventos.
+
+**Propósito**: Mostrar la arquitectura de alto nivel del sistema, cómo se divide en componentes y cómo estos se comunican entre sí.
 
 ```mermaid
 C4Container
@@ -715,40 +739,50 @@ C4Container
     
     System_Ext(externalSystems, "Sistemas Externos", "Job Boards, RRSS, HR Systems")
     
-    Rel(reclutador, webApp, "Utiliza", "HTTPS")
-    Rel(reclutador, mobileApp, "Utiliza", "HTTPS")
-    Rel(candidato, candidatePortal, "Utiliza", "HTTPS")
+    Rel(reclutador, webApp, "", "")
+    Rel(reclutador, mobileApp, "", "")
+    Rel(candidato, candidatePortal, "", "")
     
-    Rel(webApp, apiGateway, "Realiza peticiones a", "HTTPS/JSON")
-    Rel(candidatePortal, apiGateway, "Realiza peticiones a", "HTTPS/JSON")
-    Rel(mobileApp, apiGateway, "Realiza peticiones a", "HTTPS/JSON")
+    Rel(webApp, apiGateway, "", "")
+    Rel(candidatePortal, apiGateway, "", "")
+    Rel(mobileApp, apiGateway, "", "")
     
-    Rel(apiGateway, ofertasService, "Enruta peticiones a", "HTTPS/JSON")
-    Rel(apiGateway, candidatosService, "Enruta peticiones a", "HTTPS/JSON")
-    Rel(apiGateway, evaluacionService, "Enruta peticiones a", "HTTPS/JSON")
-    Rel(apiGateway, entrevistasService, "Enruta peticiones a", "HTTPS/JSON")
+    Rel(apiGateway, ofertasService, "", "")
+    Rel(apiGateway, candidatosService, "", "")
+    Rel(apiGateway, evaluacionService, "", "")
+    Rel(apiGateway, entrevistasService, "", "")
     
-    Rel(ofertasService, eventBus, "Publica/Consume eventos", "TCP")
-    Rel(candidatosService, eventBus, "Publica/Consume eventos", "TCP")
-    Rel(evaluacionService, eventBus, "Publica/Consume eventos", "TCP")
-    Rel(entrevistasService, eventBus, "Publica/Consume eventos", "TCP")
-    Rel(notificacionesService, eventBus, "Consume eventos", "TCP")
+    Rel(ofertasService, eventBus, "", "")
+    Rel(candidatosService, eventBus, "", "")
+    Rel(evaluacionService, eventBus, "", "")
+    Rel(entrevistasService, eventBus, "", "")
+    Rel(notificacionesService, eventBus, "", "")
     
-    Rel(ofertasService, mainDB, "Lee/Escribe", "JDBC")
-    Rel(candidatosService, mainDB, "Lee/Escribe", "JDBC")
-    Rel(evaluacionService, mainDB, "Lee/Escribe", "JDBC")
-    Rel(entrevistasService, mainDB, "Lee/Escribe", "JDBC")
+    Rel(ofertasService, mainDB, "", "")
+    Rel(candidatosService, mainDB, "", "")
+    Rel(evaluacionService, mainDB, "", "")
+    Rel(entrevistasService, mainDB, "", "")
     
-    Rel(candidatosService, documentDB, "Lee/Escribe", "MongoDB Driver")
-    Rel(evaluacionService, documentDB, "Lee", "MongoDB Driver")
+    Rel(candidatosService, documentDB, "", "")
+    Rel(evaluacionService, documentDB, "", "")
     
-    Rel(apiGateway, cacheDB, "Lee/Escribe", "Redis Client")
+    Rel(apiGateway, cacheDB, "", "")
     
-    Rel(ofertasService, externalSystems, "Publica ofertas", "API/HTTPS")
-    Rel(candidatosService, externalSystems, "Importa perfiles", "API/HTTPS")
+    Rel(ofertasService, externalSystems, "", "")
+    Rel(candidatosService, externalSystems, "", "")
 ```
 
 ### Nivel 3: Componentes del Servicio de Evaluación
+
+Este nivel profundiza en un contenedor específico (en nuestro caso, el Servicio de Evaluación de Candidatos) para mostrar sus componentes internos.
+
+**Lo que muestra:**
+
+- **Componentes internos**: API Controller, Evaluation Manager, CV Parser, etc.
+- **Relaciones internas**: Cómo estos componentes trabajan juntos.
+- **Conexiones externas**: Cómo este servicio se conecta con otros servicios y bases de datos.
+
+**Propósito**: Entender la estructura interna de un servicio específico y cómo implementa su funcionalidad.
 
 ```mermaid
 C4Component
@@ -775,28 +809,38 @@ C4Component
     ContainerDb(documentDB, "Base de Datos Documentos", "MongoDB", "CVs y documentos")
     Container(eventBus, "Event Bus", "Kafka", "Comunicación asíncrona")
     
-    Rel(apiController, evaluacionManager, "Utiliza")
-    Rel(evaluacionManager, cvParser, "Utiliza para extraer datos de CV")
-    Rel(evaluacionManager, skillMatcher, "Utiliza para evaluar skills técnicos")
-    Rel(evaluacionManager, softSkillAnalyzer, "Utiliza para evaluar soft skills")
-    Rel(evaluacionManager, fitPredictor, "Utiliza para predecir ajuste")
-    Rel(evaluacionManager, testEvaluator, "Utiliza para evaluar pruebas")
-    Rel(evaluacionManager, interviewAssistant, "Utiliza para generar preguntas")
+    Rel(apiController, evaluacionManager, "")
+    Rel(evaluacionManager, cvParser, "")
+    Rel(evaluacionManager, skillMatcher, "")
+    Rel(evaluacionManager, softSkillAnalyzer, "")
+    Rel(evaluacionManager, fitPredictor, "")
+    Rel(evaluacionManager, testEvaluator, "")
+    Rel(evaluacionManager, interviewAssistant, "")
     
-    Rel(evaluacionManager, dataAccess, "Utiliza para persistencia")
-    Rel(eventHandler, evaluacionManager, "Notifica eventos")
+    Rel(evaluacionManager, dataAccess, "")
+    Rel(eventHandler, evaluacionManager, "")
     
-    Rel(apiController, candidatosService, "Solicita datos de candidatos", "HTTPS/JSON")
-    Rel(apiController, ofertasService, "Solicita datos de ofertas", "HTTPS/JSON")
+    Rel(apiController, candidatosService, "", "")
+    Rel(apiController, ofertasService, "", "")
     
-    Rel(eventHandler, eventBus, "Publica/Consume eventos", "Kafka Protocol")
-    Rel(dataAccess, mainDB, "Lee/Escribe datos", "JDBC")
-    Rel(cvParser, documentDB, "Lee documentos", "MongoDB Driver")
+    Rel(eventHandler, eventBus, "", "")
+    Rel(dataAccess, mainDB, "", "")
+    Rel(cvParser, documentDB, "", "")
     
-    Rel(evaluacionManager, entrevistasService, "Envía recomendaciones", "HTTPS/JSON")
+    Rel(evaluacionManager, entrevistasService, "", "")
 ```
 
 ### Nivel 4: Código del Componente CV Parser
+
+Este nivel muestra la estructura interna de un componente específico (en nuestro caso, el CV Parser) a nivel de clases y código.
+
+**Lo que muestra:**
+
+- **Clases principales**: CVParserService, DocumentExtractor, EntityRecognizer, etc.
+- **Relaciones entre clases**: Cómo estas clases colaboran.
+- **Dependencias externas**: Bibliotecas y servicios que utiliza.
+
+**Propósito**: Proporcionar detalles de implementación para desarrolladores que trabajarán en este componente.
 
 ```mermaid
 classDiagram

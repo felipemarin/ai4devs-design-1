@@ -1227,3 +1227,394 @@ stateDiagram-v2
 - Tasa de coincidencia superior al 85% entre candidatos destacados automáticamente y seleccionados por reclutadores
 - Aumento del 40% en la calidad de las entrevistas (candidatos mejor preseleccionados)
 - Satisfacción de los reclutadores con las recomendaciones > 4/5
+
+
+
+# Modelo de Datos - Sistema ATS LTI
+
+A continuación se presenta el modelo de datos diseñado para soportar los tres casos de uso principales del sistema LTI:
+1. Portal de Candidatos (Inscripción y Gestión de Candidatos)
+2. Pipeline de Reclutamiento (Gestión de Pipeline + Comunicación)
+3. Filtrado Básico (elementos iniciales de la Clasificación Cognitiva)
+
+## Diagrama Entidad-Relación
+
+```mermaid
+erDiagram
+    USUARIO {
+        int id PK
+        string nombre
+        string apellidos
+        string email
+        string password_hash
+        string telefono
+        date fecha_registro
+        string tipo_usuario
+        boolean activo
+        datetime ultimo_acceso
+    }
+    
+    CANDIDATO {
+        int id PK
+        int usuario_id FK
+        string documento_identidad
+        date fecha_nacimiento
+        string direccion
+        string ciudad
+        string pais
+        string codigo_postal
+        string linkedin_url
+        string portfolio_url
+        string fotografia_url
+        text resumen_profesional
+        date ultima_actualizacion
+    }
+    
+    RECLUTADOR {
+        int id PK
+        int usuario_id FK
+        string cargo
+        string departamento
+        string extension_telefonica
+        int nivel_acceso
+        string especializacion
+    }
+    
+    EMPRESA {
+        int id PK
+        string nombre
+        string razon_social
+        string nif
+        string direccion
+        string ciudad
+        string pais
+        string telefono
+        string email_contacto
+        string sitio_web
+        string logo_url
+        text descripcion
+        date fecha_registro
+    }
+    
+    VACANTE {
+        int id PK
+        int empresa_id FK
+        string titulo
+        text descripcion
+        string nivel_experiencia
+        string tipo_contrato
+        string modalidad
+        string ubicacion
+        decimal salario_min
+        decimal salario_max
+        string moneda
+        boolean mostrar_salario
+        date fecha_publicacion
+        date fecha_cierre
+        int num_posiciones
+        string estado
+        int reclutador_principal_id FK
+        string departamento
+        boolean requiere_viaje
+        text requisitos_obligatorios
+        text requisitos_deseables
+        int vacante_padre_id FK
+    }
+    
+    PALABRA_CLAVE {
+        int id PK
+        string texto
+        string categoria
+        float peso
+    }
+    
+    VACANTE_PALABRA_CLAVE {
+        int id PK
+        int vacante_id FK
+        int palabra_clave_id FK
+        boolean es_obligatoria
+    }
+    
+    CURRICULUM {
+        int id PK
+        int candidato_id FK
+        string ruta_archivo
+        string formato
+        datetime fecha_subida
+        boolean es_actual
+        string idioma
+    }
+    
+    EXPERIENCIA_LABORAL {
+        int id PK
+        int candidato_id FK
+        string empresa
+        string cargo
+        string ubicacion
+        date fecha_inicio
+        date fecha_fin
+        boolean actual
+        text descripcion
+        string sector
+    }
+    
+    FORMACION {
+        int id PK
+        int candidato_id FK
+        string institucion
+        string titulo
+        string nivel
+        string campo_estudio
+        date fecha_inicio
+        date fecha_fin
+        boolean completado
+        float calificacion
+    }
+    
+    HABILIDAD {
+        int id PK
+        string nombre
+        string categoria
+        int nivel_maximo
+    }
+    
+    CANDIDATO_HABILIDAD {
+        int id PK
+        int candidato_id FK
+        int habilidad_id FK
+        int nivel
+        string certificacion
+    }
+    
+    IDIOMA {
+        int id PK
+        string nombre
+        string codigo
+    }
+    
+    CANDIDATO_IDIOMA {
+        int id PK
+        int candidato_id FK
+        int idioma_id FK
+        string nivel_habla
+        string nivel_escribe
+        string nivel_lee
+        string certificacion
+    }
+    
+    CANDIDATURA {
+        int id PK
+        int candidato_id FK
+        int vacante_id FK
+        int curriculum_id FK
+        datetime fecha_inscripcion
+        datetime ultima_actualizacion
+        string estado_actual
+        string fuente
+        string origen_aplicacion
+        boolean destacada
+        float puntuacion
+        boolean apto_entrevista
+    }
+    
+    PIPELINE {
+        int id PK
+        int vacante_id FK
+        string nombre
+        text descripcion
+        boolean activo
+        datetime fecha_creacion
+        int creado_por FK
+    }
+    
+    ETAPA_PIPELINE {
+        int id PK
+        int pipeline_id FK
+        string nombre
+        text descripcion
+        int posicion
+        boolean requiere_entrevista
+        boolean requiere_feedback
+        int modelo_email_id FK
+        string color
+    }
+    
+    CANDIDATURA_ETAPA {
+        int id PK
+        int candidatura_id FK
+        int etapa_id FK
+        datetime fecha_entrada
+        datetime fecha_salida
+        int movido_por_id FK
+        string resultado
+        text observaciones
+    }
+    
+    ENTREVISTA {
+        int id PK
+        int candidatura_id FK
+        int etapa_id FK
+        int entrevistador_id FK
+        datetime fecha_programada
+        int duracion_minutos
+        string formato
+        string ubicacion
+        string estado
+        string enlace_acceso
+        datetime fecha_confirmacion
+        boolean asistencia
+    }
+    
+    FEEDBACK_ENTREVISTA {
+        int id PK
+        int entrevista_id FK
+        int reclutador_id FK
+        datetime fecha_registro
+        int puntuacion_general
+        text fortalezas
+        text debilidades
+        text comentarios
+        boolean recomienda_avance
+    }
+    
+    INTERACCION {
+        int id PK
+        int candidatura_id FK
+        int usuario_id FK
+        string tipo
+        datetime fecha
+        text contenido
+        string canal
+    }
+    
+    MODELO_EMAIL {
+        int id PK
+        string nombre
+        string asunto
+        text cuerpo
+        string tipo
+        int etapa_id FK
+        boolean activo
+    }
+    
+    NOTIFICACION {
+        int id PK
+        int usuario_id FK
+        string tipo
+        text contenido
+        datetime fecha_creacion
+        datetime fecha_lectura
+        boolean leida
+        string accion_url
+    }
+    
+    FILTRO_CANDIDATOS {
+        int id PK
+        string nombre
+        text descripcion
+        int vacante_id FK
+        boolean es_publico
+        int creado_por FK
+        datetime fecha_creacion
+    }
+    
+    CRITERIO_FILTRO {
+        int id PK
+        int filtro_id FK
+        string campo
+        string operador
+        string valor
+        float peso
+        boolean es_obligatorio
+    }
+    
+    USUARIO ||--o{ CANDIDATO : "tiene perfil de"
+    USUARIO ||--o{ RECLUTADOR : "tiene perfil de"
+    EMPRESA ||--o{ VACANTE : "publica"
+    VACANTE ||--o{ VACANTE_PALABRA_CLAVE : "contiene"
+    PALABRA_CLAVE ||--o{ VACANTE_PALABRA_CLAVE : "asociada a"
+    CANDIDATO ||--o{ CURRICULUM : "tiene"
+    CANDIDATO ||--o{ EXPERIENCIA_LABORAL : "registra"
+    CANDIDATO ||--o{ FORMACION : "posee"
+    CANDIDATO ||--o{ CANDIDATO_HABILIDAD : "tiene"
+    HABILIDAD ||--o{ CANDIDATO_HABILIDAD : "asignada a"
+    CANDIDATO ||--o{ CANDIDATO_IDIOMA : "habla"
+    IDIOMA ||--o{ CANDIDATO_IDIOMA : "hablado por"
+    CANDIDATO ||--o{ CANDIDATURA : "realiza"
+    VACANTE ||--o{ CANDIDATURA : "recibe"
+    CURRICULUM ||--|| CANDIDATURA : "asociado a"
+    VACANTE ||--|| PIPELINE : "tiene"
+    PIPELINE ||--o{ ETAPA_PIPELINE : "contiene"
+    CANDIDATURA ||--o{ CANDIDATURA_ETAPA : "pasa por"
+    ETAPA_PIPELINE ||--o{ CANDIDATURA_ETAPA : "incluye"
+    RECLUTADOR ||--o{ CANDIDATURA_ETAPA : "mueve"
+    CANDIDATURA ||--o{ ENTREVISTA : "programa"
+    ETAPA_PIPELINE ||--o{ ENTREVISTA : "requiere"
+    RECLUTADOR ||--o{ ENTREVISTA : "conduce"
+    ENTREVISTA ||--o{ FEEDBACK_ENTREVISTA : "recibe"
+    RECLUTADOR ||--o{ FEEDBACK_ENTREVISTA : "proporciona"
+    CANDIDATURA ||--o{ INTERACCION : "registra"
+    USUARIO ||--o{ INTERACCION : "realiza"
+    ETAPA_PIPELINE ||--o{ MODELO_EMAIL : "utiliza"
+    USUARIO ||--o{ NOTIFICACION : "recibe"
+    VACANTE ||--o{ FILTRO_CANDIDATOS : "utiliza"
+    RECLUTADOR ||--o{ FILTRO_CANDIDATOS : "crea"
+    FILTRO_CANDIDATOS ||--o{ CRITERIO_FILTRO : "contiene"
+    VACANTE ||--o{ VACANTE : "es subvacante de"
+```
+
+## Descripción de Entidades Principales
+
+### Gestión de Usuarios y Perfiles
+
+- **USUARIO**: Entidad base para todos los usuarios del sistema (candidatos, reclutadores, administradores)
+- **CANDIDATO**: Perfil específico para postulantes a vacantes
+- **RECLUTADOR**: Perfil para profesionales de RRHH que gestionan procesos de selección
+- **EMPRESA**: Organizaciones que publican vacantes
+
+### Portal de Candidatos
+
+- **CURRICULUM**: Documentos CV subidos por los candidatos
+- **EXPERIENCIA_LABORAL**: Historial profesional de los candidatos
+- **FORMACION**: Estudios y títulos académicos
+- **HABILIDAD** y **CANDIDATO_HABILIDAD**: Competencias técnicas y blandas
+- **IDIOMA** y **CANDIDATO_IDIOMA**: Habilidades lingüísticas
+- **CANDIDATURA**: Postulaciones a vacantes específicas
+
+### Pipeline de Reclutamiento
+
+- **VACANTE**: Posiciones laborales abiertas
+- **PIPELINE**: Flujo de trabajo para cada proceso de selección
+- **ETAPA_PIPELINE**: Fases del proceso (p.ej., screening, entrevista técnica, etc.)
+- **CANDIDATURA_ETAPA**: Seguimiento del progreso de candidatos en el pipeline
+- **ENTREVISTA**: Programación de reuniones con candidatos
+- **FEEDBACK_ENTREVISTA**: Evaluaciones post-entrevista
+- **INTERACCION**: Comunicaciones con candidatos
+- **MODELO_EMAIL**: Plantillas para comunicaciones automatizadas
+- **NOTIFICACION**: Alertas para usuarios del sistema
+
+### Filtrado Básico
+
+- **PALABRA_CLAVE**: Términos relevantes para búsqueda y clasificación
+- **VACANTE_PALABRA_CLAVE**: Asociación de términos clave a vacantes
+- **FILTRO_CANDIDATOS**: Configuraciones de búsqueda y filtrado
+- **CRITERIO_FILTRO**: Parámetros específicos para cada filtro
+
+## Consideraciones Técnicas
+
+1. **Escalabilidad**: El modelo está diseñado para soportar grandes volúmenes de candidaturas
+2. **Flexibilidad**: Permite configuración personalizada de pipelines y criterios de filtrado
+3. **Trazabilidad**: Mantiene histórico completo de interacciones y movimientos en el proceso
+4. **Seguridad**: Segregación de perfiles y niveles de acceso
+5. **Cumplimiento normativo**: Estructura compatible con regulaciones de protección de datos (LGPD/GDPR)
+
+## Soporte a Casos de Uso
+
+### Caso de Uso 1: Portal de Candidatos
+Soportado principalmente por las entidades USUARIO, CANDIDATO, CURRICULUM, más todas las entidades relacionadas con el perfil profesional y la CANDIDATURA.
+
+### Caso de Uso 2: Pipeline de Reclutamiento
+Implementado a través de PIPELINE, ETAPA_PIPELINE, CANDIDATURA_ETAPA, ENTREVISTA, INTERACCION y entidades relacionadas.
+
+### Caso de Uso 3: Filtrado Básico
+Construido sobre las entidades FILTRO_CANDIDATOS, CRITERIO_FILTRO, PALABRA_CLAVE y sus relaciones con VACANTE y CANDIDATURA.

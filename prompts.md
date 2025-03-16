@@ -76,3 +76,6 @@ Tu función como ingeniero de producto es definir esas funcionalidades clave que
 - Desarrollar un plan de **marketing técnico** que resalte las ventajas tecnológicas de **LTI**, como la escalabilidad, seguridad y personalización.
 
 ---
+
+## Generación de diagramas en PlantUML
+En el markdown se incluyen diagramas ASCII pero además también quiero añadir diagramas **PlantUML**. Serias tan amable de hacerlo?

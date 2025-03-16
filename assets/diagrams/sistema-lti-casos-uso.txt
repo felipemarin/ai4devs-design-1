@@ -1,0 +1,60 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam actorStyle awesome
+skinparam usecaseBorderColor #1E90FF
+skinparam usecaseBackgroundColor #E6F3FF
+
+title "Casos de Uso del Sistema LTI"
+
+actor Reclutador as recruiter
+actor Manager as manager
+actor Candidato as candidate
+actor "Sistema LTI" as system
+
+rectangle "LTI - Sistema de Gestión del Talento" {
+  usecase "Revisión Automática de CVs" as UC1
+  usecase "Calificación Automática de Candidatos" as UC1_1
+  usecase "Filtrado por Competencias" as UC1_2
+  
+  usecase "Comunicación en Tiempo Real" as UC2
+  usecase "Comentarios en Perfiles" as UC2_1
+  usecase "Chat Interno" as UC2_2
+  usecase "Notificaciones" as UC2_3
+  
+  usecase "Predicción de Retención de Candidatos" as UC3
+  usecase "Análisis de Históricos" as UC3_1
+  usecase "Recomendaciones de Acción" as UC3_2
+  
+  usecase "Gestión de Vacantes" as UC4
+  usecase "Programación de Entrevistas" as UC5
+  usecase "Dashboard Analítico" as UC6
+  usecase "Integración con Sistemas Externos" as UC7
+}
+
+recruiter --> UC1
+recruiter --> UC2
+recruiter --> UC4
+recruiter --> UC5
+
+manager --> UC2
+manager --> UC3
+manager --> UC4
+manager --> UC6
+
+candidate --> UC5
+
+system --> UC1
+system --> UC3
+system --> UC7
+
+UC1 ..> UC1_1 : includes
+UC1 ..> UC1_2 : includes
+
+UC2 ..> UC2_1 : includes
+UC2 ..> UC2_2 : includes
+UC2 ..> UC2_3 : includes
+
+UC3 ..> UC3_1 : includes
+UC3 ..> UC3_2 : includes
+
+@enduml

@@ -48,6 +48,7 @@ graph TD
 **Descripción**: Un reclutador necesita crear una nueva oferta de trabajo para un puesto de desarrollador senior y publicarla en múltiples canales.
 
 **Flujo Principal**:
+
 1. El reclutador inicia la creación de una nueva oferta
 2. El sistema proporciona una plantilla inteligente basada en ofertas similares exitosas
 3. La IA sugiere mejoras en la redacción para maximizar la atracción de candidatos
@@ -89,6 +90,7 @@ sequenceDiagram
 **Descripción**: El sistema recibe múltiples aplicaciones para una oferta y debe evaluarlas automáticamente, clasificarlas y presentar un análisis al reclutador.
 
 **Flujo Principal**:
+
 1. El candidato envía su aplicación (CV, carta, perfil)
 2. El sistema extrae y estructura la información relevante
 3. La IA analiza la idoneidad del candidato basándose en requisitos técnicos y soft skills
@@ -141,6 +143,7 @@ stateDiagram-v2
 **Descripción**: Un reclutador necesita programar entrevistas con múltiples candidatos, involucrando a diferentes miembros del equipo y gestionando todo el proceso.
 
 **Flujo Principal**:
+
 1. El reclutador selecciona candidatos para entrevista
 2. El sistema sugiere entrevistadores basándose en el perfil y disponibilidad
 3. El sistema propone slots de tiempo óptimos

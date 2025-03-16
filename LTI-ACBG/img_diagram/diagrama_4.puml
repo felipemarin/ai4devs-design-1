@@ -1,0 +1,22 @@
+@startuml
+title Caso de Uso: Programación de Entrevistas y Seguimiento
+
+actor "Usuario Logueado (Reclutador)" as Recruiter
+
+usecase "Programar Entrevista" as UC_Entrevista
+usecase "Seguimiento de Proceso" as UC_Seguimiento
+
+Recruiter --> UC_Entrevista
+Recruiter --> UC_Seguimiento
+
+note right of UC_Entrevista
+  Integra Calendarios y
+  Videoconferencias
+end note
+
+note right of UC_Seguimiento
+  Registro de evaluaciones
+  y estado del candidato
+end note
+
+@enduml

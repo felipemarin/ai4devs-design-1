@@ -1,0 +1,23 @@
+@startuml
+title Caso de Uso: Recepción y Filtrado de Candidaturas
+
+actor "Visitante" as Visitor
+actor "Usuario Logueado" as LoggedUser
+
+usecase "Aplicar a Vacantes" as UC_Aplicar
+usecase "Filtrar Candidaturas" as UC_Filtrar
+
+Visitor --> UC_Aplicar
+LoggedUser --> UC_Aplicar
+LoggedUser --> UC_Filtrar
+
+note right of UC_Aplicar
+  Disponible para todos
+end note
+
+note right of UC_Filtrar
+  Requiere autenticación
+  Rol: Reclutador
+end note
+
+@enduml

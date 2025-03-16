@@ -1,0 +1,33 @@
+@startuml
+!define RECTANGLE class
+
+' Definición de componentes
+RECTANGLE FrontEnd {
+  [Aplicación Web/Móvil]
+}
+RECTANGLE APIGateway {
+  [API Gateway]
+}
+RECTANGLE Vacantes {
+  [Servicio de Gestión de Vacantes]
+}
+RECTANGLE Candidaturas {
+  [Servicio de Gestión de Candidaturas]
+}
+RECTANGLE Entrevistas {
+  [Servicio de Programación de Entrevistas]
+}
+RECTANGLE Database {
+  [Base de Datos Relacional]
+}
+
+' Conexiones
+FrontEnd --> APIGateway
+APIGateway --> Vacantes
+APIGateway --> Candidaturas
+APIGateway --> Entrevistas
+Vacantes --> Database
+Candidaturas --> Database
+Entrevistas --> Database
+
+@enduml

@@ -1,9 +1,9 @@
-# Prompt_1 ChatGpt
+# Prompt_1 ChatGpt 4.0
 Hola como estas?
 
 Me recuerdas por favor que significa "es el momento de hacer brainstorming" en el contexto de ser un  product manager
 
-# Prompt_2 ChatGpt
+# Prompt_2 ChatGpt 4.0
 * si, debo organizar uno ahorita mismo y lo necesito para entregar mañana. ya en un momento te comparto todo el contexto para que me ayudes y lo iniciemos. 
 
 * Todavía no hay nada creado, así que toca ponerse el gorro de product manager y definir esas funcionalidades clave que harán brillar a LTI por encima de los competidores: aumentar la eficiencia para los departamentos de HR, mejorar la colaboración en tiempo real entre reclutadores y managers, automatizaciones, asistencia de IA en diversas tareas... es el momento de hacer brainstorming, investigar cuáles pueden ser las claves del éxito, y dejarlo plasmado para el resto del equipo.
@@ -89,7 +89,7 @@ Me recuerdas por favor que significa "es el momento de hacer brainstorming" en e
 	
 * Hasta el momento tienes alguna duda?, o puedo continuar con las especificaciones de nuestra nueva misión?
 
-# Prompt_3 ChatGpt
+# Prompt_3 ChatGpt 4.0
 Bueno, tu eres un experto en producto, con experiencia en [Diseños de sistemas de gestión de candidatos].Pero:
 
 * Las aplicaciones (web/móvil/APIs) no dejan de ser interfaces de manipulación de datos. La base de datos es, por tanto, una de las áreas clave del software. Entender las entidades que van a jugar un papel relevante, cómo se relacionan y qué información debemos almacenar de cada una es un paso fundamental en la definición del sistema. Por supuesto, también lo es documentarlo y mantenerlo siempre actualizado y garantizar la seguridad de la información personal de los usuarios.Por eso analiza:
@@ -109,7 +109,7 @@ Bueno, tu eres un experto en producto, con experiencia en [Diseños de sistemas 
 
 
 
-# Prompt_4 ChatGpt
+# Prompt_4 ChatGpt 4.0
 
 # Además de ser un experto en producto tambien eres un reconocido analista de software experto. Estoy construyendo un [sistemas de gestión de candidatos]. Enumera y describe brevemente los 3 casos de uso más importantes a implementar para lograr una funcionalidad básica.
 
@@ -127,7 +127,7 @@ Bueno, tu eres un experto en producto, con experiencia en [Diseños de sistemas 
 3. Si tienes dudas por favor pregúntame.
 
 
-# Prompt_5 ChatGpt
+# Prompt_5 ChatGpt 4.0
 
 Con respecto a este analisis, tenemos como cumplir con la misión?, la misión es diseñar la primera versión del sistema, entregando los siguientes artefactos:
 
@@ -138,7 +138,7 @@ Con respecto a este analisis, tenemos como cumplir con la misión?, la misión e
 	* Diagrama C4 que llegue en profundidad a uno de los componentes del sistema, el que prefieras
 
 
-# Prompt_6 ChatGpt
+# Prompt_6 ChatGpt 4.0
 Por favor tener en cuenta esto último:
 
 1. "Documenta todo en un único documento markdown (.md) con el nombre LTI-iniciales, mis iniciales son [ACBG]".
@@ -147,26 +147,26 @@ Por favor tener en cuenta esto último:
 
 Muchas  Gracias por tu ayuda!
 
-# Prompt_7 ChatGpt
+# Prompt_7 ChatGpt 4.0
 Como genero esto "*Si deseas un diagrama visual, puedes utilizar herramientas como Mermaid o PlantUML para generarlo.*"
 
-# Prompt_8 ChatGpt
+# Prompt_8 ChatGpt 4.0
 Quieres revisar si hay algo que quieras que corrijamos o agreguemos antes de hacer la entrega?, Que pena yo tan insistente, pero tu eres el experto en producto y analista de software.
 
 Indícame si ves algo.
 
-# Prompt_9 ChatGpt
+# Prompt_9 ChatGpt 4.0
 si, por favor agreguemos las sugerencias que me indicas.
 Ayúdame con las redacciones y me vas pasando línea por línea, indicándome donde agregarlas sin romper el trabajo que ya hemos hecho.
 
 
-# Prompt_10 ChatGpt
+# Prompt_10 ChatGpt 4.0
 Si, ayúdame haciendo esa ultima revisión con las consideraciones finales que me dices por favor, pasa saber si hay que agregar o modificar algo, antes de entregar
 
-# Prompt_11 ChatGpt
+# Prompt_11 ChatGpt 4.0
 Perfecto, muchas gracias por tu ayuda.
 
-# Prompt_12 ChatGpt
+# Prompt_12 ChatGpt 4.0
 Necesitamos hacer una pausa en el camino y revisar algunos aspectos:
 
 * Recuerdas esto que me explicaste? "El comentario de tu compañero, "Buen nivel, no olvides revisar la salida por muy bonita que sea, copiar pegar no nos vale", se refiere a que, aunque el diagrama (y la documentación) se vea visualmente bien, es crucial que cada artefacto se verifique y se ajuste a la realidad del negocio y las necesidades técnicas. No se trata simplemente de generar diagramas de forma mecánica o copiar y pegar ejemplos; debe haber un análisis profundo y una validación de que estos diagramas reflejen fielmente el proceso y la arquitectura del sistema.
@@ -208,13 +208,13 @@ Requiero que tengas en cuenta eso que me dices para que hagamos las siguientes m
 7- "Documenta todo en un único documento markdown (.md) con el nombre LTI-iniciales, mis iniciales son [ACBG]".
 
 
-# Prompt_13 CURSOR/ Edit-cursor-small
+# Prompt_13 CURSOR_free/ Edit-cursor-small
 
 Ayudame por favor a que este  docuemento genere la visualización de los diagramas y que exporte las imagenes de los diagramas en formato ".png" en el lugar en que se ejecute la previsualización.
 
 Siempre que se ejecute la previsualización se genere una nueva imagen con la versión.
 
-# Prompt_14 CURSOR/ Edit-cursor-small
+# Prompt_14 CURSOR_free/ Edit-cursor-small
 Tu que ademas de ser un experto en desarrollo y programación, tambien eres muy habil solucionando conflictos de compatibilidades y depurando códigos.
 
 No soy capaz ni de visualizar los diagramas que desarrolle en este markdown "LTI-ACBG.md", antes desde VSCode si lo hacia, ya no se porque acá No soy capaz.
@@ -226,3 +226,7 @@ No soy capaz ni de visualizar los diagramas que desarrolle en este markdown "LTI
 * Si hay que instalar dependencias por favor realizarlas tu mismo, Yo no he sido capaz.
 
 * Si necesitas de mi ayuda, indicame el paso a paso sin omitir detalle, recuerda que yo soy aprendiz
+
+# Features Cursor_free:
+- Version: 0.47.5 (user setup)
+- VSCode Version: 1.96.2

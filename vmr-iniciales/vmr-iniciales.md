@@ -1120,4 +1120,110 @@ sequenceDiagram
     end
     
     Reclutador->>InterfazFiltrado: Solicita aplicar filtros
-    InterfazFiltrado->>SistemaFilt
+    InterfazFiltrado->>SistemaFiltrado: Envía criterios configurados
+    SistemaFiltrado->>BaseDatos: Consulta candidaturas para vacante
+    BaseDatos-->>SistemaFiltrado: Retorna lista de candidaturas
+    
+    SistemaFiltrado->>MotorBusqueda: Solicita procesamiento con criterios
+    MotorBusqueda->>MotorBusqueda: Analiza candidaturas
+    MotorBusqueda->>MotorBusqueda: Calcula puntuaciones
+    MotorBusqueda->>MotorBusqueda: Detecta sobrecalificados
+    MotorBusqueda-->>SistemaFiltrado: Retorna resultados procesados
+    
+    SistemaFiltrado->>SistemaFiltrado: Ordena por relevancia
+    SistemaFiltrado-->>InterfazFiltrado: Entrega resultados ordenados
+    InterfazFiltrado-->>Reclutador: Muestra candidatos filtrados
+    
+    opt Refinamiento
+        Reclutador->>InterfazFiltrado: Aplica filtros adicionales
+        InterfazFiltrado->>SistemaFiltrado: Refina resultados
+        SistemaFiltrado-->>InterfazFiltrado: Actualiza resultados
+        InterfazFiltrado-->>Reclutador: Muestra resultados refinados
+    end
+    
+    Reclutador->>InterfazFiltrado: Marca candidatos de interés
+    InterfazFiltrado->>SistemaFiltrado: Registra candidatos seleccionados
+    SistemaFiltrado->>BaseDatos: Almacena selección
+    
+    opt Guardar configuración
+        Reclutador->>InterfazFiltrado: Solicita guardar configuración
+        InterfazFiltrado->>SistemaFiltrado: Envía configuración para guardar
+        SistemaFiltrado->>BaseDatos: Almacena configuración de filtro
+        BaseDatos-->>SistemaFiltrado: Confirma almacenamiento
+        SistemaFiltrado-->>InterfazFiltrado: Notifica guardado exitoso
+        InterfazFiltrado-->>Reclutador: Confirma configuración guardada
+    end
+    
+    Reclutador->>InterfazFiltrado: Exporta selección a Pipeline
+    InterfazFiltrado->>SistemaFiltrado: Solicita exportación
+    SistemaFiltrado->>BaseDatos: Actualiza estado de candidaturas
+    BaseDatos-->>SistemaFiltrado: Confirma actualización
+    SistemaFiltrado-->>InterfazFiltrado: Confirma exportación
+    InterfazFiltrado-->>Reclutador: Notifica proceso completado
+```
+
+## Diagrama de Estados de la Candidatura
+
+```mermaid
+stateDiagram-v2
+    [*] --> Registrada: Candidato se inscribe
+    
+    Registrada --> EnProcesamiento: Incluida en proceso de filtrado
+    EnProcesamiento --> NoCumpleRequisitos: Falla criterios obligatorios
+    EnProcesamiento --> BajaRelevancia: Puntuación < umbral mínimo
+    EnProcesamiento --> RelevanciaMedia: Puntuación entre umbrales
+    EnProcesamiento --> AltaRelevancia: Puntuación > umbral superior
+    EnProcesamiento --> Sobrecalificada: Excede significativamente requisitos
+    
+    NoCumpleRequisitos --> DescartadaAutomatica: Sin revisión manual
+    BajaRelevancia --> DescartadaAutomatica: Sin revisión manual
+    
+    NoCumpleRequisitos --> EnRevisionManual: Reclutador decide revisar
+    BajaRelevancia --> EnRevisionManual: Reclutador decide revisar
+    RelevanciaMedia --> EnRevisionManual: Requiere validación
+    AltaRelevancia --> EnRevisionManual: Confirmación de ajuste
+    Sobrecalificada --> EnRevisionManual: Evaluación para otra posición
+    
+    EnRevisionManual --> CandidatoInteres: Reclutador marca interés
+    EnRevisionManual --> DescartadaManual: Reclutador descarta
+    EnRevisionManual --> ReservadaOtraVacante: Redirigida a otra vacante
+    
+    CandidatoInteres --> SeleccionadaEntrevista: Aprobada para pipeline
+    CandidatoInteres --> EnEspera: Pendiente de decisión final
+    
+    EnEspera --> SeleccionadaEntrevista: Decisión positiva
+    EnEspera --> DescartadaManual: Decisión negativa
+    
+    SeleccionadaEntrevista --> [*]: Transferida al Pipeline
+    DescartadaAutomatica --> ArchivoTalentos: Almacenada para futuro
+    DescartadaManual --> ArchivoTalentos: Almacenada para futuro
+    ReservadaOtraVacante --> Registrada: Reinicio en nueva vacante
+    
+    ArchivoTalentos --> [*]
+```
+
+## Post-Condiciones
+
+- Candidaturas clasificadas y ordenadas por relevancia
+- Candidatos de interés marcados para revisión detallada
+- Configuración de filtros guardada para futuras búsquedas
+- Datos preparados para uso en el Pipeline de Reclutamiento
+
+## Requisitos Especiales
+
+- Procesamiento de filtros en menos de 5 segundos para hasta 1000 candidaturas
+- Capacidad de reconocer variaciones terminológicas y sinónimos
+- Interfaz intuitiva para configuración de criterios complejos
+- Explicabilidad de los resultados (mostrar por qué un candidato recibió determinada puntuación)
+
+## Frecuencia de Uso
+
+- Alta, especialmente durante la fase inicial de procesos de selección
+- Utilización recurrente para refinar resultados y descubrir candidatos adecuados
+
+## Métricas de Éxito
+
+- Reducción del 70% en tiempo dedicado a la revisión inicial de candidaturas
+- Tasa de coincidencia superior al 85% entre candidatos destacados automáticamente y seleccionados por reclutadores
+- Aumento del 40% en la calidad de las entrevistas (candidatos mejor preseleccionados)
+- Satisfacción de los reclutadores con las recomendaciones > 4/5

@@ -55,9 +55,10 @@ What do you mean you're currently using GPT-4? It says right here it's using GPT
 ## Prompt 11
 OK, then generate a self-contained HTML file that looks as close as possible to this image.
 
-_At this point, I gave up on GPT-4.5 and started using Claude for this task. It produced the HTML file I wanted._
+_At this point, I gave up on GPT-4.5 and switched to Claude for this task. It produced the HTML file I wanted._
 
 ## Prompt 12
+_Back in ChatGPT:_
 I've created a lean canvas as html (referenced). Can you read it and list the 12 headings here?
 
 ## Prompt 13
@@ -106,8 +107,12 @@ That didn't work either. Looking at docs, it seems like version 18 is built in, 
 ```
 The rest of the references also need to be updated. Can you do that? You might find useful info at https://github.com/milo-minderbinder/AWS-PlantUML
 
+_Here I gave up on ChatGPT for a while and switched to Copilot in VS Code. It did a much better job of getting the AWS imports right, but ultimately it, too, failed, possibly because the diagram itself wasn't correct._
+
+
 ## Prompt 22:
 
+_Back in ChatGPT:_
 I've lost a lot of time trying to get that to work. What are some other options for rendering this diagram?
 
 ## Prompt 23:

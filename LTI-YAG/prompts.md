@@ -376,3 +376,156 @@ Diseño de Sistema a Alto Nivel
 Diagrama C4 profundizando en uno de los componentes.
 ¡Quedo atento a tu retroalimentación para continuar, Yoberty!
 ```
+
+## 5. Prompt
+
+```md
+Queda aprobado, procedamos al modelo de datos
+```
+## 5. Output
+
+```md
+# Modelo de Datos - LTI
+
+A continuación se presenta el **Modelo de Datos** que cubre las principales entidades, atributos y relaciones del MVP de LTI. Incluye:
+
+1. **Listado de Entidades y Atributos** (con posibles tipos de datos).  
+2. **Diagrama ER en Mermaid** (*Diagram as Code*).
+
+Puedes revisar y validar si esto se ajusta a tu visión. Si deseas modificaciones, ¡házmelo saber antes de pasar al diseño de sistema a alto nivel!
+
+---
+
+## 1. Entidades y Atributos Principales
+
+### 1.1. **User** 
+Representa a cualquier usuario interno del sistema (Reclutador, Manager, Admin, etc.).
+
+| Atributo       | Tipo de Dato (Ejemplo) | Descripción                                                     |
+| -------------- | ---------------------- | --------------------------------------------------------------- |
+| **user_id**    | `UUID` (PK)           | Identificador único del usuario.                                |
+| **name**       | `VARCHAR(100)`        | Nombre completo del usuario.                                    |
+| **email**      | `VARCHAR(100)`        | Correo electrónico del usuario (único).                         |
+| **role**       | `VARCHAR(50)`         | Rol del usuario dentro de LTI (e.g., “Recruiter”, “Manager”).   |
+| **created_at** | `TIMESTAMP`           | Fecha y hora de creación del registro.                          |
+
+---
+
+### 1.2. **Candidate**
+Información de cada postulante que se registra o aplica a alguna vacante en el sistema.
+
+| Atributo             | Tipo de Dato (Ejemplo) | Descripción                                                                    |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------ |
+| **candidate_id**     | `UUID` (PK)           | Identificador único del candidato.                                             |
+| **first_name**       | `VARCHAR(100)`        | Nombre.                                                                        |
+| **last_name**        | `VARCHAR(100)`        | Apellido.                                                                      |
+| **email**            | `VARCHAR(100)`        | Correo electrónico del candidato (único).                                      |
+| **phone**            | `VARCHAR(20)`         | Teléfono de contacto (opcional).                                              |
+| **has_spotify_consent** | `BOOLEAN`          | Indica si el candidato ha dado consentimiento para usar sus datos de Spotify. |
+| **created_at**       | `TIMESTAMP`           | Fecha y hora de creación del registro.                                        |
+
+---
+
+### 1.3. **MusicProfile**
+Contiene la capa musical que diferencia a LTI, asociada a un candidato con consentimiento.
+
+| Atributo             | Tipo de Dato (Ejemplo) | Descripción                                                                                            |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------ |
+| **music_profile_id** | `UUID` (PK)           | Identificador único del perfil musical.                                                                |
+| **candidate_id**     | `UUID` (FK)           | Relación 1:1 con `Candidate`.                                                                          |
+| **spotify_profile_id** | `VARCHAR(100)`      | ID de la cuenta de Spotify (si procede) o cualquier referencia al usuario de Spotify.                 |
+| **top_songs**        | `TEXT / JSON`         | Lista de las 5 canciones favoritas o datos de playlists (formato JSON, CSV, etc.).                    |
+| **music_cluster**    | `VARCHAR(100)`        | Cluster o categorización musical (ej. “Rock Enthusiast”, “Indie & Chill”).                             |
+| **last_updated**     | `TIMESTAMP`           | Fecha y hora de la última actualización de la info musical.                                           |
+
+> **Nota**: En un MVP, podemos guardar las 5 canciones como un texto estructurado (JSON). A futuro, se puede normalizar más si se requiere.
+
+---
+
+### 1.4. **JobVacancy**
+Define la vacante publicada en el sistema, creada por un usuario (reclutador).
+
+| Atributo          | Tipo de Dato (Ejemplo) | Descripción                                                        |
+| ----------------- | ---------------------- | ------------------------------------------------------------------ |
+| **vacancy_id**    | `UUID` (PK)           | Identificador único de la vacante.                                 |
+| **created_by**    | `UUID` (FK -> User)   | ID del usuario que crea la vacante (generalmente un reclutador).   |
+| **title**         | `VARCHAR(200)`        | Título de la vacante.                                              |
+| **description**   | `TEXT`                | Descripción detallada de la posición.                              |
+| **requirements**  | `TEXT`                | Lista de requisitos y habilidades necesarias.                      |
+| **status**        | `VARCHAR(50)`         | Estado de la vacante (ej. “OPEN”, “CLOSED”).                       |
+| **creation_date** | `TIMESTAMP`           | Fecha y hora de creación.                                          |
+
+---
+
+### 1.5. **Application**
+Registra la postulación de un candidato a una vacante y su estado en el proceso.
+
+| Atributo            | Tipo de Dato (Ejemplo) | Descripción                                                                                         |
+| ------------------- | ---------------------- | --------------------------------------------------------------------------------------------------- |
+| **application_id**  | `UUID` (PK)           | Identificador único de la postulación.                                                              |
+| **candidate_id**    | `UUID` (FK -> Candidate) | ID del candidato que se está postulando.                                                          |
+| **job_vacancy_id**  | `UUID` (FK -> JobVacancy) | ID de la vacante a la que se aplica.                                                              |
+| **status**          | `VARCHAR(50)`         | Etapa de la postulación (ej. “APPLIED”, “SCREENING”, “INTERVIEW”, “OFFER”, “HIRED”, “REJECTED”).    |
+| **application_date** | `TIMESTAMP`          | Fecha y hora en la que se realizó la postulación.                                                  |
+| **notes**           | `TEXT` (Opcional)     | Notas adicionales del reclutador, comentarios del manager, etc.                                    |
+
+---
+
+## 2. Diagrama ER (Mermaid)
+
+```mermaid
+erDiagram
+    %% Entities
+    User {
+        UUID user_id PK
+        string name
+        string email
+        string role
+        datetime created_at
+    }
+
+    Candidate {
+        UUID candidate_id PK
+        string first_name
+        string last_name
+        string email
+        string phone
+        boolean has_spotify_consent
+        datetime created_at
+    }
+
+    MusicProfile {
+        UUID music_profile_id PK
+        UUID candidate_id FK
+        string spotify_profile_id
+        text top_songs
+        string music_cluster
+        datetime last_updated
+    }
+
+    JobVacancy {
+        UUID vacancy_id PK
+        UUID created_by FK
+        string title
+        text description
+        text requirements
+        string status
+        datetime creation_date
+    }
+
+    Application {
+        UUID application_id PK
+        UUID candidate_id FK
+        UUID job_vacancy_id FK
+        string status
+        datetime application_date
+        text notes
+    }
+
+    %% Relationships
+    Candidate ||--|| MusicProfile : "has (1:1)"
+    Candidate ||--|{ Application : "applies (1:N)"
+    JobVacancy ||--|{ Application : "receives (1:N)"
+    User ||--|{ JobVacancy : "creates (1:N)"
+
+```

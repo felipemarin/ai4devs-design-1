@@ -244,262 +244,262 @@ Con estas funcionalidades, podrá entregar un producto funcional que ya resuelve
 
 
 
-# Caso de Uso 1: Inscrição e Gestão de Candidatos
+# Caso de Uso 1: Inscripción y Gestión de Candidatos
 
-## Visão Geral
+## Visión General
 
-O módulo de Inscrição e Gestão de Candidatos é a porta de entrada do sistema LTI, permitindo que candidatos se inscrevam em vagas e acompanhem seu progresso no processo seletivo de forma transparente. Este componente é fundamental para criar uma experiência positiva desde o primeiro contato do candidato com a empresa.
+El módulo de Inscripción y Gestión de Candidatos es la puerta de entrada del sistema LTI, permitiendo que los candidatos se inscriban en vacantes y acompañen su progreso en el proceso selectivo de forma transparente. Este componente es fundamental para crear una experiencia positiva desde el primer contacto del candidato con la empresa.
 
 ## Objetivos
 
-- Proporcionar uma experiência intuitiva e eficiente para candidatos se inscreverem em vagas
-- Automatizar a extração de dados de currículos para reduzir o trabalho manual
-- Fornecer transparência ao candidato sobre o status de sua candidatura
-- Estabelecer um canal de comunicação consistente entre recrutadores e candidatos
+- Proporcionar una experiencia intuitiva y eficiente para que los candidatos se inscriban en vacantes
+- Automatizar la extracción de datos de currículums para reducir el trabajo manual
+- Ofrecer transparencia al candidato sobre el estado de su candidatura
+- Establecer un canal de comunicación consistente entre reclutadores y candidatos
 
-## Atores Principais
+## Actores Principales
 
-- **Candidato**: Usuário que busca oportunidades de emprego e se inscreve nas vagas
-- **Sistema**: Processos automatizados de extração de dados e notificações
-- **Recrutador**: Usuário que revisa candidaturas (interface com Caso de Uso 2)
+- **Candidato**: Usuario que busca oportunidades de empleo y se inscribe en las vacantes
+- **Sistema**: Procesos automatizados de extracción de datos y notificaciones
+- **Reclutador**: Usuario que revisa candidaturas (interfaz con Caso de Uso 2)
 
-## Pré-Condições
+## Pre-Condiciones
 
-- Vagas abertas já cadastradas no sistema
-- Plataforma acessível via web e dispositivos móveis
+- Vacantes abiertas ya registradas en el sistema
+- Plataforma accesible vía web y dispositivos móviles
 
-## Fluxo Principal
+## Flujo Principal
 
-1. Candidato acessa o portal de vagas da empresa
-2. Candidato visualiza vagas disponíveis e seleciona uma de interesse
-3. Sistema apresenta detalhes da vaga e botão de inscrição
-4. Candidato clica em "Candidatar-se" e é direcionado para o formulário
-5. Candidato faz upload de currículo ou autoriza importação de perfil (LinkedIn, etc.)
-6. Sistema extrai automaticamente dados relevantes do currículo/perfil
-7. Sistema preenche campos do formulário com dados extraídos
-8. Candidato revisa, completa informações adicionais e confirma inscrição
-9. Sistema confirma inscrição com sucesso e envia notificação por email
-10. Candidato recebe acesso à área de acompanhamento de candidatura
+1. Candidato accede al portal de vacantes de la empresa
+2. Candidato visualiza vacantes disponibles y selecciona una de interés
+3. Sistema presenta detalles de la vacante y botón de inscripción
+4. Candidato hace clic en "Postularse" y es dirigido al formulario
+5. Candidato carga su currículum o autoriza importación de perfil (LinkedIn, etc.)
+6. Sistema extrae automáticamente datos relevantes del currículum/perfil
+7. Sistema rellena campos del formulario con datos extraídos
+8. Candidato revisa, completa información adicional y confirma inscripción
+9. Sistema confirma inscripción con éxito y envía notificación por email
+10. Candidato recibe acceso al área de seguimiento de candidatura
 
-## Diagrama de Fluxo do Processo
+## Diagrama de Flujo del Proceso
 
 ```mermaid
 flowchart TD
-    A[Acesso ao Portal] --> B[Visualização de Vagas]
-    B --> C[Seleção de Vaga]
-    C --> D[Visualização de Detalhes]
-    D --> E{Já possui cadastro?}
+    A[Acceso al Portal] --> B[Visualización de Vacantes]
+    B --> C[Selección de Vacante]
+    C --> D[Visualización de Detalles]
+    D --> E{¿Ya tiene cuenta?}
     
-    E -->|Sim| F[Login no Sistema]
-    E -->|Não| G[Início de Novo Cadastro]
+    E -->|Sí| F[Login en el Sistema]
+    E -->|No| G[Inicio de Nuevo Registro]
     
-    F --> I[Confirma Dados Pessoais]
-    G --> H[Upload de Currículo]
+    F --> I[Confirma Datos Personales]
+    G --> H[Carga de Currículum]
     
-    H --> H1[Extração Automática de Dados]
-    H1 --> H2{Extração bem-sucedida?}
-    H2 -->|Sim| H3[Preenchimento Automático]
-    H2 -->|Não| H4[Notificação de Falha]
-    H4 --> H5[Preenchimento Manual]
+    H --> H1[Extracción Automática de Datos]
+    H1 --> H2{¿Extracción exitosa?}
+    H2 -->|Sí| H3[Autocompletado de Formulario]
+    H2 -->|No| H4[Notificación de Fallo]
+    H4 --> H5[Completado Manual]
     H3 --> I
     H5 --> I
     
-    I --> J[Preenchimento de Informações Adicionais]
-    J --> K[Revisão Final]
-    K --> L{Confirmação?}
+    I --> J[Completado de Información Adicional]
+    J --> K[Revisión Final]
+    K --> L{¿Confirmación?}
     
-    L -->|Sim| M[Envio de Candidatura]
-    L -->|Não| N[Edição de Informações]
+    L -->|Sí| M[Envío de Candidatura]
+    L -->|No| N[Edición de Información]
     N --> K
     
-    M --> O[Confirmação de Recebimento]
-    O --> P[Criação de Acesso à Área de Acompanhamento]
-    P --> Q[Notificação por Email]
+    M --> O[Confirmación de Recepción]
+    O --> P[Creación de Acceso al Área de Seguimiento]
+    P --> Q[Notificación por Email]
     
-    L -->|Desiste| R[Armazenamento Temporário]
-    R --> S[Possibilidade de Retomada]
+    L -->|Abandona| R[Almacenamiento Temporal]
+    R --> S[Posibilidad de Retomar]
     S -->|Retoma| K
-    S -->|Expira| T[Exclusão de Dados Parciais]
+    S -->|Expira| T[Exclusión de Datos Parciales]
 ```
 
-## Fluxos Alternativos
+## Flujos Alternativos
 
-### A1: Candidato já possui cadastro no sistema
-1. Sistema reconhece usuário e recupera informações já cadastradas
-2. Candidato atualiza informações se necessário e confirma inscrição
+### A1: Candidato ya posee cuenta en el sistema
+1. Sistema reconoce usuario y recupera información ya registrada
+2. Candidato actualiza información si es necesario y confirma inscripción
 
-### A2: Falha na extração de dados do currículo
-1. Sistema notifica o candidato sobre a falha
-2. Candidato preenche o formulário manualmente
+### A2: Fallo en la extracción de datos del currículum
+1. Sistema notifica al candidato sobre el fallo
+2. Candidato completa el formulario manualmente
 
-### A3: Candidato desiste durante o processo de inscrição
-1. Dados parciais são temporariamente armazenados
-2. Candidato pode retornar e continuar de onde parou (por tempo limitado)
+### A3: Candidato desiste durante el proceso de inscripción
+1. Datos parciales son temporalmente almacenados
+2. Candidato puede retornar y continuar desde donde dejó (por tiempo limitado)
 
 ## Diagrama de Caso de Uso UML
 
 ```mermaid
 classDiagram
     class Candidato {
-        +visualizarVagas()
-        +inscreverEmVaga()
-        +fazerUploadCurriculo()
-        +atualizarPerfil()
-        +acompanharCandidatura()
+        +visualizarVacantes()
+        +inscribirseEnVacante()
+        +cargarCurriculum()
+        +actualizarPerfil()
+        +seguirCandidatura()
     }
     
     class Sistema {
-        +extrairDadosCurriculo()
-        +validarDados()
-        +criarPerfilCandidato()
+        +extraerDatosCurriculum()
+        +validarDatos()
+        +crearPerfilCandidato()
         +notificarCandidato()
-        +gerarAcessoArea()
+        +generarAccesoArea()
     }
     
-    class Recrutador {
+    class Reclutador {
         +visualizarCandidatura()
-        +iniciarAnalise()
+        +iniciarAnalisis()
     }
     
     class Portal {
-        +mostrarVagas()
-        +exibirFormulario()
-        +processarInscricao()
-        +gerenciarSessao()
-        +exibirStatusCandidatura()
+        +mostrarVacantes()
+        +mostrarFormulario()
+        +procesarInscripcion()
+        +gestionarSesion()
+        +mostrarEstadoCandidatura()
     }
     
     class AreaCandidato {
-        +mostrarStatusCandidatura()
-        +exibirFeedback()
-        +permitirAtualizacaoDados()
-        +exibirProximosPassos()
+        +mostrarEstadoCandidatura()
+        +mostrarFeedback()
+        +permitirActualizacionDatos()
+        +mostrarProximosPasos()
     }
     
-    Candidato --> Portal : acessa
+    Candidato --> Portal : accede
     Portal --> Sistema : utiliza
     Sistema --> Candidato : notifica
-    Candidato --> AreaCandidato : acessa
+    Candidato --> AreaCandidato : accede
     AreaCandidato --> Sistema : consulta
-    Sistema --> Recrutador : disponibiliza candidatura
-    Portal --> AreaCandidato : redireciona após inscrição
+    Sistema --> Reclutador : disponibiliza candidatura
+    Portal --> AreaCandidato : redirecciona tras inscripción
 ```
 
-## Diagrama de Sequência
+## Diagrama de Secuencia
 
 ```mermaid
 sequenceDiagram
     actor Candidato
     participant Portal
     participant Sistema
-    participant BancoDados
-    participant ServicoEmail
+    participant BaseDatos
+    participant ServicioEmail
     
-    Candidato->>Portal: Acessa listagem de vagas
-    Portal->>Sistema: Solicita vagas disponíveis
-    Sistema->>BancoDados: Consulta vagas ativas
-    BancoDados-->>Sistema: Retorna informações das vagas
-    Sistema-->>Portal: Entrega listagem de vagas
-    Portal-->>Candidato: Exibe vagas disponíveis
+    Candidato->>Portal: Accede al listado de vacantes
+    Portal->>Sistema: Solicita vacantes disponibles
+    Sistema->>BaseDatos: Consulta vacantes activas
+    BaseDatos-->>Sistema: Retorna información de vacantes
+    Sistema-->>Portal: Entrega listado de vacantes
+    Portal-->>Candidato: Muestra vacantes disponibles
     
-    Candidato->>Portal: Seleciona vaga específica
-    Portal->>Sistema: Solicita detalhes da vaga
-    Sistema->>BancoDados: Busca informações completas
-    BancoDados-->>Sistema: Retorna detalhes da vaga
-    Sistema-->>Portal: Entrega informações completas
-    Portal-->>Candidato: Exibe detalhes da vaga
+    Candidato->>Portal: Selecciona vacante específica
+    Portal->>Sistema: Solicita detalles de la vacante
+    Sistema->>BaseDatos: Busca información completa
+    BaseDatos-->>Sistema: Retorna detalles de la vacante
+    Sistema-->>Portal: Entrega información completa
+    Portal-->>Candidato: Muestra detalles de la vacante
     
-    Candidato->>Portal: Clica em "Candidatar-se"
-    Portal-->>Candidato: Exibe formulário de inscrição
+    Candidato->>Portal: Hace clic en "Postularse"
+    Portal-->>Candidato: Muestra formulario de inscripción
     
-    Candidato->>Portal: Faz upload do currículo
-    Portal->>Sistema: Envia currículo para processamento
-    Sistema->>Sistema: Processa extração de dados
-    Sistema-->>Portal: Retorna dados extraídos
-    Portal-->>Candidato: Preenche formulário automaticamente
+    Candidato->>Portal: Carga el currículum
+    Portal->>Sistema: Envía currículum para procesamiento
+    Sistema->>Sistema: Procesa extracción de datos
+    Sistema-->>Portal: Retorna datos extraídos
+    Portal-->>Candidato: Completa formulario automáticamente
     
-    Candidato->>Portal: Completa informações adicionais
+    Candidato->>Portal: Completa información adicional
     Candidato->>Portal: Confirma candidatura
-    Portal->>Sistema: Envia dados de inscrição
-    Sistema->>BancoDados: Armazena candidatura
-    Sistema->>BancoDados: Armazena perfil do candidato
+    Portal->>Sistema: Envía datos de inscripción
+    Sistema->>BaseDatos: Almacena candidatura
+    Sistema->>BaseDatos: Almacena perfil del candidato
     
-    Sistema->>ServicoEmail: Solicita envio de confirmação
-    ServicoEmail-->>Candidato: Envia e-mail de confirmação
+    Sistema->>ServicioEmail: Solicita envío de confirmación
+    ServicioEmail-->>Candidato: Envía email de confirmación
     
-    Sistema-->>Portal: Confirma registro com sucesso
-    Portal-->>Candidato: Exibe confirmação e acesso à área de acompanhamento
+    Sistema-->>Portal: Confirma registro con éxito
+    Portal-->>Candidato: Muestra confirmación y acceso al área de seguimiento
 ```
 
-## Diagrama de Estados da Candidatura
+## Diagrama de Estados de la Candidatura
 
 ```mermaid
 stateDiagram-v2
-    [*] --> FormularioIniciado: Candidato inicia inscrição
+    [*] --> FormularioIniciado: Candidato inicia inscripción
     
-    FormularioIniciado --> UploadCurriculo: Candidato faz upload
+    FormularioIniciado --> CargaCurriculum: Candidato carga documento
     FormularioIniciado --> PerfilImportado: Candidato importa perfil
     
-    UploadCurriculo --> DadosExtraidos: Extração automática
-    UploadCurriculo --> PreenchimentoManual: Falha na extração
-    PerfilImportado --> DadosExtraidos: Importação bem-sucedida
+    CargaCurriculum --> DatosExtraidos: Extracción automática
+    CargaCurriculum --> CompletadoManual: Fallo en la extracción
+    PerfilImportado --> DatosExtraidos: Importación exitosa
     
-    DadosExtraidos --> FormularioPreenchido: Preenchimento automático
-    PreenchimentoManual --> FormularioPreenchido: Candidato preenche
+    DatosExtraidos --> FormularioCompletado: Autocompletado
+    CompletadoManual --> FormularioCompletado: Candidato completa
     
-    FormularioPreenchido --> FormularioCompleto: Dados adicionais informados
-    FormularioCompleto --> FormularioRevisado: Candidato revisa
+    FormularioCompletado --> FormularioFinalizado: Datos adicionales informados
+    FormularioFinalizado --> FormularioRevisado: Candidato revisa
     
-    FormularioRevisado --> InscricaoConfirmada: Candidato confirma
+    FormularioRevisado --> InscripcionConfirmada: Candidato confirma
     FormularioRevisado --> FormularioEditado: Candidato edita
-    FormularioEditado --> FormularioRevisado: Após edição
+    FormularioEditado --> FormularioRevisado: Tras edición
     
-    FormularioIniciado --> DadosTemporarios: Candidato abandona
-    FormularioPreenchido --> DadosTemporarios: Candidato abandona
-    FormularioCompleto --> DadosTemporarios: Candidato abandona
+    FormularioIniciado --> DatosTemporales: Candidato abandona
+    FormularioCompletado --> DatosTemporales: Candidato abandona
+    FormularioFinalizado --> DatosTemporales: Candidato abandona
     
-    DadosTemporarios --> FormularioRetomado: Candidato retorna
-    FormularioRetomado --> FormularioPreenchido: Continua preenchimento
-    DadosTemporarios --> DadosExcluidos: Prazo expira
+    DatosTemporales --> FormularioRetomado: Candidato regresa
+    FormularioRetomado --> FormularioCompletado: Continúa completando
+    DatosTemporales --> DatosEliminados: Plazo expira
     
-    InscricaoConfirmada --> CandidaturaRegistrada: Sistema processa
-    CandidaturaRegistrada --> AcessoAreaCriado: Sistema gera acesso
-    AcessoAreaCriado --> NotificacaoEnviada: E-mail enviado
+    InscripcionConfirmada --> CandidaturaRegistrada: Sistema procesa
+    CandidaturaRegistrada --> AccesoAreaCreado: Sistema genera acceso
+    AccesoAreaCreado --> NotificacionEnviada: Email enviado
     
-    NotificacaoEnviada --> [*]
-    DadosExcluidos --> [*]
+    NotificacionEnviada --> [*]
+    DatosEliminados --> [*]
 ```
 
-## Pós-Condições
+## Post-Condiciones
 
-- Candidatura registrada no sistema
-- Perfil do candidato armazenado para futuras oportunidades
-- Candidato com acesso à área de acompanhamento
-- Candidatura disponível para análise no pipeline de recrutamento
+- Candidatura registrada en el sistema
+- Perfil del candidato almacenado para futuras oportunidades
+- Candidato con acceso al área de seguimiento
+- Candidatura disponible para análisis en el pipeline de reclutamiento
 
-## Requisitos Especiais
+## Requisitos Especiales
 
-- Tempo de carregamento da página inferior a 3 segundos
-- Extração de dados do currículo com precisão mínima de 85%
-- Compatibilidade com os formatos mais comuns de currículo (PDF, DOCX, TXT)
-- Conformidade com LGPD/GDPR para tratamento de dados pessoais
+- Tiempo de carga de página inferior a 3 segundos
+- Extracción de datos del currículum con precisión mínima del 85%
+- Compatibilidad con los formatos más comunes de currículum (PDF, DOCX, TXT)
+- Conformidad con LGPD/GDPR para tratamiento de datos personales
 
-## Frequência de Uso
+## Frecuencia de Uso
 
-- Alta, processo contínuo durante períodos de recrutamento
-- Picos esperados após publicação de novas vagas
+- Alta, proceso continuo durante períodos de reclutamiento
+- Picos esperados tras publicación de nuevas vacantes
 
-## Métricas de Sucesso
+## Métricas de Éxito
 
-- Taxa de conclusão do processo de inscrição > 80%
-- Tempo médio de inscrição < 5 minutos
-- Satisfação do candidato com o processo > 4/5
-- Redução de 70% no tempo de processamento inicial de candidaturas
+- Tasa de finalización del proceso de inscripción > 80%
+- Tiempo medio de inscripción < 5 minutos
+- Satisfacción del candidato con el proceso > 4/5
+- Reducción del 70% en el tiempo de procesamiento inicial de candidaturas
 
-## Telas Principais
+## Pantallas Principales
 
-1. Listagem de Vagas
-2. Detalhes da Vaga
-3. Formulário de Inscrição
-4. Confirmação de Inscrição
-5. Área de Acompanhamento de Candidatura
+1. Listado de Vacantes
+2. Detalles de la Vacante
+3. Formulario de Inscripción
+4. Confirmación de Inscripción
+5. Área de Seguimiento de Candidatura

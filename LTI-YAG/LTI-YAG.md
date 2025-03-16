@@ -132,3 +132,133 @@ flowchart TB
     Solution@{ shape: rect}
 
 ```
+
+## 4. Casos de uso principales
+
+
+### 1. Caso de Uso: “Publicar Vacante”
+
+#### Descripción
+
+- El Reclutador inicia sesión en el sistema LTI para crear y publicar una nueva vacante.
+- El sistema valida la información y confirma la publicación.
+
+#### Actores Involucrados
+
+- Reclutador
+- Sistema LTI (ATS)
+
+#### Flujo Principal
+
+- El Reclutador inicia sesión en LTI.
+- Selecciona la opción “Crear Vacante”.
+- Completa el formulario con título, descripción, requisitos, etc.
+- Confirma la creación de la vacante.
+- LTI valida y registra la nueva vacante en la base de datos.
+- LTI muestra confirmación y la vacante queda visible para candidatos.
+
+```mermaid
+sequenceDiagram
+    participant R as Reclutador
+    participant LTI as Sistema LTI
+
+    R->>LTI: Inicia sesión y selecciona "Crear Vacante"
+    LTI-->>R: Despliega formulario de nueva vacante
+    R->>LTI: Llena datos (Título, Descripción, Requisitos)
+    LTI->>LTI: Valida y registra la vacante
+    LTI-->>R: Retorna confirmación de creación
+    R->>LTI: Publica la vacante
+    LTI-->>R: La vacante queda visible para los candidatos
+```
+
+### 2. Caso de Uso: “Aplicar a Vacante”
+
+#### Descripción
+- El Candidato ingresa al portal de LTI, revisa las vacantes disponibles y decide aplicar a una de ellas. El sistema solicita datos personales, CV y permiso para integrar su información musical.
+
+#### Actores Involucrados
+
+- Candidato
+- Sistema LTI (ATS)
+- Spotify (opcional para este paso, pero se menciona al final)
+
+#### Flujo Principal
+
+- El Candidato accede al portal de LTI (página de vacantes).
+- Selecciona la vacante de interés.
+- LTI muestra los detalles de la vacante y un botón para aplicar.
+- El Candidato completa la información solicitada (CV, preguntas básicas).
+- LTI registra la aplicación en la base de datos.
+- LTI solicita consentimiento para vincular la cuenta de Spotify (opcional, si no hay otro mecanismo de verificación).
+- El Candidato da su consentimiento y, si procede, se vincula la cuenta de Spotify o ingresa sus 5 canciones favoritas.
+- LTI confirma la aplicación exitosa.
+
+#### Diagrama (Mermaid)
+
+```mermaid
+sequenceDiagram
+    participant C as Candidato
+    participant LTI as Sistema LTI
+    participant S as Spotify (Opcional)
+
+    C->>LTI: Accede al portal y ve listado de vacantes
+    LTI-->>C: Muestra vacantes disponibles
+    C->>LTI: Selecciona la vacante y hace clic en "Aplicar"
+    LTI-->>C: Despliega formulario de aplicación (CV, info personal)
+    C->>LTI: Envía datos de aplicación
+    LTI->>LTI: Registra la postulación
+    LTI-->>C: Solicita consentimiento para enlazar Spotify
+    alt El Candidato Acepta
+        C->>S: Proporciona credenciales/consentimiento
+        S-->>LTI: Retorna info de perfil público (5 canciones, etc.)
+    else El Candidato Rechaza
+        C->>LTI: Datos musicales no proporcionados
+    end
+    LTI-->>C: Muestra confirmación de aplicación exitosa
+```
+
+### 3. Caso de Uso: “Evaluar Candidato con Capa Musical”
+
+#### Descripción
+- El Reclutador/Manager revisa un candidato que ya ha aplicado y, si ha proporcionado datos musicales (ya sea la conexión a Spotify o la lista de canciones), el sistema LTI aprovecha el LLM para generar insights sobre compatibilidad cultural.
+
+#### Actores Involucrados
+
+- Reclutador/Manager
+- Sistema LTI (ATS)
+- Spotify (para recuperar datos musicales)
+- LLM (para procesar datos textuales y musicales)
+
+#### Flujo Principal
+
+- El Reclutador/Manager entra a LTI para ver detalles de un candidato.
+- LTI muestra información del CV, experiencia y, si está disponible, la información musical.
+- LTI realiza una llamada al LLM con datos textuales (CV, requerimientos de la vacante, cultura empresarial) y datos musicales (géneros, 5 canciones favoritas, etc.).
+- El LLM devuelve sugerencias e insights sobre el fit cultural (p. ej., “Cluster Musical: Rock/Indie, probable afinidad con equipos creativos”).
+- LTI presenta estos insights al Reclutador/Manager.
+- El Reclutador/Manager decide si avanza con la entrevista o pasa al siguiente paso en el pipeline.
+- LTI registra la decisión tomada en el perfil del candidato.
+
+#### Diagrama (Mermaid)
+
+```mermaid
+sequenceDiagram
+    participant R as Reclutador/Manager
+    participant LTI as Sistema LTI
+    participant S as Spotify
+    participant LLM as Modelo IA
+
+    R->>LTI: Selecciona un candidato para evaluación
+    LTI-->>R: Muestra CV y datos básicos
+    alt Hay datos musicales
+        LTI->>S: Obtiene lista de reproducción / Canciones favoritas
+        S-->>LTI: Devuelve datos (géneros, artistas, etc.)
+        LTI->>LLM: Envía CV + datos culturales + datos musicales
+        LLM-->>LTI: Retorna sugerencias e insights de fit
+        LTI-->>R: Muestra resultados e insights
+    else No hay datos musicales
+        LTI-->>R: Muestra CV sin capa musical
+    end
+    R->>LTI: Toma decisión (entrevista, descartar, etc.)
+    LTI-->>R: Actualiza pipeline y notifica estado del candidato
+```

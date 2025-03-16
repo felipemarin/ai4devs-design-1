@@ -281,57 +281,9 @@ O módulo de Inscrição e Gestão de Candidatos é a porta de entrada do sistem
 9. Sistema confirma inscrição com sucesso e envia notificação por email
 10. Candidato recebe acesso à área de acompanhamento de candidatura
 
-## Fluxos Alternativos
+## Diagrama de Fluxo do Processo
 
-### A1: Candidato já possui cadastro no sistema
-1. Sistema reconhece usuário e recupera informações já cadastradas
-2. Candidato atualiza informações se necessário e confirma inscrição
-
-### A2: Falha na extração de dados do currículo
-1. Sistema notifica o candidato sobre a falha
-2. Candidato preenche o formulário manualmente
-
-### A3: Candidato desiste durante o processo de inscrição
-1. Dados parciais são temporariamente armazenados
-2. Candidato pode retornar e continuar de onde parou (por tempo limitado)
-
-## Pós-Condições
-
-- Candidatura registrada no sistema
-- Perfil do candidato armazenado para futuras oportunidades
-- Candidato com acesso à área de acompanhamento
-- Candidatura disponível para análise no pipeline de recrutamento
-
-## Requisitos Especiais
-
-- Tempo de carregamento da página inferior a 3 segundos
-- Extração de dados do currículo com precisão mínima de 85%
-- Compatibilidade com os formatos mais comuns de currículo (PDF, DOCX, TXT)
-- Conformidade com LGPD/GDPR para tratamento de dados pessoais
-
-## Frequência de Uso
-
-- Alta, processo contínuo durante períodos de recrutamento
-- Picos esperados após publicação de novas vagas
-
-## Métricas de Sucesso
-
-- Taxa de conclusão do processo de inscrição > 80%
-- Tempo médio de inscrição < 5 minutos
-- Satisfação do candidato com o processo > 4/5
-- Redução de 70% no tempo de processamento inicial de candidaturas
-
-## Telas Principais
-
-1. Listagem de Vagas
-2. Detalhes da Vaga
-3. Formulário de Inscrição
-4. Confirmação de Inscrição
-5. Área de Acompanhamento de Candidatura
-
-
-
-
+```mermaid
 flowchart TD
     A[Acesso ao Portal] --> B[Visualização de Vagas]
     B --> C[Seleção de Vaga]
@@ -368,9 +320,25 @@ flowchart TD
     R --> S[Possibilidade de Retomada]
     S -->|Retoma| K
     S -->|Expira| T[Exclusão de Dados Parciais]
+```
 
+## Fluxos Alternativos
 
+### A1: Candidato já possui cadastro no sistema
+1. Sistema reconhece usuário e recupera informações já cadastradas
+2. Candidato atualiza informações se necessário e confirma inscrição
 
+### A2: Falha na extração de dados do currículo
+1. Sistema notifica o candidato sobre a falha
+2. Candidato preenche o formulário manualmente
+
+### A3: Candidato desiste durante o processo de inscrição
+1. Dados parciais são temporariamente armazenados
+2. Candidato pode retornar e continuar de onde parou (por tempo limitado)
+
+## Diagrama de Caso de Uso UML
+
+```mermaid
 classDiagram
     class Candidato {
         +visualizarVagas()
@@ -415,8 +383,11 @@ classDiagram
     AreaCandidato --> Sistema : consulta
     Sistema --> Recrutador : disponibiliza candidatura
     Portal --> AreaCandidato : redireciona após inscrição
+```
 
+## Diagrama de Sequência
 
+```mermaid
 sequenceDiagram
     actor Candidato
     participant Portal
@@ -458,8 +429,12 @@ sequenceDiagram
     
     Sistema-->>Portal: Confirma registro com sucesso
     Portal-->>Candidato: Exibe confirmação e acesso à área de acompanhamento
+```
 
-    stateDiagram-v2
+## Diagrama de Estados da Candidatura
+
+```mermaid
+stateDiagram-v2
     [*] --> FormularioIniciado: Candidato inicia inscrição
     
     FormularioIniciado --> UploadCurriculo: Candidato faz upload
@@ -493,3 +468,38 @@ sequenceDiagram
     
     NotificacaoEnviada --> [*]
     DadosExcluidos --> [*]
+```
+
+## Pós-Condições
+
+- Candidatura registrada no sistema
+- Perfil do candidato armazenado para futuras oportunidades
+- Candidato com acesso à área de acompanhamento
+- Candidatura disponível para análise no pipeline de recrutamento
+
+## Requisitos Especiais
+
+- Tempo de carregamento da página inferior a 3 segundos
+- Extração de dados do currículo com precisão mínima de 85%
+- Compatibilidade com os formatos mais comuns de currículo (PDF, DOCX, TXT)
+- Conformidade com LGPD/GDPR para tratamento de dados pessoais
+
+## Frequência de Uso
+
+- Alta, processo contínuo durante períodos de recrutamento
+- Picos esperados após publicação de novas vagas
+
+## Métricas de Sucesso
+
+- Taxa de conclusão do processo de inscrição > 80%
+- Tempo médio de inscrição < 5 minutos
+- Satisfação do candidato com o processo > 4/5
+- Redução de 70% no tempo de processamento inicial de candidaturas
+
+## Telas Principais
+
+1. Listagem de Vagas
+2. Detalhes da Vaga
+3. Formulário de Inscrição
+4. Confirmação de Inscrição
+5. Área de Acompanhamento de Candidatura

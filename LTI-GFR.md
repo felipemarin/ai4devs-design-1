@@ -122,64 +122,136 @@ System -> Candidate: Send Hiring Confirmation
 
 #### **Entities & Attributes**
 
-1. **JobPosting**
-    - `id` (UUID, Primary Key)
-    - `title` (String)
-    - `description` (Text)
-    - `location` (String)
-    - `companyId` (UUID, Foreign Key -> Company)
-    - `createdAt` (Timestamp)
-    - `status` (Enum: OPEN, CLOSED)
+This is the SQL initial script that should be used to create the database:
 
-2. **Company**
-    - `id` (UUID, Primary Key)
-    - `name` (String)
-    - `industry` (String)
-    - `location` (String)
+create table company (
+    id uuid primary key,
+    name text not null,
+    industry text,
+    location text
+);
 
-3. **Candidate**
-    - `id` (UUID, Primary Key)
-    - `name` (String)
-    - `email` (String, Unique)
-    - `resume` (Text)
-    - `appliedJobs` (List of JobPosting IDs)
+create table jobposting (
+    id uuid primary key,
+    title text not null,
+    description text,
+    location text,
+    companyid uuid references company (id),
+    createdat timestamp default current_timestamp,
+    status text check (status in ('OPEN', 'CLOSED')) not null
+);
 
-4. **Application**
-    - `id` (UUID, Primary Key)
-    - `candidateId` (UUID, Foreign Key -> Candidate)
-    - `jobId` (UUID, Foreign Key -> JobPosting)
-    - `status` (Enum: PENDING, REJECTED, ACCEPTED)
-    - `appliedAt` (Timestamp)
+create table candidate (
+    id uuid primary key,
+    name text not null,
+    email text unique not null,
+    resume text
+);
 
-5. **Assessment**
-    - `id` (UUID, Primary Key)
-    - `applicationId` (UUID, Foreign Key -> Application)
-    - `score` (Float)
-    - `status` (Enum: PASSED, FAILED)
+create table application (
+    id uuid primary key,
+    candidateid uuid references candidate (id),
+    jobid uuid references jobposting (id),
+    status text check (status in ('PENDING', 'REJECTED', 'ACCEPTED')) not null,
+    appliedat timestamp default current_timestamp
+);
 
-6. **Interview**
-    - `id` (UUID, Primary Key)
-    - `applicationId` (UUID, Foreign Key -> Application)
-    - `interviewDate` (Timestamp)
-    - `status` (Enum: SCHEDULED, COMPLETED)
+create table assessment (
+    id uuid primary key,
+    applicationid uuid references application (id),
+    score float,
+    status text check (status in ('PASSED', 'FAILED')) not null
+);
 
-7. **HiringDecision**
-    - `id` (UUID, Primary Key)
-    - `applicationId` (UUID, Foreign Key -> Application)
-    - `decision` (Enum: HIRED, REJECTED)
-    - `decisionDate` (Timestamp)
+create table interview (
+    id uuid primary key,
+    applicationid uuid references application (id),
+    interviewdate timestamp,
+    status text check (status in ('SCHEDULED', 'COMPLETED')) not null
+);
 
-#### **Relationships**
-- A **Company** has many **JobPostings**.
-- A **Candidate** can apply for multiple **JobPostings**.
-- A **JobPosting** can have multiple **Applications**.
-- An **Application** may have one **Assessment**.
-- An **Application** may have one or more **Interviews**.
-- An **Application** may result in one **HiringDecision**.
+create table hiringdecision (
+    id uuid primary key,
+    applicationid uuid references application (id),
+    decision text check (decision in ('HIRED', 'REJECTED')) not null,
+    decisiondate timestamp
+);
+
+And this is the entity relationship diagram:
+![entity DB relationships.png](pictures/entity%20DB%20relationships.png)
 
 #### **High-Level System Design**
 ![img.png](pictures/diagram.png)
 
-#### **C4**
+#### **C4 diagram**
+UML Diagram:
+@startuml
+' Define Context Level
+rectangle "LTI ATS" {
+actor "HR Manager" as HR
+actor "Candidate" as Candidate
+HR --> "LTI ATS"
+Candidate --> "LTI ATS"
+rectangle "External Integrations" {
+rectangle "Social Media"
+rectangle "Job Boards"
+}
+"LTI ATS" --> "Social Media"
+"LTI ATS" --> "Job Boards"
+}
 
-![img.png](pictures/C4.png)
+' Define Container Level
+rectangle "LTI ATS Containers" {
+rectangle "Web Frontend (React)" as FE
+rectangle "API Gateway (Spring Boot)" as API
+rectangle "Job Service (Spring Boot)" as JobService
+rectangle "Candidate Service (Spring Boot)" as CandidateService
+database "Database (PostgreSQL)" as DB
+FE --> API
+API --> JobService
+API --> CandidateService
+JobService --> DB
+CandidateService --> DB
+}
+
+' Define Component Level (Job Service)
+rectangle "Job Service Components" {
+rectangle "Job Posting Controller" as Controller
+rectangle "Job Posting Service" as Service
+rectangle "Job Repository" as Repository
+rectangle "Notification Service" as Notification
+rectangle "External Job Board Integration" as ExternalIntegration
+Controller --> Service
+Service --> Repository
+Service --> Notification
+Service --> ExternalIntegration
+}
+
+' Define Code Level (Job Posting Service)
+rectangle "Job Posting Service Code" {
+class "JobPostingController" {
++createJob()
++getJobs()
+}
+class "JobPostingService" {
++saveJob()
++filterJobs()
+}
+class "JobRepository" {
++storeJob()
++fetchJob()
+}
+class "NotificationService" {
++sendNotification()
+}
+class "ExternalJobBoardIntegration" {
++publishJob()
+}
+"JobPostingController" --> "JobPostingService"
+"JobPostingService" --> "JobRepository"
+"JobPostingService" --> "NotificationService"
+"JobPostingService" --> "ExternalJobBoardIntegration"
+}
+@enduml
+
+![C4.png](pictures/C4.png)

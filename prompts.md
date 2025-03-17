@@ -22,3 +22,20 @@ Please, I am going to ask you a few things:
 9) since DiagramGPT doesn't provide the C4 diagram, I had to move to Cursor integrated ChatGPT GPT-4o and ask specifically for it
 10) I was not able to access to the images that had been generated, so I had to ask "No se puede acceder a este sitio web", so it replied that I had to generate it via Lucidchart or draw.io
 11) I request it in lucidchart
+12) Again in ChatGPT: please with the provided information create the C4 diagram with the following parts:
+    **Prompt C4 diagram - 1**:
+    list me all the existing existing containers in a bullet list with only the names of the containers.
+
+**Prompt C4 diagram - 2**:
+Now I want you to list me all the componenst in a bullet list of the job service container
+
+**Prompt C4 diagram - 3**:
+Now I want you to list me all the componenst in a bullet list of the job service container
+
+**Prompt C4 diagram - 4**:
+I want you to generate a UML code to create a multi-level c4 diagram for the container Job Service and its component Job posting Service
+13) i need a graphic version of the whole C4 with its 4 parts
+14) separate each part and show them as a waterfall
+15) many words are blurry, and it is not presented as a waterfall
+16) It informed me that I could use PlantUML to generate the graphic diagram from the provided UML, and I asked it to generate the PNG image
+17) ChatGPT in not able to generate the image, so I have only added the previous C4 informed diagram

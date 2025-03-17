@@ -1,69 +1,66 @@
-#
-# LTI - Sistema Avançado de Gestão de Talentos
+# LTI - Sistema Avanzado de Gestión de Talentos
 
-## Descrição Breve
-LTI (Lean Talent Intelligence) é uma plataforma inovadora de Applicant Tracking System (ATS) projetada para otimizar e humanizar o processo de recrutamento e seleção. Desenvolvida com foco na experiência do recrutador e do candidato, a LTI utiliza inteligência artificial avançada para simplificar tarefas repetitivas, melhorar a qualidade das contratações e reduzir o tempo do ciclo de recrutamento.
+## Descripción Breve
+LTI (Lean Talent Intelligence) es una plataforma innovadora de Applicant Tracking System (ATS) diseñada para optimizar y humanizar el proceso de reclutamiento y selección. Desarrollada con enfoque en la experiencia del reclutador y del candidato, LTI utiliza inteligencia artificial avanzada para simplificar tareas repetitivas, mejorar la calidad de las contrataciones y reducir el tiempo del ciclo de reclutamiento.
 
 ## Valor Agregado
-- **Inteligência Aplicada:** Algoritmos de IA que aprendem continuamente com cada processo seletivo, aperfeiçoando a correspondência entre candidatos e vagas.
-- **Humanização Digital:** Experiência personalizada para candidatos com feedback contínuo e transparência em cada etapa do processo.
-- **Visão Holística:** Avaliação de candidatos além do currículo, considerando soft skills, cultura organizacional e potencial de desenvolvimento.
-- **Eficiência Operacional:** Automação inteligente que reduz em até 70% o tempo gasto em tarefas administrativas de recrutamento.
+- **Inteligencia Aplicada:** Algoritmos de IA que aprenden continuamente con cada proceso selectivo, perfeccionando la correspondencia entre candidatos y vacantes.
+- **Humanización Digital:** Experiencia personalizada para candidatos con feedback continuo y transparencia en cada etapa del proceso.
+- **Visión Holística:** Evaluación de candidatos más allá del currículum, considerando habilidades blandas, cultura organizacional y potencial de desarrollo.
+- **Eficiencia Operacional:** Automatización inteligente que reduce hasta un 70% el tiempo dedicado a tareas administrativas de reclutamiento.
 
-## Vantagens Competitivas
-- **Análise Preditiva de Desempenho:** Previsão de adequação do candidato à função e cultura organizacional, reduzindo rotatividade.
-- **Integração Omnichannel:** Presença unificada em redes sociais, plataformas de emprego e comunidades profissionais.
-- **Jornada de Candidatura Responsiva:** Interface adaptável a qualquer dispositivo com tempos de resposta ultrarrápidos.
-- **Escalabilidade Vertical:** Solução que atende desde startups até grandes corporações, com preços justos baseados no uso real.
-- **Conformidade Global:** Adaptável automaticamente às legislações de proteção de dados (LGPD, GDPR) de diferentes países.
+## Ventajas Competitivas
+- **Análisis Predictivo de Desempeño:** Previsión de adecuación del candidato a la función y cultura organizacional, reduciendo la rotación.
+- **Integración Omnicanal:** Presencia unificada en redes sociales, plataformas de empleo y comunidades profesionales.
+- **Jornada de Candidatura Responsiva:** Interfaz adaptable a cualquier dispositivo con tiempos de respuesta ultrarrápidos.
+- **Escalabilidad Vertical:** Solución que atiende desde startups hasta grandes corporaciones, con precios justos basados en el uso real.
+- **Conformidad Global:** Adaptable automáticamente a las legislaciones de protección de datos (LGPD, GDPR) de diferentes países.
 
-## Funções Principais
+## Funciones Principales
 
-### Funções MVP (Produto Mínimo Viável)
+### Funciones MVP (Producto Mínimo Viable)
 
 #### 1. Portal de Candidatos
-- Interface responsiva e intuitiva para inscrição em vagas
-- Criação de perfil e upload de currículo com extração automatizada de dados
-- Área do candidato para acompanhamento de status em tempo real
-- Agendamento automático de entrevistas com sincronização de calendários
-- Sistema de notificações personalizadas em cada etapa do processo
+- Interfaz responsiva e intuitiva para inscripción en vacantes
+- Creación de perfil y carga de currículum con extracción automatizada de datos
+- Área del candidato para seguimiento de estatus en tiempo real
+- Programación automática de entrevistas con sincronización de calendarios
+- Sistema de notificaciones personalizadas en cada etapa del proceso
 
 #### 2. Sourcing Inteligente
-- Rastreamento proativo de talentos em diversas plataformas
-- Construção automática de banco de talentos categorizado
-- Recomendação de canais mais efetivos por tipo de vaga
+- Rastreo proactivo de talentos en diversas plataformas
+- Construcción automática de banco de talentos categorizado
+- Recomendación de canales más efectivos por tipo de vacante
 
-#### 3. Triagem Cognitiva
-- Análise semântica de currículos e compatibilidade com vagas
-- Identificação de potencial além da experiência declarada
-- Detecção de soft skills a partir de perfis profissionais
+#### 3. Clasificación Cognitiva
+- Análisis semántico de currículos y compatibilidad con vacantes
+- Identificación de potencial más allá de la experiencia declarada
+- Detección de habilidades blandas a partir de perfiles profesionales
 
-#### 4. Gestão de Pipeline
-- Visualização personalizada do funil de recrutamento
-- Acompanhamento em tempo real do status de cada candidato
-- Automação de ações baseada em gatilhos e marcos do processo
+#### 4. Gestión de Pipeline
+- Visualización personalizada del embudo de reclutamiento
+- Seguimiento en tiempo real del estado de cada candidato
+- Automatización de acciones basada en disparadores e hitos del proceso
 
-#### 5. Comunicação Multicanal
-- Chatbots integrados para dúvidas frequentes
-- Agendamento automático de entrevistas com sincronização de calendários
-- Notificações personalizadas em cada etapa do processo
+#### 5. Comunicación Multicanal
+- Chatbots integrados para dudas frecuentes
+- Programación automática de entrevistas con sincronización de calendarios
+- Notificaciones personalizadas en cada etapa del proceso
 
-#### 6. Avaliação 360°
-- Testes técnicos e comportamentais integrados
-- Coleta e consolidação de feedback de múltiplos entrevistadores
-- Comparativo objetivo entre candidatos com base em critérios predefinidos
+#### 6. Evaluación 360°
+- Pruebas técnicas y comportamentales integradas
+- Recopilación y consolidación de feedback de múltiples entrevistadores
+- Comparativo objetivo entre candidatos con base en criterios predefinidos
 
 #### 7. Analytics & BI
-- Dashboard de métricas de recrutamento em tempo real
-- Relatórios customizáveis de performance e eficiência
-- Insights para otimização contínua de processos seletivos
+- Dashboard de métricas de reclutamiento en tiempo real
+- Informes personalizables de rendimiento y eficiencia
+- Insights para optimización continua de procesos selectivos
 
-
-
-#### 8. Onboarding Contínuo
-- Transição suave do processo seletivo para a integração
-- Preparação antecipada de recursos para novos colaboradores
-- Acompanhamento de adaptação nos primeiros 90 dias
+#### 8. Onboarding Continuo
+- Transición suave del proceso selectivo a la integración
+- Preparación anticipada de recursos para nuevos colaboradores
+- Seguimiento de adaptación en los primeros 90 días
 
 
 

@@ -2019,152 +2019,7 @@ flowchart TB
     BPROC --> MSA
 ```
 
-## 6. Modelo de Datos
-
-El siguiente modelo de datos es una representación simplificada de las principales entidades del sistema LTI:
-
-```mermaid
-erDiagram
-    USUARIO ||--o{ CANDIDATO : "tiene perfil de"
-    USUARIO ||--o{ RECLUTADOR : "tiene perfil de"
-    EMPRESA ||--o{ VACANTE : "publica"
-    VACANTE ||--o{ VACANTE_PALABRA_CLAVE : "contiene"
-    PALABRA_CLAVE ||--o{ VACANTE_PALABRA_CLAVE : "asociada a"
-    CANDIDATO ||--o{ CURRICULUM : "tiene"
-    CANDIDATO ||--o{ EXPERIENCIA_LABORAL : "registra"
-    CANDIDATO ||--o{ FORMACION : "posee"
-    CANDIDATO ||--o{ CANDIDATO_HABILIDAD : "tiene"
-    HABILIDAD ||--o{ CANDIDATO_HABILIDAD : "asignada a"
-    CANDIDATO ||--o{ CANDIDATO_IDIOMA : "habla"
-    IDIOMA ||--o{ CANDIDATO_IDIOMA : "hablado por"
-    CANDIDATO ||--o{ CANDIDATURA : "realiza"
-    VACANTE ||--o{ CANDIDATURA : "recibe"
-    CURRICULUM ||--|| CANDIDATURA : "asociado a"
-    VACANTE ||--|| PIPELINE : "tiene"
-    PIPELINE ||--o{ ETAPA_PIPELINE : "contiene"
-    CANDIDATURA ||--o{ CANDIDATURA_ETAPA : "pasa por"
-    ETAPA_PIPELINE ||--o{ CANDIDATURA_ETAPA : "incluye"
-    RECLUTADOR ||--o{ CANDIDATURA_ETAPA : "mueve"
-    CANDIDATURA ||--o{ ENTREVISTA : "programa"
-    ETAPA_PIPELINE ||--o{ ENTREVISTA : "requiere"
-    RECLUTADOR ||--o{ ENTREVISTA : "conduce"
-    ENTREVISTA ||--o{ FEEDBACK_ENTREVISTA : "recibe"
-    RECLUTADOR ||--o{ FEEDBACK_ENTREVISTA : "proporciona"
-    CANDIDATURA ||--o{ INTERACCION : "registra"
-    USUARIO ||--o{ INTERACCION : "realiza"
-    ETAPA_PIPELINE ||--o{ MODELO_EMAIL : "utiliza"
-    USUARIO ||--o{ NOTIFICACION : "recibe"
-    VACANTE ||--o{ FILTRO_CANDIDATOS : "utiliza"
-    RECLUTADOR ||--o{ FILTRO_CANDIDATOS : "crea"
-    FILTRO_CANDIDATOS ||--o{ CRITERIO_FILTRO : "contiene"
-    VACANTE ||--o{ VACANTE : "es subvacante de"
-    
-    USUARIO {
-        int id PK
-        string nombre
-        string apellidos
-        string email
-        string password_hash
-        string telefono
-        date fecha_registro
-        string tipo_usuario
-        boolean activo
-    }
-    
-    CANDIDATO {
-        int id PK
-        int usuario_id FK
-        string documento_identidad
-        date fecha_nacimiento
-        string linkedin_url
-        text resumen_profesional
-    }
-    
-    RECLUTADOR {
-        int id PK
-        int usuario_id FK
-        string cargo
-        string departamento
-        int nivel_acceso
-    }
-    
-    EMPRESA {
-        int id PK
-        string nombre
-        string nif
-        string direccion
-        string email_contacto
-        string logo_url
-    }
-    
-    VACANTE {
-        int id PK
-        int empresa_id FK
-        string titulo
-        text descripcion
-        string tipo_contrato
-        string ubicacion
-        date fecha_publicacion
-        date fecha_cierre
-        string estado
-    }
-    
-    CANDIDATURA {
-        int id PK
-        int candidato_id FK
-        int vacante_id FK
-        int curriculum_id FK
-        datetime fecha_inscripcion
-        string estado_actual
-        float puntuacion
-    }
-    
-    PIPELINE {
-        int id PK
-        int vacante_id FK
-        string nombre
-        boolean activo
-        datetime fecha_creacion
-    }
-    
-    ETAPA_PIPELINE {
-        int id PK
-        int pipeline_id FK
-        string nombre
-        int posicion
-        boolean requiere_entrevista
-    }
-    
-    ENTREVISTA {
-        int id PK
-        int candidatura_id FK
-        int etapa_id FK
-        int entrevistador_id FK
-        datetime fecha_programada
-        string formato
-        string estado
-    }
-    
-    FILTRO_CANDIDATOS {
-        int id PK
-        string nombre
-        int vacante_id FK
-        boolean es_publico
-        int creado_por FK
-    }
-    
-    CRITERIO_FILTRO {
-        int id PK
-        int filtro_id FK
-        string campo
-        string operador
-        string valor
-        float peso
-        boolean es_obligatorio
-    }
-```
-
-## 7. Flujo de Datos Principal
+## 6. Flujo de Datos Principal
 
 1. Los candidatos acceden al Portal de Candidatos donde crean perfiles y se postulan a vacantes.
 2. El Servicio de Gestión de Candidatos procesa los datos y currículums, utilizando el Motor de Extracción para estructurar la información.
@@ -2174,47 +2029,47 @@ erDiagram
 6. El Servicio de Comunicación envía notificaciones automáticas cuando ocurren cambios de estado.
 7. El Servicio de Análisis recopila datos de todo el proceso para generar informes y métricas.
 
-## 8. Tecnologías Recomendadas
+## 7. Tecnologías Recomendadas
 
-### 8.1. Frontend
+### 7.1. Frontend
 - **Framework**: React.js con TypeScript
 - **UI Components**: Material UI o Tailwind CSS
 - **Estado**: Redux o Context API
 - **Comunicación API**: Axios o React Query
 
-### 8.2. Backend
+### 7.2. Backend
 - **Lenguaje**: Node.js (Express) o Java (Spring Boot)
 - **API**: RESTful con OpenAPI/Swagger
 - **Autenticación**: OAuth 2.0 / JWT
 
-### 8.3. Bases de Datos
+### 7.3. Bases de Datos
 - **Relacional**: PostgreSQL
 - **Documental**: MongoDB
 - **Caché**: Redis
 - **Cola de Mensajes**: RabbitMQ o Kafka
 
-### 8.4. Inteligencia Artificial
+### 7.4. Inteligencia Artificial
 - **Procesamiento de Lenguaje Natural**: spaCy o NLTK
 - **Extracción de Datos**: TensorFlow o PyTorch para modelos de ML
 - **Algoritmos de Matching**: Algoritmos de similitud coseno y técnicas de ML supervisado
 
-### 8.5. Infraestructura
+### 7.5. Infraestructura
 - **Contenedores**: Docker
 - **Orquestación**: Kubernetes
 - **CI/CD**: Jenkins o GitHub Actions
 - **Monitoreo**: Prometheus y Grafana
 - **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
 
-## 9. Consideraciones Importantes
+## 8. Consideraciones Importantes
 
-### 9.1. Escalabilidad
+### 8.1. Escalabilidad
 - Arquitectura de microservicios para escalar componentes de forma independiente
 - Bases de datos con particionamiento para manejar grandes volúmenes de datos
 - Procesamiento asíncrono para tareas intensivas como la extracción de datos de currículums
 - Caché distribuida para mejorar el rendimiento de operaciones frecuentes
 - Balanceo de carga para distribuir el tráfico entre instancias
 
-### 9.2. Seguridad
+### 8.2. Seguridad
 - Autenticación multi-factor para accesos críticos
 - Encriptación de datos sensibles en reposo y en tránsito
 - Validación de entradas y salidas en todos los endpoints API
@@ -2222,20 +2077,20 @@ erDiagram
 - Auditoría completa de acciones críticas
 - Cumplimiento con LGPD/GDPR para datos personales
 
-### 9.3. Mantenibilidad
+### 8.3. Mantenibilidad
 - Documentación completa de APIs con OpenAPI/Swagger
 - Pruebas automatizadas para todos los componentes
 - Registro detallado de eventos para facilitar la depuración
 - Despliegue continuo con posibilidad de rollback
 - Separación clara de responsabilidades entre servicios
 
-### 9.4. Extensibilidad
+### 8.4. Extensibilidad
 - Arquitectura modular que permite añadir nuevos servicios
 - APIs versionadas para evolucionar sin romper compatibilidad
 - Eventos y mensajería para desacoplar componentes
 - Configuración centralizada para modificar comportamiento sin redespliegues
 
-## 10. Plan de Implementación para MVP
+## 9. Plan de Implementación para MVP
 
 1. **Fase 1**: Implementación del Portal de Candidatos y Gestión de Perfiles
 2. **Fase 2**: Desarrollo del Pipeline de Reclutamiento básico
@@ -2244,3 +2099,195 @@ erDiagram
 5. **Fase 5**: Despliegue del MVP con monitoreo inicial
 
 Cada fase incluye ciclos de desarrollo, pruebas y refinamiento con retroalimentación de usuarios clave.
+
+# Diagrama C4 del Servicio de Clasificación y Filtrado - LTI
+
+## Diagrama C4
+
+```mermaid
+graph TB
+    subgraph "Nivel 1: Contexto del Sistema"
+        RC[Reclutador] -.-> |"Configura filtros<br>y revisa resultados"| SCF
+        CA[Candidato] -.-> |"Se postula<br>a vacantes"| SGC
+        
+        subgraph "Sistema LTI"
+            SGC[Servicio de<br>Gestión de Candidatos]
+            SCF[Servicio de<br>Clasificación y Filtrado]
+            SRP[Servicio de<br>Pipeline de Reclutamiento]
+            
+            SGC --> |"Envía candidaturas<br>para evaluación"| SCF
+            SCF --> |"Envía candidatos<br>clasificados"| SRP
+        end
+    end
+    
+    subgraph "Nivel 2: Contenedores del Servicio de Clasificación"
+        subgraph "Servicio de Clasificación y Filtrado"
+            APICL[API de Clasificación]
+            WSCL[Workers de Clasificación]
+            MLCL[Módulo de ML]
+            BDCL[(Base de Datos<br>de Clasificación)]
+            CACL[(Caché de<br>Resultados)]
+            
+            APICL <--> WSCL
+            WSCL <--> MLCL
+            WSCL <--> BDCL
+            MLCL <--> CACL
+            APICL <--> CACL
+        end
+        
+        APIG[API Gateway] --> APICL
+        APICL --> SGCAPI[API Gestión<br>de Candidatos]
+        APICL --> SRPAPI[API Pipeline<br>de Reclutamiento]
+        MLCL <--> S3[Almacenamiento<br>de Modelos]
+    end
+    
+    subgraph "Nivel 3: Componentes"
+        subgraph "API de Clasificación"
+            GF[Gestor de<br>Filtros]
+            GC[Gestor de<br>Configuración]
+            EM[Evaluador de<br>Matching]
+            PC[Procesador de<br>Consultas]
+            
+            GF <--> GC
+            GF <--> EM
+            EM <--> PC
+            GC <--> PC
+        end
+        
+        subgraph "Workers de Clasificación"
+            PB[Procesador<br>por Lotes]
+            PR[Procesador en<br>Tiempo Real]
+            GE[Gestor de<br>Encolamiento]
+            MO[Monitor de<br>Operaciones]
+            
+            PB <--> GE
+            PR <--> GE
+            PB <--> MO
+            PR <--> MO
+        end
+        
+        subgraph "Módulo de ML"
+            PF[Preprocesador<br>de Features]
+            MA[Modelo de<br>Afinidad]
+            MH[Modelo de<br>Habilidades]
+            MP[Modelo<br>Predictivo]
+            EV[Evaluador de<br>Precisión]
+            
+            PF --> MA & MH & MP
+            MA & MH & MP --> EV
+        end
+        
+        GF <--> PB & PR
+        EM <--> MA & MH & MP
+        PC <--> CACL
+        MO <--> LOG[Servicio de<br>Logging]
+    end
+    
+    subgraph "Nivel 4: Código (Componente de Afinidad)"
+        subgraph "Modelo de Afinidad"
+            TP[Tokenizador de<br>Perfiles]
+            CV[Conversor<br>Vectorial]
+            MC[Matriz de<br>Coincidencia]
+            CP[Calculador de<br>Puntuación]
+            
+            TP --> CV
+            CV --> MC
+            MC --> CP
+        end
+        
+        EXTDATA[Extractor de<br>Datos CV] --> TP
+        REQ[Requisitos de<br>Vacante] --> CV
+        CP --> |"Puntuación<br>de Match"| RANKER[Sistema de<br>Ranking]
+    end
+    
+    classDef context fill:#C4F5FF,stroke:#0099CC,color:#003366
+    classDef container fill:#B3E6CC,stroke:#339966,color:#003300
+    classDef component fill:#FFE6CC,stroke:#FF9933,color:#663300
+    classDef code fill:#F5E6FF,stroke:#9966CC,color:#330066
+    
+    class RC,CA context
+    class APICL,WSCL,MLCL,BDCL,CACL,APIG,SGCAPI,SRPAPI,S3 container
+    class GF,GC,EM,PC,PB,PR,GE,MO,PF,MA,MH,MP,EV,LOG component
+    class TP,CV,MC,CP,EXTDATA,REQ,RANKER code
+```
+
+## Descripción General
+
+Este diagrama C4 muestra una descomposición progresiva del Servicio de Clasificación y Filtrado del sistema LTI, siguiendo la metodología C4 (Contexto, Contenedores, Componentes y Código). Este enfoque permite visualizar la arquitectura desde diferentes niveles de abstracción, comenzando con una visión general del sistema hasta llegar a un detalle específico de implementación.
+
+## Nivel 1: Contexto del Sistema
+
+En este nivel se muestra cómo el Servicio de Clasificación y Filtrado se relaciona con otros elementos principales del sistema LTI:
+
+- **Usuarios principales**: Reclutadores que configuran filtros y Candidatos que se postulan a vacantes
+- **Servicios relacionados**: 
+  - Servicio de Gestión de Candidatos (envía candidaturas para evaluación)
+  - Servicio de Pipeline de Reclutamiento (recibe candidatos clasificados)
+
+## Nivel 2: Contenedores
+
+Este nivel descompone el Servicio de Clasificación y Filtrado en sus principales contenedores:
+
+- **API de Clasificación**: Interfaz REST que expone las funcionalidades del servicio
+- **Workers de Clasificación**: Procesadores que ejecutan las tareas de clasificación
+- **Módulo de Machine Learning**: Contiene los modelos de IA para clasificación
+- **Base de Datos de Clasificación**: Almacena configuraciones, filtros y resultados
+- **Caché de Resultados**: Mejora el rendimiento almacenando resultados frecuentes
+
+Además, se muestran las interacciones con elementos externos como:
+- API Gateway (punto de entrada)
+- APIs de otros servicios (Gestión de Candidatos, Pipeline)
+- Almacenamiento de Modelos (para persisitencia de modelos entrenados)
+
+## Nivel 3: Componentes
+
+Este nivel detalla los componentes internos de cada contenedor:
+
+### API de Clasificación:
+- **Gestor de Filtros**: Administra las configuraciones de filtrado
+- **Gestor de Configuración**: Maneja parámetros del sistema
+- **Evaluador de Matching**: Determina la compatibilidad candidato-vacante
+- **Procesador de Consultas**: Maneja las peticiones de búsqueda y filtrado
+
+### Workers de Clasificación:
+- **Procesador por Lotes**: Ejecuta tareas de clasificación masiva
+- **Procesador en Tiempo Real**: Maneja solicitudes inmediatas
+- **Gestor de Encolamiento**: Administra colas de tareas
+- **Monitor de Operaciones**: Supervisa rendimiento y errores
+
+### Módulo de ML:
+- **Preprocesador de Features**: Transforma datos para modelos ML
+- **Modelo de Afinidad**: Evalúa compatibilidad general
+- **Modelo de Habilidades**: Identifica y valida competencias
+- **Modelo Predictivo**: Predice probabilidad de éxito en el proceso
+- **Evaluador de Precisión**: Monitorea calidad de las predicciones
+
+## Nivel 4: Código (Componente de Afinidad)
+
+Este nivel profundiza en la implementación del Modelo de Afinidad:
+
+- **Tokenizador de Perfiles**: Procesa textos de CV y vacantes
+- **Conversor Vectorial**: Transforma texto a vectores numéricos
+- **Matriz de Coincidencia**: Calcula similitudes entre vectores
+- **Calculador de Puntuación**: Determina puntaje final de compatibilidad
+
+También se muestran las entradas (Extractor de Datos CV, Requisitos de Vacante) y la salida principal (Sistema de Ranking).
+
+## Beneficios de este Diseño
+
+1. **Separación de responsabilidades**: Cada componente tiene una función específica
+2. **Escalabilidad**: Permite escalar independientemente los workers y modelos ML
+3. **Flexibilidad**: Facilita la actualización de los modelos sin afectar a la API
+4. **Rendimiento**: Utiliza procesamiento en tiempo real y por lotes según necesidades
+5. **Mantenibilidad**: Estructura modular facilita pruebas y actualizaciones
+6. **Evolución**: Permite mejorar progresivamente los algoritmos de clasificación
+
+## Tecnologías Sugeridas para Implementación
+
+- **API**: Node.js/Express o Python/FastAPI
+- **Workers**: Celery o AWS Lambda
+- **ML**: Python con TensorFlow/PyTorch/scikit-learn
+- **Almacenamiento**: PostgreSQL para datos estructurados, MongoDB para documentos
+- **Comunicación**: REST para sincrónico, RabbitMQ para asincrónico
+- **Despliegue**: Contenedores Docker orquestados con Kubernetes
+- **Procesamiento de Texto**: spaCy o NLTK para NLP

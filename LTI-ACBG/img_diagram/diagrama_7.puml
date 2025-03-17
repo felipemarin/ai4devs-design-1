@@ -1,0 +1,18 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_TOP_DOWN()
+
+Container(frontend, "Front-end Web/Móvil", "React/Angular", "Interfaz de usuario")
+Container(api, "API Gateway", "Node.js/Express", "Encamina las peticiones")
+Container(recepcion, "Servicio de Recepción de Candidaturas", "Java/Python", "Procesa y almacena solicitudes")
+Container(ml, "Servicio de Filtrado y Evaluación", "Python", "Analiza y califica candidatos con IA")
+Container(db, "Base de Datos", "PostgreSQL", "Almacena información de candidatos y vacantes")
+
+Rel(frontend, api, "HTTP/HTTPS")
+Rel(api, recepcion, "REST API")
+Rel(api, ml, "REST API")
+Rel(recepcion, db, "Lee/Escribe datos de candidaturas")
+Rel(ml, db, "Lee/Escribe evaluaciones")
+
+@enduml

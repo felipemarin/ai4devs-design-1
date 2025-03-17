@@ -1,0 +1,31 @@
+@startuml
+title Caso de Uso: Publicación y Gestión de Vacantes
+
+actor "Visitante" as Visitor
+actor "Usuario Logueado" as LoggedUser
+
+usecase "Ver Vacantes" as UC_Ver
+usecase "Crear Vacante" as UC_Crear
+usecase "Editar Vacante" as UC_Editar
+usecase "Publicar Vacante" as UC_Publicar
+
+'Relaciones
+Visitor --> UC_Ver
+LoggedUser --> UC_Ver
+LoggedUser --> UC_Crear
+LoggedUser --> UC_Editar
+LoggedUser --> UC_Publicar
+
+note right of UC_Crear
+  Requiere autenticación
+end note
+
+note right of UC_Editar
+  Requiere autenticación
+end note
+
+note right of UC_Publicar
+  Requiere autenticación
+end note
+
+@enduml

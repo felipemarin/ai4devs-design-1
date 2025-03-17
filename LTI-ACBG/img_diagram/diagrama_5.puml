@@ -1,0 +1,38 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Candidato {
+  - id : Integer [PK]
+  - firstName : String (opcional)
+  - lastName : String
+  - email : String
+  - cvUrl : String
+  - estado : String
+}
+
+class Vacante {
+  - id : Integer [PK]
+  - titulo : String
+  - descripcion : String
+  - fechaPublicacion : Date
+  - estado : String
+}
+
+class Reclutador {
+  - id : Integer [PK]
+  - nombre : String
+  - email : String
+}
+
+class Entrevista {
+  - id : Integer [PK]
+  - candidatoId : Integer [FK]
+  - reclutadorId : Integer [FK]
+  - fecha : DateTime
+  - resultado : String (opcional)
+}
+
+Candidato "1..*" -- "0..*" Vacante : postula
+Candidato "1" -- "0..*" Entrevista : participa
+Reclutador "1" -- "0..*" Entrevista : gestiona
+@enduml

@@ -1,0 +1,29 @@
+####Analisis claude
+eres un experto en producto, con experiencia  en sistemas de reclutamiento ATS. ¿ Qué funcionalidades básicas tiene un sistema ATS?. 
+Descríbelos en un listado, ordenado de mayor a menor prioridad.
+
+¿que sistemas de ATS open source son más utilizados?
+
+¿cuáles son los sistemas de ATS comerciales más conocidos? Compáralos en función de practicidad, dificultad de uso,  
+herramientas disponibles, arco de aprendizaje y cuál serian las dos mejores opciones.
+
+¿de estas dos opciones alguna ocupa AI para alguno de sus procesos?
+
+
+en el análisis de CV, de estas dos opciones, ¿ cuáles son sus patrones a tomar en cuenta?
+
+###Documentación
+
+eres un experto analista de software. Estoy construyendo un sistema de ATS tipo Greenhouse, SmartRecruiters.  
+Enumera y describe los casos de uso más importantes a implementar para lograr una funcionalidad básica.
+
+Representa los 3 principales casos de uso en un diagrama lean canvas.
+
+
+Representa los 3 principales casos de uso en el tipo de diagrama más adecuado usando el formato plantUML. 
+Acorde a la sintaxis y buenas prácticas UML. define y describe lo necesario.
+
+utilizando una arquitectura de microservicios para el sistema de ATS, utilizando el patrón de arquitectura hexagonal. 
+tiene un frontend que se comunica con una api, cada microservicio tiene su propia base de datos y ocupa AWS.
+
+genera un diagrama c4 con la arquitectura anterior.

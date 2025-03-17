@@ -1618,3 +1618,629 @@ Implementado a través de PIPELINE, ETAPA_PIPELINE, CANDIDATURA_ETAPA, ENTREVIST
 
 ### Caso de Uso 3: Filtrado Básico
 Construido sobre las entidades FILTRO_CANDIDATOS, CRITERIO_FILTRO, PALABRA_CLAVE y sus relaciones con VACANTE y CANDIDATURA.
+
+
+# Arquitectura del Sistema LTI - Diseño de Alto Nivel
+
+## 1. Visión General
+
+El sistema LTI (Lean Talent Intelligence) está diseñado como una plataforma moderna de gestión de candidatos utilizando una arquitectura de microservicios, con interfaces web responsivas y APIs RESTful. Esta arquitectura permite escalabilidad, mantenibilidad y la capacidad de evolucionar con nuevas características de inteligencia artificial a medida que el sistema madure.
+
+## 2. Arquitectura General
+
+```mermaid
+flowchart TB
+    subgraph "Frontend"
+        PC[Portal de Candidatos]
+        PR[Portal de Reclutamiento]
+    end
+    
+    subgraph "API Gateway"
+        GW[API Gateway]
+    end
+    
+    subgraph "Microservicios"
+        direction TB
+        AA[Autenticación y Autorización]
+        GC[Gestión de Candidatos]
+        GP[Gestión de Pipeline]
+        SC[Servicio de Clasificación]
+        CO[Comunicaciones]
+        AN[Análisis y Reportes]
+    end
+    
+    subgraph "Capa de Inteligencia"
+        ED[Extracción de Datos]
+        MC[Motor de Clasificación]
+        MR[Motor de Recomendación]
+    end
+    
+    subgraph "Capa de Datos"
+        BD[(Base de Datos Relacional)]
+        BDD[(Base de Datos Documental)]
+        CA[(Caché)]
+        CM[(Cola de Mensajes)]
+    end
+    
+    subgraph "Servicios Transversales"
+        LO[Logging]
+        MO[Monitoreo]
+        CF[Configuración]
+    end
+    
+    PC --> GW
+    PR --> GW
+    
+    GW --> AA
+    GW --> GC
+    GW --> GP
+    GW --> SC
+    GW --> CO
+    GW --> AN
+    
+    GC <--> ED
+    SC <--> MC
+    SC <--> MR
+    AN <--> MC
+    
+    AA --> BD
+    GC --> BD
+    GC --> BDD
+    GP --> BD
+    SC --> BD
+    CO --> BD
+    AN --> BD
+    
+    ED --> BDD
+    MC --> CA
+    
+    GC <--> CM
+    GP <--> CM
+    CO <--> CM
+    
+    AA --> LO
+    GC --> LO
+    GP --> LO
+    SC --> LO
+    CO --> LO
+    AN --> LO
+    
+    AA --> MO
+    GC --> MO
+    GP --> MO
+    SC --> MO
+    CO --> MO
+    AN --> MO
+    
+    AA --> CF
+    GC --> CF
+    GP --> CF
+    SC --> CF
+    CO --> CF
+    AN --> CF
+```
+
+## 3. Componentes Principales
+
+### 3.1. Frontend
+
+El frontend está compuesto por dos interfaces principales:
+
+- **Portal de Candidatos**: Interfaz pública donde los candidatos pueden registrarse, crear perfiles, subir currículums y postularse a vacantes.
+- **Portal de Reclutamiento**: Interfaz interna para reclutadores y gerentes de RRHH donde gestionan vacantes, configuran pipelines, evalúan candidatos y administran todo el proceso de selección.
+
+Ambas interfaces están construidas como aplicaciones web progresivas (PWA), permitiendo acceso responsivo desde cualquier dispositivo.
+
+### 3.2. Backend
+
+La capa de backend se divide en varios microservicios especializados:
+
+- **Servicio de Autenticación y Autorización**: Gestiona la identidad de usuarios, registro, inicio de sesión y control de acceso.
+- **Servicio de Gestión de Candidatos**: Administra perfiles, currículums y postulaciones.
+- **Servicio de Pipeline**: Gestiona el flujo de trabajo del proceso de selección con sus diferentes etapas.
+- **Servicio de Clasificación**: Implementa los algoritmos de filtrado y puntuación de candidatos.
+- **Servicio de Comunicación**: Gestiona plantillas de correo, notificaciones y comunicaciones con candidatos.
+- **Servicio de Análisis**: Proporciona métricas, informes y análisis del proceso de reclutamiento.
+
+### 3.3. Capa de Inteligencia
+
+- **Motor de Extracción de Datos**: Procesa currículums para extraer información estructurada.
+- **Motor de Clasificación**: Analiza la compatibilidad entre candidatos y vacantes.
+- **Motor de Recomendación**: Sugiere candidatos adecuados para vacantes específicas.
+
+### 3.4. Capa de Datos
+
+- **Base de Datos Relacional**: Almacena datos estructurados como perfiles, vacantes, configuraciones.
+- **Base de Datos Documental**: Almacena documentos como currículums y otros archivos no estructurados.
+- **Caché**: Mejora el rendimiento almacenando resultados frecuentes de consultas.
+- **Cola de Mensajes**: Facilita la comunicación asíncrona entre servicios.
+
+### 3.5. Servicios Transversales
+
+- **Gateway API**: Punto de entrada único para todas las peticiones al backend.
+- **Servicio de Logging**: Registra eventos y errores del sistema.
+- **Servicio de Monitoreo**: Supervisa el rendimiento y la salud del sistema.
+- **Servicio de Configuración**: Centraliza la configuración de todos los servicios.
+
+## 4. Diagrama Detallado de Componentes
+
+```mermaid
+graph TB
+    subgraph "Clientes"
+        CW[Cliente Web]
+        CM[Cliente Móvil]
+        E[Correo Electrónico]
+    end
+    
+    subgraph "Capa de Presentación"
+        direction LR
+        PPC[Portal Público<br>de Candidatos]
+        PAR[Portal Administrativo<br>de Reclutamiento]
+        API[API RESTful]
+    end
+    
+    subgraph "Capa de Aplicación"
+        direction TB
+        subgraph "Servicios de Negocio"
+            SAA[Servicio de<br>Autenticación]
+            SGP[Servicio de Gestión<br>de Perfiles]
+            SGV[Servicio de Gestión<br>de Vacantes]
+            SRP[Servicio de Reclutamiento<br>y Pipeline]
+            SCL[Servicio de Clasificación<br>y Filtrado]
+            SEC[Servicio de Entrevistas<br>y Comunicación]
+            SAN[Servicio de Análisis<br>y Reportes]
+        end
+        
+        subgraph "Servicios de Soporte"
+            SNF[Servicio de Notificaciones]
+            SRA[Servicio de Registro<br>y Auditoría]
+            STD[Servicio de<br>Transformación de Datos]
+        end
+    end
+    
+    subgraph "Capa de Inteligencia"
+        EXT[Motor de Extracción<br>de Currículum]
+        IAC[IA de Clasificación<br>y Matching]
+        ANP[Análisis Predictivo]
+    end
+    
+    subgraph "Capa de Persistencia"
+        direction LR
+        BDR[(Base de Datos<br>Relacional)]
+        BDD[(Almacenamiento<br>de Documentos)]
+        BDC[(Caché)]
+        CMQ[(Cola de Mensajes)]
+    end
+    
+    subgraph "Sistemas Externos"
+        direction TB
+        RRSS[Redes Sociales<br>Profesionales]
+        BOLE[Bolsas de Empleo]
+        CALE[Calendario y<br>Agenda]
+        MAIL[Servicio de Email]
+    end
+    
+    %% Conexiones Cliente-Presentación
+    CW --> PPC & PAR & API
+    CM --> PPC & PAR & API
+    E --> SNF
+    
+    %% Conexiones Presentación-Aplicación
+    PPC --> SAA & SGP & SGV
+    PAR --> SAA & SGP & SGV & SRP & SCL & SEC & SAN
+    API --> SAA & SGP & SGV & SRP & SCL & SEC & SAN
+    
+    %% Conexiones entre Servicios de Negocio
+    SAA --> SRA
+    SGP --> SNF & SRA
+    SGV --> SNF & SRA
+    SRP --> SNF & SRA
+    SCL --> SNF & SRA
+    SEC --> SNF & SRA
+    SAN --> SRA
+    
+    %% Conexiones con Capa de Inteligencia
+    SGP --> EXT
+    SGV --> IAC
+    SCL --> IAC & ANP
+    SRP --> ANP
+    SAN --> ANP
+    
+    %% Conexiones con Persistencia
+    SAA & SGP & SGV & SRP & SCL & SEC & SAN --> BDR
+    EXT & SGP --> BDD
+    IAC & SCL --> BDC
+    SNF & SRP & SEC --> CMQ
+    
+    %% Conexiones con Sistemas Externos
+    SGP <--> RRSS
+    SGV <--> BOLE
+    SEC <--> CALE
+    SNF <--> MAIL
+    
+    %% Conexiones de Soporte
+    STD --> EXT
+    STD --> IAC
+```
+
+## 5. Diagrama de Despliegue
+
+```mermaid
+flowchart TB
+    subgraph "Usuarios"
+        UC[Candidatos]
+        UR[Reclutadores]
+        UA[Administradores]
+    end
+    
+    subgraph "Infraestructura Cloud"
+        subgraph "Zona de Acceso"
+            LB[Balanceador de Carga]
+            WAF[Firewall de<br>Aplicaciones Web]
+            CDN[Red de Distribución<br>de Contenido]
+        end
+        
+        subgraph "Zona Frontend"
+            FST["Servidores Frontend<br>(Static Web Apps)"]
+        end
+        
+        subgraph "Zona API"
+            APIG[API Gateway]
+            subgraph "Contenedores de API"
+                APIS["API Services<br>(Kubernetes Pods)"]
+            end
+        end
+        
+        subgraph "Zona de Microservicios"
+            subgraph "Servicio de Candidatos"
+                MSC["Microservicio de<br>Gestión de Candidatos"]
+            end
+            
+            subgraph "Servicio de Reclutamiento"
+                MSR["Microservicio de<br>Pipeline y Reclutamiento"]
+            end
+            
+            subgraph "Servicio de Clasificación"
+                MSF["Microservicio de<br>Filtrado y Clasificación"]
+            end
+            
+            subgraph "Servicio de Comunicación"
+                MSM["Microservicio de<br>Comunicaciones"]
+            end
+            
+            subgraph "Servicio de Análisis"
+                MSA["Microservicio de<br>Análisis y Reportes"]
+            end
+            
+            subgraph "Servicio de Autenticación"
+                MSAuth["Microservicio de<br>Auth y Autorización"]
+            end
+        end
+        
+        subgraph "Zona de Procesamiento"
+            subgraph "Procesamiento de IA"
+                CVPROC["Procesador de<br>Currículum"]
+                MLPROC["Motor de<br>Machine Learning"]
+            end
+            
+            subgraph "Procesamiento Batch"
+                BPROC["Procesamiento<br>por Lotes"]
+            end
+        end
+        
+        subgraph "Zona de Datos"
+            subgraph "Bases de Datos"
+                PSQL["PostgreSQL<br>(Datos Principales)"]
+                MONGO["MongoDB<br>(Documentos)"]
+                REDIS["Redis<br>(Caché)"]
+                MQ["RabbitMQ<br>(Cola de Mensajes)"]
+            end
+            
+            subgraph "Almacenamiento"
+                S3["Almacenamiento<br>de Objetos"]
+                BACKUP["Copias de<br>Seguridad"]
+            end
+        end
+        
+        subgraph "Zona de Monitoreo"
+            LOG["Servicio de<br>Logging"]
+            MON["Monitoreo y<br>Métricas"]
+            ALERT["Gestión de<br>Alertas"]
+        end
+    end
+    
+    subgraph "Servicios de Terceros"
+        EMAIL["Servicio de Email"]
+        SMS["Servicio de SMS"]
+        LINKEDIN["LinkedIn API"]
+        JOBBOARD["Job Boards APIs"]
+    end
+    
+    %% Conexiones de usuarios
+    UC & UR & UA --> CDN
+    UC & UR & UA --> WAF
+    
+    %% Conexiones de zona de acceso
+    CDN --> FST
+    WAF --> LB
+    LB --> FST
+    LB --> APIG
+    
+    %% Conexiones de zona Frontend
+    FST --> APIG
+    
+    %% Conexiones de API Gateway
+    APIG --> APIS
+    
+    %% Conexiones de API Services
+    APIS --> MSC & MSR & MSF & MSM & MSA & MSAuth
+    
+    %% Conexiones entre microservicios
+    MSC <--> MSAuth
+    MSR <--> MSAuth
+    MSF <--> MSAuth
+    MSM <--> MSAuth
+    MSA <--> MSAuth
+    
+    MSC <--> MSR
+    MSC <--> MSF
+    MSR <--> MSF
+    MSR <--> MSM
+    MSA <--> MSC & MSR & MSF
+    
+    %% Conexiones de procesamiento
+    MSC --> CVPROC
+    MSF --> MLPROC
+    CVPROC --> S3
+    MLPROC --> REDIS
+    
+    %% Conexiones a bases de datos
+    MSC & MSR & MSF & MSM & MSA & MSAuth --> PSQL
+    MSC --> MONGO
+    MSF & MSC & MSR --> REDIS
+    MSM & MSR --> MQ
+    
+    %% Conexiones a almacenamiento
+    MSC --> S3
+    PSQL & MONGO --> BACKUP
+    
+    %% Conexiones de monitoreo
+    MSC & MSR & MSF & MSM & MSA & MSAuth --> LOG
+    MSC & MSR & MSF & MSM & MSA & MSAuth --> MON
+    MON --> ALERT
+    
+    %% Conexiones a servicios externos
+    MSM --> EMAIL & SMS
+    MSC --> LINKEDIN
+    MSR --> JOBBOARD
+    
+    %% Procesamiento batch
+    BPROC --> PSQL & MONGO
+    BPROC --> MSA
+```
+
+## 6. Modelo de Datos
+
+El siguiente modelo de datos es una representación simplificada de las principales entidades del sistema LTI:
+
+```mermaid
+erDiagram
+    USUARIO ||--o{ CANDIDATO : "tiene perfil de"
+    USUARIO ||--o{ RECLUTADOR : "tiene perfil de"
+    EMPRESA ||--o{ VACANTE : "publica"
+    VACANTE ||--o{ VACANTE_PALABRA_CLAVE : "contiene"
+    PALABRA_CLAVE ||--o{ VACANTE_PALABRA_CLAVE : "asociada a"
+    CANDIDATO ||--o{ CURRICULUM : "tiene"
+    CANDIDATO ||--o{ EXPERIENCIA_LABORAL : "registra"
+    CANDIDATO ||--o{ FORMACION : "posee"
+    CANDIDATO ||--o{ CANDIDATO_HABILIDAD : "tiene"
+    HABILIDAD ||--o{ CANDIDATO_HABILIDAD : "asignada a"
+    CANDIDATO ||--o{ CANDIDATO_IDIOMA : "habla"
+    IDIOMA ||--o{ CANDIDATO_IDIOMA : "hablado por"
+    CANDIDATO ||--o{ CANDIDATURA : "realiza"
+    VACANTE ||--o{ CANDIDATURA : "recibe"
+    CURRICULUM ||--|| CANDIDATURA : "asociado a"
+    VACANTE ||--|| PIPELINE : "tiene"
+    PIPELINE ||--o{ ETAPA_PIPELINE : "contiene"
+    CANDIDATURA ||--o{ CANDIDATURA_ETAPA : "pasa por"
+    ETAPA_PIPELINE ||--o{ CANDIDATURA_ETAPA : "incluye"
+    RECLUTADOR ||--o{ CANDIDATURA_ETAPA : "mueve"
+    CANDIDATURA ||--o{ ENTREVISTA : "programa"
+    ETAPA_PIPELINE ||--o{ ENTREVISTA : "requiere"
+    RECLUTADOR ||--o{ ENTREVISTA : "conduce"
+    ENTREVISTA ||--o{ FEEDBACK_ENTREVISTA : "recibe"
+    RECLUTADOR ||--o{ FEEDBACK_ENTREVISTA : "proporciona"
+    CANDIDATURA ||--o{ INTERACCION : "registra"
+    USUARIO ||--o{ INTERACCION : "realiza"
+    ETAPA_PIPELINE ||--o{ MODELO_EMAIL : "utiliza"
+    USUARIO ||--o{ NOTIFICACION : "recibe"
+    VACANTE ||--o{ FILTRO_CANDIDATOS : "utiliza"
+    RECLUTADOR ||--o{ FILTRO_CANDIDATOS : "crea"
+    FILTRO_CANDIDATOS ||--o{ CRITERIO_FILTRO : "contiene"
+    VACANTE ||--o{ VACANTE : "es subvacante de"
+    
+    USUARIO {
+        int id PK
+        string nombre
+        string apellidos
+        string email
+        string password_hash
+        string telefono
+        date fecha_registro
+        string tipo_usuario
+        boolean activo
+    }
+    
+    CANDIDATO {
+        int id PK
+        int usuario_id FK
+        string documento_identidad
+        date fecha_nacimiento
+        string linkedin_url
+        text resumen_profesional
+    }
+    
+    RECLUTADOR {
+        int id PK
+        int usuario_id FK
+        string cargo
+        string departamento
+        int nivel_acceso
+    }
+    
+    EMPRESA {
+        int id PK
+        string nombre
+        string nif
+        string direccion
+        string email_contacto
+        string logo_url
+    }
+    
+    VACANTE {
+        int id PK
+        int empresa_id FK
+        string titulo
+        text descripcion
+        string tipo_contrato
+        string ubicacion
+        date fecha_publicacion
+        date fecha_cierre
+        string estado
+    }
+    
+    CANDIDATURA {
+        int id PK
+        int candidato_id FK
+        int vacante_id FK
+        int curriculum_id FK
+        datetime fecha_inscripcion
+        string estado_actual
+        float puntuacion
+    }
+    
+    PIPELINE {
+        int id PK
+        int vacante_id FK
+        string nombre
+        boolean activo
+        datetime fecha_creacion
+    }
+    
+    ETAPA_PIPELINE {
+        int id PK
+        int pipeline_id FK
+        string nombre
+        int posicion
+        boolean requiere_entrevista
+    }
+    
+    ENTREVISTA {
+        int id PK
+        int candidatura_id FK
+        int etapa_id FK
+        int entrevistador_id FK
+        datetime fecha_programada
+        string formato
+        string estado
+    }
+    
+    FILTRO_CANDIDATOS {
+        int id PK
+        string nombre
+        int vacante_id FK
+        boolean es_publico
+        int creado_por FK
+    }
+    
+    CRITERIO_FILTRO {
+        int id PK
+        int filtro_id FK
+        string campo
+        string operador
+        string valor
+        float peso
+        boolean es_obligatorio
+    }
+```
+
+## 7. Flujo de Datos Principal
+
+1. Los candidatos acceden al Portal de Candidatos donde crean perfiles y se postulan a vacantes.
+2. El Servicio de Gestión de Candidatos procesa los datos y currículums, utilizando el Motor de Extracción para estructurar la información.
+3. El Servicio de Clasificación evalúa las candidaturas contra los requisitos de la vacante.
+4. Los reclutadores acceden al Portal de Reclutamiento para revisar candidaturas filtradas y organizadas.
+5. El Servicio de Pipeline gestiona el movimiento de candidatos a través de las diferentes etapas del proceso.
+6. El Servicio de Comunicación envía notificaciones automáticas cuando ocurren cambios de estado.
+7. El Servicio de Análisis recopila datos de todo el proceso para generar informes y métricas.
+
+## 8. Tecnologías Recomendadas
+
+### 8.1. Frontend
+- **Framework**: React.js con TypeScript
+- **UI Components**: Material UI o Tailwind CSS
+- **Estado**: Redux o Context API
+- **Comunicación API**: Axios o React Query
+
+### 8.2. Backend
+- **Lenguaje**: Node.js (Express) o Java (Spring Boot)
+- **API**: RESTful con OpenAPI/Swagger
+- **Autenticación**: OAuth 2.0 / JWT
+
+### 8.3. Bases de Datos
+- **Relacional**: PostgreSQL
+- **Documental**: MongoDB
+- **Caché**: Redis
+- **Cola de Mensajes**: RabbitMQ o Kafka
+
+### 8.4. Inteligencia Artificial
+- **Procesamiento de Lenguaje Natural**: spaCy o NLTK
+- **Extracción de Datos**: TensorFlow o PyTorch para modelos de ML
+- **Algoritmos de Matching**: Algoritmos de similitud coseno y técnicas de ML supervisado
+
+### 8.5. Infraestructura
+- **Contenedores**: Docker
+- **Orquestación**: Kubernetes
+- **CI/CD**: Jenkins o GitHub Actions
+- **Monitoreo**: Prometheus y Grafana
+- **Logging**: ELK Stack (Elasticsearch, Logstash, Kibana)
+
+## 9. Consideraciones Importantes
+
+### 9.1. Escalabilidad
+- Arquitectura de microservicios para escalar componentes de forma independiente
+- Bases de datos con particionamiento para manejar grandes volúmenes de datos
+- Procesamiento asíncrono para tareas intensivas como la extracción de datos de currículums
+- Caché distribuida para mejorar el rendimiento de operaciones frecuentes
+- Balanceo de carga para distribuir el tráfico entre instancias
+
+### 9.2. Seguridad
+- Autenticación multi-factor para accesos críticos
+- Encriptación de datos sensibles en reposo y en tránsito
+- Validación de entradas y salidas en todos los endpoints API
+- Control de acceso basado en roles (RBAC)
+- Auditoría completa de acciones críticas
+- Cumplimiento con LGPD/GDPR para datos personales
+
+### 9.3. Mantenibilidad
+- Documentación completa de APIs con OpenAPI/Swagger
+- Pruebas automatizadas para todos los componentes
+- Registro detallado de eventos para facilitar la depuración
+- Despliegue continuo con posibilidad de rollback
+- Separación clara de responsabilidades entre servicios
+
+### 9.4. Extensibilidad
+- Arquitectura modular que permite añadir nuevos servicios
+- APIs versionadas para evolucionar sin romper compatibilidad
+- Eventos y mensajería para desacoplar componentes
+- Configuración centralizada para modificar comportamiento sin redespliegues
+
+## 10. Plan de Implementación para MVP
+
+1. **Fase 1**: Implementación del Portal de Candidatos y Gestión de Perfiles
+2. **Fase 2**: Desarrollo del Pipeline de Reclutamiento básico
+3. **Fase 3**: Implementación del Filtrado Básico
+4. **Fase 4**: Integración de componentes y pruebas end-to-end
+5. **Fase 5**: Despliegue del MVP con monitoreo inicial
+
+Cada fase incluye ciclos de desarrollo, pruebas y refinamiento con retroalimentación de usuarios clave.

@@ -1,0 +1,100 @@
+flowchart TB
+    subgraph "Client Layer"
+        WEB["Web App (React)"]
+        MOBILE["Mobile Apps"]
+        CAND["Candidate Portal"]
+    end
+
+    subgraph "API Gateway"
+        GATEWAY["API Gateway"]
+    end
+
+    subgraph "Microservices"
+        USER["User Management Service"]
+        JOB["Job Posting Service"]
+        CAND_SVC["Candidate Management Service"]
+        ASSESS["Assessment Service"]
+        INTERVIEW["Interview Scheduling Service"]
+        OFFER["Offer Management Service"]
+        NOTIF["Notification Service"]
+        ANALYTICS["Analytics Service"]
+    end
+
+    subgraph "Shared Services"
+        SEARCH["Search Engine"]
+        DOC["Document Processing"]
+        INTEGR["Integration Hub"]
+    end
+
+    subgraph "Data Layer"
+        RDBMS["Relational Database (PostgreSQL)"]
+        DOCDB["Document Database (MongoDB)"]
+        ES["Search Index (Elasticsearch)"]
+        CACHE["Cache Layer (Redis)"]
+    end
+
+    subgraph "Infrastructure Components"
+        MQ["Message Queue (RabbitMQ)"]
+        BLOB["Blob Storage (S3)"]
+        CDN["Content Delivery Network"]
+    end
+
+    %% Client Layer to API Gateway
+    WEB --> GATEWAY
+    MOBILE --> GATEWAY
+    CAND --> GATEWAY
+
+    %% API Gateway to Microservices
+    GATEWAY --> USER
+    GATEWAY --> JOB
+    GATEWAY --> CAND_SVC
+    GATEWAY --> ASSESS
+    GATEWAY --> INTERVIEW
+    GATEWAY --> OFFER
+    GATEWAY --> NOTIF
+    GATEWAY --> ANALYTICS
+
+    %% Microservices to Shared Services
+    JOB --> SEARCH
+    CAND_SVC --> SEARCH
+    JOB --> INTEGR
+    CAND_SVC --> DOC
+    OFFER --> DOC
+
+    %% Shared Services to Data Layer
+    SEARCH --> ES
+    DOC --> DOCDB
+    INTEGR --> MQ
+
+    %% Microservices to Data Layer
+    USER --> RDBMS
+    JOB --> RDBMS
+    CAND_SVC --> RDBMS
+    ASSESS --> RDBMS
+    INTERVIEW --> RDBMS
+    OFFER --> RDBMS
+    NOTIF --> RDBMS
+    ANALYTICS --> RDBMS
+
+    USER --> CACHE
+    JOB --> CACHE
+    CAND_SVC --> CACHE
+    ASSESS --> CACHE
+
+    %% Data Layer to Infrastructure
+    DOCDB --> BLOB
+    RDBMS --> BLOB
+
+    %% Infrastructure connections
+    MQ -.-> USER
+    MQ -.-> JOB
+    MQ -.-> CAND_SVC
+    MQ -.-> ASSESS
+    MQ -.-> INTERVIEW
+    MQ -.-> OFFER
+    MQ -.-> NOTIF
+
+    %% CDN connections
+    WEB --> CDN
+    MOBILE --> CDN
+    CAND --> CDN

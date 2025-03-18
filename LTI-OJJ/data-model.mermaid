@@ -1,0 +1,160 @@
+erDiagram
+    COMPANY ||--o{ JOB_POSTING : creates
+    COMPANY {
+        int company_id PK
+        string name
+        string industry
+        string location
+        date subscription_start
+        string subscription_tier
+        string company_logo_url
+        json company_settings
+    }
+    
+    JOB_POSTING ||--o{ APPLICATION : receives
+    JOB_POSTING ||--o{ ASSESSMENT_TEMPLATE : uses
+    JOB_POSTING {
+        int job_id PK
+        int company_id FK
+        string title
+        text description
+        string location
+        string job_type
+        date publication_date
+        date expiration_date
+        string status
+        json required_skills
+        json publication_channels
+        int hiring_manager_id FK
+    }
+    
+    USER }|--o{ JOB_POSTING : manages
+    USER ||--o{ INTERVIEW : conducts
+    USER {
+        int user_id PK
+        int company_id FK
+        string name
+        string email
+        string password_hash
+        string role
+        date created_at
+        json permissions
+        string status
+    }
+    
+    CANDIDATE ||--o{ APPLICATION : submits
+    CANDIDATE ||--o{ ASSESSMENT : completes
+    CANDIDATE ||--o{ INTERVIEW : participates
+    CANDIDATE {
+        int candidate_id PK
+        string name
+        string email
+        string phone
+        string resume_url
+        json skills
+        date created_at
+        string source
+        json profile_data
+        string status
+    }
+    
+    APPLICATION ||--o{ ASSESSMENT : requires
+    APPLICATION ||--o{ INTERVIEW : schedules
+    APPLICATION {
+        int application_id PK
+        int job_id FK
+        int candidate_id FK
+        date submission_date
+        string status
+        json screening_results
+        text cover_letter
+        json custom_questions
+        int current_stage
+        date last_updated
+    }
+    
+    ASSESSMENT_TEMPLATE ||--o{ ASSESSMENT : instantiates
+    ASSESSMENT_TEMPLATE {
+        int template_id PK
+        int company_id FK
+        string name
+        string type
+        text description
+        json configuration
+        int time_limit
+        string difficulty_level
+        json scoring_criteria
+    }
+    
+    ASSESSMENT {
+        int assessment_id PK
+        int application_id FK
+        int template_id FK
+        date sent_date
+        date completion_date
+        string status
+        json results
+        float score
+        text feedback
+        json detailed_metrics
+    }
+    
+    INTERVIEW {
+        int interview_id PK
+        int application_id FK
+        int interviewer_id FK
+        date scheduled_date
+        string interview_type
+        string status
+        json feedback
+        float score
+        text notes
+        string location_or_link
+    }
+    
+    OFFER ||--|| APPLICATION : concludes
+    OFFER {
+        int offer_id PK
+        int application_id FK
+        date creation_date
+        string status
+        float salary
+        date start_date
+        json benefits
+        text terms
+        date expiration_date
+        date acceptance_date
+    }
+    
+    ANALYTICS }|--|| COMPANY : provides
+    ANALYTICS {
+        int analytics_id PK
+        int company_id FK
+        date period_start
+        date period_end
+        json recruitment_metrics
+        json performance_metrics
+        json source_efficiency
+        json time_to_hire
+        json cost_per_hire
+    }
+    
+    NOTIFICATION {
+        int notification_id PK
+        int recipient_id
+        string recipient_type
+        string notification_type
+        text message
+        date created_at
+        boolean is_read
+        string action_url
+        int related_entity_id
+        string related_entity_type
+    }
+    
+    USER ||--o{ NOTIFICATION : receives
+    CANDIDATE ||--o{ NOTIFICATION : receives
+    APPLICATION ||--o{ NOTIFICATION : generates
+    ASSESSMENT ||--o{ NOTIFICATION : triggers
+    INTERVIEW ||--o{ NOTIFICATION : schedules
+    OFFER ||--o{ NOTIFICATION : sends

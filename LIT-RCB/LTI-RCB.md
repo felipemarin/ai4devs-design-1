@@ -48,14 +48,32 @@ Metricas --> Ventajas[IA avanzada, colaboración superior]
 ### Caso de Uso 1: Gestión de candidatos
 - Actor: Reclutador
 - Descripción: Maneja candidatos desde recepción de CV hasta contratación.
+```mermaid
+graph TD
+Reclutador --> Recepción_CV --> Revisión_CV --> Entrevistas --> Contratación
+```
 
 ### Caso de uso 2: Colaboración en tiempo real
 - Actor: Gerente, Reclutador
 - Descripción: Evaluación conjunta de candidatos mediante comentarios en tiempo real.
+```mermaid
+graph TD
+Gerente --> Colaboracion[Evaluación conjunta]
+Reclutador --> Colaboración
+Colaboracion --> ComentariosTiempoReal
+ComentariosTiempoReal --> Notificaciones
+```
 
 ### Caso de uso 3: Reportes Inteligentes
 - Actor: Gerente HR
 - Descripción: Generación automática de informes predictivos usando IA.
+
+```mermaid
+graph TD
+GerenteHR --> SolicitudReporte
+SolicitudReporte --> GeneracionReporteIA
+GeneracionReporteIA --> InformePredictivo
+```
 
 ## Modelo de datos
 
@@ -91,6 +109,44 @@ Metricas --> Ventajas[IA avanzada, colaboración superior]
 - Candidato → Comentario (1 a muchos)
 - Reclutador → Comentario (1 a muchos)
 
+```mermaid
+erDiagram
+Candidato ||--o{ Comentario : "tiene comentarios"
+Vacante ||--o{ Reclutador : gestionado_por
+Vacante }|..|{ Candidato : postulan
+Reclutador ||--o{ Comentario : genera
+
+Candidato {
+UUID id
+String nombre
+String email
+String telefono
+Enum estado
+Date fecha_aplicacion
+File CV
+}
+
+Vacante {
+UUID id
+String titulo
+String descripcion
+Enum estado
+}
+
+Reclutador {
+UUID id
+String nombre
+String email
+}
+
+Comentario {
+UUID id
+Text contenido
+Timestamp fecha
+UUID autor
+}
+```
+
 ## Diseño del Sistema Alto Nivel
 
 Arquitectura basada en microservicios:
@@ -100,6 +156,8 @@ Arquitectura basada en microservicios:
 - **Base de datos:** PostgreSQL
 - **Seguridad:** JWT, OAuth2
 - **Integraciones:** APIs externas
+
+
 
 ### Diagrama Alto Nivel
 ```
@@ -111,6 +169,17 @@ Usuario (Reclutador/Gerente) --> Front-end (Angular) --> Gateway (API)
                          --> Base de datos PostgreSQL
                          |
                          --> Integraciones Externas
+```
+
+```mermaid
+graph TD
+Usuario --> Frontend[Angular]
+Frontend --> GatewayAPI
+Gateway_API --> MicroservicioCandidatos
+Gateway_API --> MicroservicioIA
+Microservicio_Candidatos --> BaseDatos[(PostgreSQL)]
+Microservicio_IA --> BaseDatos
+Gateway_API --> IntegracionesExternas
 ```
 
 ## Diagrama C4
@@ -128,6 +197,17 @@ Usuario (Reclutador/Gerente) --> Front-end (Angular) --> Gateway (API)
 - **Microservicio IA (Spring Boot)**
 - **Base de datos (PostgreSQL)**
 
+```mermaid
+graph TD
+Usuario --> WebApp[Aplicación Web Angular]
+WebApp --> GatewayAPI
+GatewayAPI --> MicroservicioCandidatos[Microservicio Gestión de Candidatos]
+GatewayAPI --> MicroservicioIA[Microservicio IA]
+Microservicio_Candidatos --> PostgreSQL[(Base de Datos)]
+Microservicio_IA --> PostgreSQL
+GatewayAPI --> APIsExternas[LinkedIn, Slack, Indeed]
+```
+
 ### Nivel 2: Componentes
 
 - **Controlador REST:** Peticiones HTTP.
@@ -141,3 +221,12 @@ Usuario (Reclutador/Gerente) --> Front-end (Angular) --> Gateway (API)
 - **ComentarioService:** Gestión comentarios.
 - **EmailNotificationService:** Emails automáticos.
 
+
+```mermaid
+graph TD
+ControladorREST --> ServicioNegocio
+ServicioNegocio --> RepositorioDatos[Repositorio PostgreSQL]
+ServicioNegocio --> ClienteAPI
+ClienteAPI --> LinkedIn
+ClienteAPI --> Indeed
+```

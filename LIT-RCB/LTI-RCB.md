@@ -32,6 +32,17 @@ El software LTI es un sistema avanzado de seguimiento de candidatos (ATS - Appli
 |--------|----------|-------------------|
 | IA, servidores, marketing | Adopción, satisfacción usuario | IA avanzada y colaboración superior |
 
+```mermaid
+graph TD
+Problema[Procesos lentos y decisiones poco optimizadas] --> Clientes[HR, Reclutadores, Managers]
+Clientes --> Propuesta[Automatización IA, colaboración en tiempo real]
+Propuesta --> Solucion[Automatización, IA, Dashboard colaborativo]
+Solución --> Canales[Web, API]
+Canales --> Ingresos[Suscripción mensual, Planes empresariales]
+Ingresos --> Costes[IA, servidores, marketing]
+Costes --> Metricas[Adopción, satisfacción usuario]
+Metricas --> Ventajas[IA avanzada, colaboración superior]
+```
 ## Casos de Uso Principales
 
 ### Caso de Uso 1: Gestión de candidatos

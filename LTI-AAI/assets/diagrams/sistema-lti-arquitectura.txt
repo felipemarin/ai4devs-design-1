@@ -1,0 +1,62 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam componentStyle rectangle
+
+!define RECTANGLE_COLOR #AADAFF
+!define ARROW_COLOR #666666
+!define TITLE_COLOR #3C7FC0
+
+skinparam component {
+  BackgroundColor RECTANGLE_COLOR
+  BorderColor #2C5C8F
+  ArrowColor ARROW_COLOR
+}
+
+title "Arquitectura del Sistema LTI"
+
+package "Frontend" {
+  [Aplicación Web React] as WebApp
+  [Aplicación Móvil React Native] as MobileApp
+}
+
+package "Backend" {
+  [API RESTful / Django REST Framework] as API
+  [Servicio de Autenticación] as Auth
+  [Servicio de Notificaciones] as Notifications
+}
+
+package "Capa de IA" {
+  [Análisis de CVs] as CVAnalysis
+  [Matching de Candidatos] as Matching
+  [Predicción de Retención] as Retention
+}
+
+package "Persistencia" {
+  database "PostgreSQL" as Postgres
+  database "Elasticsearch" as Elastic
+}
+
+package "Integraciones" {
+  [Conectores HRM/ATS] as HRMConnectors
+  [APIs Externas] as ExternalAPIs
+}
+
+WebApp --> API
+MobileApp --> API
+API --> Auth
+API --> Notifications
+API --> CVAnalysis
+API --> Matching
+API --> Retention
+API --> Postgres
+API --> Elastic
+API --> HRMConnectors
+API --> ExternalAPIs
+
+CVAnalysis <--> Elastic
+Matching <--> Postgres
+Retention <--> Postgres
+
+HRMConnectors --> [Sistemas Externos]
+
+@enduml

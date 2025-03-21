@@ -1,0 +1,55 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title "Diagrama de Contenedores (C4) - Sistema LTI"
+
+Person(reclutador, "Reclutador", "Profesional de recursos humanos que gestiona el proceso de contratación")
+Person(manager, "Manager", "Responsable de toma de decisiones en contratación")
+Person(candidato, "Candidato", "Persona que solicita una posición en la empresa")
+
+System_Boundary(LTI, "Sistema LTI") {
+    Container(webApp, "Aplicación Web", "React, JavaScript", "Interfaz web responsiva para usuarios internos (reclutadores y managers)")
+    Container(mobileApp, "Aplicación Móvil", "React Native", "App móvil para acceso en cualquier momento")
+    
+    Container(apiRest, "API RESTful", "Django REST Framework, Python", "API principal para operaciones del sistema")
+    
+    Container(aiEngine, "Motor de IA", "Python, scikit-learn, TensorFlow", "Servicio de inteligencia artificial para análisis y predicciones")
+    
+    Container(notificationService, "Servicio de Notificaciones", "Python, Celery", "Gestión de notificaciones en tiempo real")
+    
+    ContainerDb(postgresDb, "Base de Datos Principal", "PostgreSQL", "Almacenamiento de datos estructurados")
+    ContainerDb(elasticDb, "Motor de Búsqueda", "Elasticsearch", "Indexación y búsqueda avanzada")
+    
+    Container(integrationService, "Servicio de Integración", "Python", "Conectores con sistemas externos")
+}
+
+System_Ext(hrmSystems, "Sistemas HRM/ATS", "Sistemas externos de gestión de recursos humanos")
+System_Ext(erpSystems, "Sistemas ERP", "Sistemas de planificación de recursos empresariales")
+
+Rel(reclutador, webApp, "Utiliza", "HTTPS")
+Rel(reclutador, mobileApp, "Utiliza", "HTTPS")
+Rel(manager, webApp, "Utiliza", "HTTPS")
+Rel(manager, mobileApp, "Utiliza", "HTTPS")
+Rel(candidato, webApp, "Accede al portal de candidatos", "HTTPS")
+
+Rel(webApp, apiRest, "Consume", "JSON/HTTPS")
+Rel(mobileApp, apiRest, "Consume", "JSON/HTTPS")
+
+Rel(apiRest, postgresDb, "Lee/Escribe", "SQL/TLS")
+Rel(apiRest, elasticDb, "Consulta", "REST/TLS")
+Rel(apiRest, aiEngine, "Utiliza", "REST/TLS")
+Rel(apiRest, notificationService, "Publica eventos", "AMQP")
+
+Rel(aiEngine, postgresDb, "Lee datos históricos", "SQL/TLS")
+Rel(aiEngine, elasticDb, "Utiliza para búsqueda semántica", "REST/TLS")
+
+Rel(notificationService, webApp, "Envía notificaciones", "WebSockets")
+Rel(notificationService, mobileApp, "Envía notificaciones", "Push Notifications")
+
+Rel(integrationService, hrmSystems, "Intercambia datos con", "API REST")
+Rel(integrationService, erpSystems, "Consulta información de", "API REST")
+Rel(apiRest, integrationService, "Utiliza", "Internal API")
+
+@enduml

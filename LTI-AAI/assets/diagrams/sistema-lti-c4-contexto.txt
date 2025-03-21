@@ -1,0 +1,28 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title "Diagrama de Contexto (C4) - Sistema LTI"
+
+Person(reclutador, "Reclutador", "Profesional de recursos humanos que gestiona el proceso de contratación")
+Person(manager, "Manager", "Responsable de toma de decisiones en contratación")
+Person(candidato, "Candidato", "Persona que solicita una posición en la empresa")
+
+System(LTI, "Sistema LTI", "Plataforma de gestión del talento con IA para optimizar procesos de HR")
+
+System_Ext(hrmSystems, "Sistemas HRM/ATS", "Sistemas externos de gestión de recursos humanos")
+System_Ext(erpSystems, "Sistemas ERP", "Sistemas de planificación de recursos empresariales")
+System_Ext(crmSystems, "Sistemas CRM", "Sistemas de gestión de relaciones con clientes")
+System_Ext(analytics, "Plataformas Analíticas", "Sistemas externos para análisis de datos")
+
+Rel(reclutador, LTI, "Utiliza para gestionar candidatos y vacantes")
+Rel(manager, LTI, "Utiliza para tomar decisiones de contratación")
+Rel(candidato, LTI, "Interactúa a través de portal de candidatos")
+
+Rel(LTI, hrmSystems, "Integra datos con", "API REST, JSON/XML")
+Rel(LTI, erpSystems, "Consulta información de", "API REST")
+Rel(LTI, crmSystems, "Comparte datos con", "API REST")
+Rel(LTI, analytics, "Exporta métricas a", "API REST")
+
+@enduml

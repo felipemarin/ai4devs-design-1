@@ -1,0 +1,84 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+!define PRIMARY_KEY(x) <b><color:#b8861b><&key></color> x</b>
+!define FOREIGN_KEY(x) <color:#aaaaaa><&key></color> x
+
+title "Modelo de Datos del Sistema LTI"
+
+class Usuario {
+    PRIMARY_KEY(id): int
+    nombre: string
+    email: string
+    rol: enum
+    password_hash: string
+    última_conexión: datetime
+}
+
+class Candidato {
+    PRIMARY_KEY(id): int
+    nombre: string
+    cv: text
+    experiencia: int
+    email: string
+    teléfono: string
+    ubicación: string
+    fecha_aplicación: date
+}
+
+class Vacante {
+    PRIMARY_KEY(id): int
+    título: string
+    requisitos: text
+    empresa: string
+    FOREIGN_KEY(departamento_id): int
+    fecha_creación: date
+    plazo: date
+    estado: enum
+}
+
+class Comentario {
+    PRIMARY_KEY(id): int
+    FOREIGN_KEY(usuario_id): int
+    FOREIGN_KEY(candidato_id): int
+    contenido: text
+    fecha: datetime
+}
+
+class EvaluaciónIA {
+    PRIMARY_KEY(id): int
+    FOREIGN_KEY(candidato_id): int
+    FOREIGN_KEY(vacante_id): int
+    score: float
+    recomendaciones: text
+    fecha_evaluación: datetime
+}
+
+class Departamento {
+    PRIMARY_KEY(id): int
+    nombre: string
+    descripción: text
+}
+
+class Entrevista {
+    PRIMARY_KEY(id): int
+    FOREIGN_KEY(candidato_id): int
+    FOREIGN_KEY(vacante_id): int
+    FOREIGN_KEY(entrevistador_id): int
+    fecha: datetime
+    notas: text
+    puntuación: float
+}
+
+Usuario "1" -- "0..*" Comentario
+Usuario "1" -- "0..*" Entrevista: entrevistador
+Candidato "1" -- "0..*" Comentario
+Candidato "1" -- "0..*" EvaluaciónIA
+Candidato "1" -- "0..*" Entrevista
+Vacante "1" -- "0..*" Entrevista
+Vacante "1" -- "0..*" EvaluaciónIA
+Departamento "1" -- "0..*" Vacante
+
+@enduml

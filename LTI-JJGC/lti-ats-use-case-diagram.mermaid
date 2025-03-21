@@ -1,0 +1,78 @@
+flowchart TD
+    subgraph "LTI ATS System"
+        UC1["Automated Candidate Screening"]
+        UC2["Interview Scheduling & Coordination"]
+        UC3["Real-Time Feedback & Collaboration"]
+        
+        %% Subflows for UC1
+        UC1_1["Upload Resumes"]
+        UC1_2["Perform AI Screening"]
+        UC1_3["Generate Screening Report"]
+        UC1_4["Review Shortlisted Candidates"]
+        
+        %% Subflows for UC2
+        UC2_1["Select Interview Slots"]
+        UC2_2["Send Invitations"]
+        UC2_3["Confirm Availability"]
+        UC2_4["Schedule Interview"]
+        UC2_5["Send Notifications"]
+        
+        %% Subflows for UC3
+        UC3_1["Submit Interview Feedback"]
+        UC3_2["Store & Share Feedback"]
+        UC3_3["Update Candidate Status"]
+        UC3_4["Collaborate on Hiring Decision"]
+        
+        %% Relationships between use cases and subflows
+        UC1 -->|includes| UC1_1
+        UC1 -->|includes| UC1_2
+        UC1 -->|includes| UC1_3
+        UC1 -->|includes| UC1_4
+        
+        UC2 -->|includes| UC2_1
+        UC2 -->|includes| UC2_2
+        UC2 -->|includes| UC2_3
+        UC2 -->|includes| UC2_4
+        UC2 -->|includes| UC2_5
+        
+        UC3 -->|includes| UC3_1
+        UC3 -->|includes| UC3_2
+        UC3 -->|includes| UC3_3
+        UC3 -->|includes| UC3_4
+    end
+    
+    %% Actors
+    Recruiter((Recruiter))
+    Candidate((Candidate))
+    Manager((Hiring Manager))
+    ATS((ATS System))
+    
+    %% Actor connections to use cases
+    Recruiter --> UC1
+    Recruiter --> UC2
+    Recruiter --> UC3
+    Candidate --> UC2
+    Manager --> UC2
+    Manager --> UC3
+    ATS --> UC1
+    ATS --> UC2
+    ATS --> UC3
+    
+    %% Actor connections to specific subflows
+    Recruiter --> UC1_1
+    ATS --> UC1_2
+    ATS --> UC1_3
+    Recruiter --> UC1_4
+    
+    Recruiter --> UC2_1
+    ATS --> UC2_2
+    Candidate --> UC2_3
+    Manager --> UC2_3
+    ATS --> UC2_4
+    ATS --> UC2_5
+    
+    Manager --> UC3_1
+    ATS --> UC3_2
+    Recruiter --> UC3_3
+    Recruiter --> UC3_4
+    Manager --> UC3_4

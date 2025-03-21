@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant R as Recruiter
+    participant LTI as LTI System
+    participant C as Candidate
+    participant TP as Testing Platform
+
+    R->>LTI: Select candidates for assessment
+    R->>LTI: Access test library
+    R->>LTI: Select/configure technical test
+    R->>LTI: Schedule test delivery
+    LTI->>C: Send technical test invitation
+    C->>LTI: Access candidate portal
+    LTI->>TP: Initiate technical test session
+    C->>TP: Complete technical test
+    TP->>LTI: Submit test results
+    LTI->>LTI: Analyze results
+    LTI->>LTI: Generate performance metrics
+    LTI->>LTI: Compare with ideal profiles
+    LTI->>R: Notify test completion
+    R->>LTI: Access results and analysis
+    R->>LTI: Select candidates for interviews
+    LTI->>C: Notify assessment result

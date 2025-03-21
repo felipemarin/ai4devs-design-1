@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant R as Recruiter
+    participant LTI as LTI System
+    participant C as Candidate
+    participant I as Interviewers
+    participant HR as Human Resources
+
+    R->>LTI: Select candidates for interviews
+    R->>LTI: Define interview panel
+    LTI->>I: Request availability
+    I->>LTI: Provide available time slots
+    LTI->>LTI: Coordinate available schedules
+    LTI->>C: Propose interview dates
+    C->>LTI: Confirm availability
+    LTI->>LTI: Schedule interview
+    LTI->>C: Send confirmation and details
+    LTI->>I: Send confirmation and details
+    LTI->>LTI: Send automated reminders
+    I->>LTI: Conduct interview (may be virtual on platform)
+    I->>LTI: Record post-interview evaluation
+    LTI->>LTI: Consolidate all evaluations
+    LTI->>R: Present complete assessment
+    R->>LTI: Select final candidate
+    R->>LTI: Initiate offer process
+    LTI->>C: Send formal offer
+    C->>LTI: Accept/negotiate offer
+    R->>LTI: Finalize hiring terms
+    LTI->>HR: Transfer data for onboarding
+    LTI->>LTI: Generate hiring documentation
+    LTI->>C: Send welcome package

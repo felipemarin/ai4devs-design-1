@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant R as Recruiter
+    participant LTI as LTI System
+    participant JB as Job Boards
+    participant SM as Social Media
+    participant C as Candidate
+
+    R->>LTI: Create new job posting
+    R->>LTI: Configure requirements and description
+    R->>LTI: Select publication channels
+    LTI->>JB: Automatically publish job offer
+    LTI->>SM: Automatically publish job offer
+    C->>JB: View job offer
+    C->>SM: View job offer
+    C->>LTI: Submit application/resume
+    LTI->>LTI: Process candidate data
+    LTI->>LTI: Generate evaluable profile
+    LTI->>R: Notify new application
+    R->>LTI: Access candidate profile
+    R->>LTI: Apply predefined filters
+    LTI->>LTI: Classify candidates
+    R->>LTI: Select candidates for next phase
+    LTI->>C: Send status notification

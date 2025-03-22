@@ -274,6 +274,120 @@ C4Context
     MatchingService --> MLModels
 ```
 
+Voy a profundizar en el Módulo de Matching Inteligente, ya que es un diferenciador clave de LTI y usa machine learning (ML) para recomendar candidatos basándose en habilidades, experiencia y compatibilidad cultural.
+
+⸻
+
+🔍 1. Explicación del Módulo de Matching Inteligente
+
+Este módulo utiliza procesamiento de lenguaje natural (NLP), modelos de machine learning y reglas de negocio para analizar candidatos y encontrar las mejores coincidencias para cada vacante.
+
+🔹 Flujo de trabajo
+	1.	Ingreso de datos:
+	•	El sistema extrae información de los perfiles de candidatos, incluyendo currículum, experiencia, educación, habilidades y certificaciones.
+	•	Se usa NLP para analizar texto no estructurado (descripciones de CV y ofertas de trabajo).
+	2.	Procesamiento y enriquecimiento:
+	•	Se normalizan habilidades con ontologías de competencias (ejemplo: un perfil con “Java” también podría incluir “Spring Boot”).
+	•	Se calculan puntajes de similitud con técnicas como TF-IDF, Word Embeddings y modelos tipo BERT.
+	•	Se tienen en cuenta datos de evaluaciones gamificadas.
+	3.	Cálculo del Match Score:
+	•	Se aplica un modelo de ML basado en Redes Neuronales o Random Forest, que asigna un puntaje de compatibilidad basado en:
+	•	Similitud de habilidades (Hard Skills y Soft Skills)
+	•	Resultados en evaluaciones
+	•	Historial de experiencias pasadas (empleos previos, industrias similares)
+	•	Factores culturales (analizados mediante encuestas y NLP)
+	4.	Presentación de recomendaciones:
+	•	El sistema ordena a los candidatos según el Match Score y presenta los mejores perfiles a los reclutadores.
+	•	También da explicaciones sobre por qué un candidato es recomendado (para evitar “caja negra” en la IA).
+
+⸻
+
+📌 2. Diagrama de Arquitectura Tipo C4 (Módulo de Matching Inteligente)
+
+Nivel 1 - Contexto
+
+Muestra cómo el Módulo de Matching Inteligente se relaciona con otros componentes del sistema.
+
+C4Context
+    title "Módulo de Matching Inteligente - Nivel Contexto"
+
+    Person(Candidato, "Candidato", "Usuario que aplica a vacantes en LTI")
+    Person(Reclutador, "Reclutador", "Usuario que publica vacantes y busca talento")
+    
+    System_Boundary(LTI, "ATS LTI") {
+        Container(MatchingService, "Matching Inteligente", "ML + NLP", "Calcula la mejor coincidencia entre candidatos y vacantes")
+        Container(DB, "Base de Datos (MongoDB)", "Almacena perfiles de candidatos y vacantes")
+        Container(MLModels, "Modelos de IA", "TensorFlow/PyTorch", "Ejecuta el modelo de matching y ajusta puntuaciones")
+    }
+    
+    Candidato --> LTI : Aplica a una vacante
+    Reclutador --> LTI : Revisa candidatos recomendados
+    MatchingService --> DB : Consulta información de candidatos y vacantes
+    MatchingService --> MLModels : Ejecuta modelo de IA para calcular Match Score
+
+
+
+⸻
+
+Nivel 2 - Contenedores
+
+Muestra los componentes internos que forman el Módulo de Matching Inteligente y su interacción con el backend.
+
+C4Container
+    title "Módulo de Matching Inteligente - Nivel Contenedor"
+
+    Container(MatchingService, "Matching Inteligente", "FastAPI / NestJS", "Orquestador de la lógica de matching")
+    ContainerDB(DB, "MongoDB", "Base de datos", "Almacena perfiles, vacantes y resultados de evaluaciones")
+    Container(FeatureEngineering, "Feature Engineering", "Python", "Extrae y transforma datos para ML")
+    Container(MLModel, "Modelo de Matching", "TensorFlow/PyTorch", "Modelo de ML que calcula la compatibilidad candidato-vacante")
+    Container(Explainability, "Módulo de Explicabilidad", "SHAP/LIME", "Explica por qué un candidato es recomendado")
+
+    MatchingService --> DB : Obtiene datos de candidatos y vacantes
+    MatchingService --> FeatureEngineering : Extrae características relevantes
+    FeatureEngineering --> MLModel : Procesa datos y ejecuta el modelo de ML
+    MLModel --> Explainability : Genera explicaciones de las recomendaciones
+    MatchingService --> Explainability : Devuelve razones del matching al reclutador
+
+
+
+⸻
+
+Nivel 3 - Componentes
+
+Muestra los módulos internos del Matching Service y cómo interactúan entre sí.
+
+C4Component
+    title "Módulo de Matching Inteligente - Nivel Componente"
+
+    Component(MatchingAPI, "API de Matching", "FastAPI", "Expone endpoints para buscar candidatos ideales")
+    Component(NLPProcessor, "Procesador NLP", "spaCy / BERT", "Analiza texto de CVs y vacantes")
+    Component(FeatureExtractor, "Extracción de Features", "Python", "Convierte datos en características para ML")
+    Component(MLScoring, "Modelo de Matching", "TensorFlow", "Calcula el puntaje de compatibilidad")
+    Component(Explainability, "Explicabilidad de IA", "SHAP/LIME", "Genera explicaciones sobre los resultados del modelo")
+
+    MatchingAPI --> NLPProcessor : Analiza texto de vacantes y CVs
+    NLPProcessor --> FeatureExtractor : Extrae habilidades y experiencia relevante
+    FeatureExtractor --> MLScoring : Procesa datos para predicción
+    MLScoring --> Explainability : Explica los resultados de compatibilidad
+    MatchingAPI --> MLScoring : Devuelve la lista de candidatos recomendados
+
+
+
+⸻
+
+🚀 3. Beneficios del Diseño
+
+✅ Alta precisión: Usa ML avanzado y NLP para entender mejor los perfiles.
+✅ Explicabilidad: No es una “caja negra”; los reclutadores pueden entender las recomendaciones.
+✅ Escalabilidad: Se basa en microservicios y modelos de IA que pueden entrenarse con más datos.
+✅ Reducción de sesgos: Ajustes de fairness en ML para mejorar diversidad en la selección.
+
+⸻
+
+Este módulo es una de las piezas más innovadoras del ATS LTI, ya que permite seleccionar talento de manera más precisa e inteligente.
+
+📌 ¿Quieres que refine algún detalle o agregue más profundidad en alguna parte?
+
 ---
 
 ## 9️⃣ Beneficios del Diseño

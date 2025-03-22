@@ -196,26 +196,47 @@ erDiagram
 graph TD;
     subgraph "Frontend"
         WebApp["React/Next.js"]
-        MobileApp["Flutter"]
+        MobileApp["Flutter/React Native"]
     end
 
-    subgraph "Backend"
+    subgraph "Backend (API Gateway + Microservicios)"
         API["API Gateway (NestJS/FastAPI)"]
-        MatchingService["Matching Inteligente"]
-        EvalService["Evaluaciones Gamificadas"]
-        BlockchainService["Verificación Blockchain"]
+        AuthService["Autenticación (JWT + OAuth)"]
+        CandidatesService["Gestión de Candidatos"]
+        JobsService["Gestión de Vacantes"]
+        EvaluationService["Evaluaciones Gamificadas"]
+        MatchingService["Matching Inteligente (ML)"]
+        CommunicationService["Mensajería Multicanal"]
+        BiasAnalysisService["Análisis de Sesgos"]
+        BlockchainService["Verificación en Blockchain"]
     end
 
     subgraph "Infraestructura"
         DB["MongoDB (sharded)"]
+        Search["OpenSearch"]
+        Blockchain["Ethereum/Hyperledger"]
         MLModels["IA y Machine Learning"]
     end
 
     WebApp --> API
+    MobileApp --> API
+    API --> AuthService
+    API --> CandidatesService
+    API --> JobsService
+    API --> EvaluationService
     API --> MatchingService
-    API --> EvalService
+    API --> CommunicationService
+    API --> BiasAnalysisService
+    API --> BlockchainService
+
+    CandidatesService --> DB
+    JobsService --> DB
+    EvaluationService --> DB
+    CommunicationService --> DB
+    BlockchainService --> Blockchain
     MatchingService --> MLModels
-    BlockchainService --> DB
+    BiasAnalysisService --> MLModels
+    Search --> DB
 ```
 
 ---

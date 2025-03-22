@@ -110,24 +110,80 @@ graph TD;
 ```mermaid
 erDiagram
     CANDIDATES {
-        string id PK
-        string name
-        string email
-        string resume
+        int id PK
+        varchar name
+        varchar email UNIQUE
+        varchar phone
+        text resume
+        timestamp created_at
     }
+
     JOBS {
-        string id PK
-        string title
-        string description
+        int id PK
+        varchar title
+        text description
+        varchar location
+        enum job_type ["Full-time", "Part-time", "Freelance"]
+        timestamp created_at
     }
+
     APPLICATIONS {
-        string id PK
-        string candidate_id FK
-        string job_id FK
-        string status
+        int id PK
+        int candidate_id FK
+        int job_id FK
+        enum status ["Pending", "Accepted", "Rejected"]
+        timestamp applied_at
     }
+
+    EVALUATIONS {
+        int id PK
+        int candidate_id FK
+        int job_id FK
+        varchar type
+        float score
+        timestamp completed_at
+    }
+
+    CREDENTIALS {
+        int id PK
+        int candidate_id FK
+        varchar institution
+        varchar certification
+        date issued_date
+        varchar blockchain_hash UNIQUE
+    }
+
+    RECRUITERS {
+        int id PK
+        varchar name
+        varchar email UNIQUE
+        varchar company
+        timestamp created_at
+    }
+
+    RECRUITER_JOBS {
+        int id PK
+        int recruiter_id FK
+        int job_id FK
+    }
+
+    BIAS_ANALYSIS {
+        int id PK
+        int job_id FK
+        float bias_score
+        text recommendations
+        timestamp analyzed_at
+    }
+
     CANDIDATES ||--o{ APPLICATIONS : applies
     JOBS ||--o{ APPLICATIONS : receives
+    CANDIDATES ||--o{ EVALUATIONS : takes
+    JOBS ||--o{ EVALUATIONS : requires
+    CANDIDATES ||--o{ CREDENTIALS : owns
+    CREDENTIALS ||--o{ APPLICATIONS : validates
+    RECRUITERS ||--o{ RECRUITER_JOBS : manages
+    JOBS ||--o{ RECRUITER_JOBS : listed_by
+    JOBS ||--o{ BIAS_ANALYSIS : analyzed_for
 ```
 
 ---

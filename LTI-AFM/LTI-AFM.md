@@ -16,6 +16,47 @@ A diferencia de otros ATS, **LTI no solo administra procesos de reclutamiento**,
 ---
 
 ## 2️⃣ Lean Canvas
+Lean Canvas – LTI
+
+1. Problema
+	•	Sesgos inconscientes en el reclutamiento que afectan la diversidad.
+	•	Dificultad para validar credenciales de los candidatos.
+	•	Métodos tradicionales de evaluación poco dinámicos y precisos.
+
+2. Segmento de Clientes
+	•	Empresas de tecnología y startups en crecimiento.
+	•	Corporaciones con políticas de diversidad e inclusión.
+	•	Agencias de reclutamiento que buscan procesos más eficientes.
+
+3. Propuesta de Valor
+	•	Evaluaciones gamificadas que mejoran la precisión y engagement.
+	•	Verificación automática y confiable de credenciales con blockchain.
+	•	AI para eliminar sesgos y optimizar el proceso de selección.
+
+4. Solución
+	•	Plataforma con pruebas interactivas y personalizadas.
+	•	Integración con redes blockchain para autenticación de credenciales.
+	•	Herramientas de análisis que detectan y corrigen sesgos en reclutamiento.
+
+5. Canales
+	•	Sitio web y marketing de contenido.
+	•	Asociaciones con empresas de recursos humanos.
+	•	Integración con LinkedIn y plataformas de empleo.
+
+6. Fuentes de Ingreso
+	•	Suscripción mensual para empresas.
+	•	Modelo “pago por uso” en validación de credenciales.
+	•	Venta de módulos premium (evaluaciones avanzadas, reportes personalizados).
+
+7. Métricas Clave
+	•	Tiempo promedio de contratación reducido.
+	•	% de sesgos detectados y corregidos en procesos de selección.
+	•	Cantidad de credenciales verificadas con blockchain.
+
+8. Ventaja Competitiva
+	•	Integración única de gamificación, blockchain e IA en un solo ATS.
+	•	Capacidad de personalización y adaptabilidad a múltiples industrias.
+	•	Data-driven insights para mejorar continuamente la selección de talento.
 
 📌 **Lean Canvas en Canvanizer:**  
 🔗 [Ver diagrama en Canvanizer](https://next.canvanizer.com/canvas/ruWKRRzlv8MEV)
@@ -185,12 +226,61 @@ erDiagram
     JOBS ||--o{ RECRUITER_JOBS : listed_by
     JOBS ||--o{ BIAS_ANALYSIS : analyzed_for
 ```
+Explicación del modelo
+	1.	CANDIDATES: Contiene los datos de los candidatos, incluyendo su información personal y su currículum.
+	2.	JOBS: Representa las vacantes publicadas, incluyendo el título, descripción, tipo de empleo y ubicación.
+	3.	APPLICATIONS: Registra las solicitudes de los candidatos a diferentes vacantes y su estado en el proceso de selección.
+	4.	EVALUATIONS: Contiene los resultados de las pruebas gamificadas realizadas por los candidatos.
+	5.	CREDENTIALS: Almacena las certificaciones y títulos verificados con blockchain, vinculados a los candidatos.
+	6.	RECRUITERS: Guarda la información de los reclutadores que administran las vacantes.
+	7.	RECRUITER_JOBS: Relación entre reclutadores y las vacantes que gestionan.
+	8.	BIAS_ANALYSIS: Almacena el puntaje de sesgo detectado en una oferta de trabajo y las recomendaciones para mejorar la inclusión.
 
 ---
 
 ## 6️⃣ Diseño del Sistema
 
 ### 6.1 Visión de Alto Nivel
+
+LTI es un Sistema de Seguimiento de Candidatos (ATS) diseñado para mejorar la selección de talento con tecnologías avanzadas como gamificación, blockchain e inteligencia artificial. Su arquitectura se basa en una estructura modular y escalable, permitiendo integraciones flexibles con otros sistemas de recursos humanos y gestión de talento.
+
+⸻
+
+1. Arquitectura General
+
+LTI sigue una arquitectura basada en microservicios para garantizar escalabilidad, resiliencia y facilidad de mantenimiento.
+
+1.1 Componentes Clave
+	•	Frontend: Aplicación web y móvil basada en React/Next.js, optimizada para reclutadores y candidatos.
+	•	Backend: API basada en Node.js con NestJS o Python con FastAPI, diseñada para manejar autenticación, flujos de candidatos y procesos de evaluación.
+	•	Base de Datos: MongoDB (sharded en DigitalOcean) para manejar la alta cantidad de datos no estructurados de candidatos y evaluaciones.
+	•	Motor de Búsqueda: OpenSearch para consultas rápidas de candidatos y ofertas de empleo.
+	•	Blockchain: Validación de credenciales con Ethereum (smart contracts) o un servicio como Hyperledger.
+	•	IA & Análisis de Sesgos: Modelos de ML en Python/TensorFlow para mejorar las recomendaciones y reducir sesgos en el reclutamiento.
+
+⸻
+
+2. Módulos Principales
+
+2.1 Módulo de Gestión de Candidatos
+
+Permite a los candidatos registrarse, cargar su CV y aplicar a ofertas de empleo. También incluye el sistema de verificación de credenciales con blockchain.
+
+2.2 Módulo de Publicación de Vacantes
+
+Permite a los reclutadores crear y administrar vacantes, con análisis de sesgos basado en IA para mejorar la inclusión.
+
+2.3 Módulo de Evaluaciones Gamificadas
+
+Sistema de pruebas dinámicas basado en escenarios interactivos y juegos que evalúan habilidades técnicas y blandas.
+
+2.4 Módulo de Matching Inteligente
+
+Un motor de recomendación basado en ML que sugiere los mejores candidatos para una vacante en función de habilidades, experiencia y compatibilidad cultural.
+
+2.5 Módulo de Comunicación y Automatización
+
+Incluye mensajería multicanal (WhatsApp, email, SMS) para agilizar la comunicación con candidatos y automatizar notificaciones de estado.
 
 ```mermaid
 graph TD;
@@ -257,57 +347,10 @@ Utilizar IA y NLP para analizar y emparejar candidatos con vacantes de forma pre
 
 ## 8️⃣ Diagrama C4 - Matching Inteligente
 
-```mermaid
-C4Context
-    Person(Candidato, "Candidato")
-    Person(Reclutador, "Reclutador")
-    
-    System_Boundary(LTI, "ATS LTI") {
-        Container(MatchingService, "Matching Inteligente", "ML + NLP")
-        Container(DB, "MongoDB", "Base de Datos")
-        Container(MLModels, "IA", "TensorFlow")
-    }
-    
-    Candidato --> LTI
-    Reclutador --> LTI
-    MatchingService --> DB
-    MatchingService --> MLModels
-```
-
-Voy a profundizar en el Módulo de Matching Inteligente, ya que es un diferenciador clave de LTI y usa machine learning (ML) para recomendar candidatos basándose en habilidades, experiencia y compatibilidad cultural.
-
-⸻
-
-🔍 1. Explicación del Módulo de Matching Inteligente
-
-Este módulo utiliza procesamiento de lenguaje natural (NLP), modelos de machine learning y reglas de negocio para analizar candidatos y encontrar las mejores coincidencias para cada vacante.
-
-🔹 Flujo de trabajo
-	1.	Ingreso de datos:
-	•	El sistema extrae información de los perfiles de candidatos, incluyendo currículum, experiencia, educación, habilidades y certificaciones.
-	•	Se usa NLP para analizar texto no estructurado (descripciones de CV y ofertas de trabajo).
-	2.	Procesamiento y enriquecimiento:
-	•	Se normalizan habilidades con ontologías de competencias (ejemplo: un perfil con “Java” también podría incluir “Spring Boot”).
-	•	Se calculan puntajes de similitud con técnicas como TF-IDF, Word Embeddings y modelos tipo BERT.
-	•	Se tienen en cuenta datos de evaluaciones gamificadas.
-	3.	Cálculo del Match Score:
-	•	Se aplica un modelo de ML basado en Redes Neuronales o Random Forest, que asigna un puntaje de compatibilidad basado en:
-	•	Similitud de habilidades (Hard Skills y Soft Skills)
-	•	Resultados en evaluaciones
-	•	Historial de experiencias pasadas (empleos previos, industrias similares)
-	•	Factores culturales (analizados mediante encuestas y NLP)
-	4.	Presentación de recomendaciones:
-	•	El sistema ordena a los candidatos según el Match Score y presenta los mejores perfiles a los reclutadores.
-	•	También da explicaciones sobre por qué un candidato es recomendado (para evitar “caja negra” en la IA).
-
-⸻
-
-📌 2. Diagrama de Arquitectura Tipo C4 (Módulo de Matching Inteligente)
-
 Nivel 1 - Contexto
 
 Muestra cómo el Módulo de Matching Inteligente se relaciona con otros componentes del sistema.
-
+```mermaid
 C4Context
     title "Módulo de Matching Inteligente - Nivel Contexto"
 
@@ -324,15 +367,12 @@ C4Context
     Reclutador --> LTI : Revisa candidatos recomendados
     MatchingService --> DB : Consulta información de candidatos y vacantes
     MatchingService --> MLModels : Ejecuta modelo de IA para calcular Match Score
-
-
-
-⸻
+```
 
 Nivel 2 - Contenedores
 
 Muestra los componentes internos que forman el Módulo de Matching Inteligente y su interacción con el backend.
-
+```mermaid
 C4Container
     title "Módulo de Matching Inteligente - Nivel Contenedor"
 
@@ -347,15 +387,11 @@ C4Container
     FeatureEngineering --> MLModel : Procesa datos y ejecuta el modelo de ML
     MLModel --> Explainability : Genera explicaciones de las recomendaciones
     MatchingService --> Explainability : Devuelve razones del matching al reclutador
-
-
-
-⸻
-
+```
 Nivel 3 - Componentes
 
 Muestra los módulos internos del Matching Service y cómo interactúan entre sí.
-
+```mermaid
 C4Component
     title "Módulo de Matching Inteligente - Nivel Componente"
 
@@ -370,23 +406,7 @@ C4Component
     FeatureExtractor --> MLScoring : Procesa datos para predicción
     MLScoring --> Explainability : Explica los resultados de compatibilidad
     MatchingAPI --> MLScoring : Devuelve la lista de candidatos recomendados
-
-
-
-⸻
-
-🚀 3. Beneficios del Diseño
-
-✅ Alta precisión: Usa ML avanzado y NLP para entender mejor los perfiles.
-✅ Explicabilidad: No es una “caja negra”; los reclutadores pueden entender las recomendaciones.
-✅ Escalabilidad: Se basa en microservicios y modelos de IA que pueden entrenarse con más datos.
-✅ Reducción de sesgos: Ajustes de fairness en ML para mejorar diversidad en la selección.
-
-⸻
-
-Este módulo es una de las piezas más innovadoras del ATS LTI, ya que permite seleccionar talento de manera más precisa e inteligente.
-
-📌 ¿Quieres que refine algún detalle o agregue más profundidad en alguna parte?
+```
 
 ---
 
